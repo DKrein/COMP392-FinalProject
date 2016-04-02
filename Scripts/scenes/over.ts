@@ -13,6 +13,7 @@ module scenes {
         private _stage: createjs.Stage;
         private _gameOverLabel: createjs.Text;
         private _restartButton: createjs.Bitmap;
+        private _bgImage: createjs.Bitmap;
 
         /**
          * Empty Contructor
@@ -59,6 +60,11 @@ module scenes {
          * @return void
          */
         public start(): void {
+            this._bgImage = new createjs.Bitmap(assets.getResult("MenuBackground"));
+            this._bgImage.scaleX = 2;
+            this._bgImage.scaleY = 2;
+            this._stage.addChild(this._bgImage);
+            
             this._gameOverLabel = new createjs.Text(
                 "GAME OVER",
                 "80px Consolas",
@@ -73,7 +79,7 @@ module scenes {
             this._restartButton.regX = this._restartButton.getBounds().width * 0.5;
             this._restartButton.regY = this._restartButton.getBounds().height * 0.5;
             this._restartButton.x = config.Screen.WIDTH * 0.5;
-            this._restartButton.y = (config.Screen.HEIGHT * 0.5) + 100;
+            this._restartButton.y = (config.Screen.HEIGHT * 0.5) + 150;
             this._stage.addChild(this._restartButton);
 
             this._restartButton.on("mouseover", (event: createjs.MouseEvent) => {
@@ -85,7 +91,7 @@ module scenes {
             });
 
             this._restartButton.on("click", (event: createjs.MouseEvent) => {
-                currentScene = config.Scene.PLAY;
+                currentScene = config.Scene.MENU;
                 changeScene();
             });
         }

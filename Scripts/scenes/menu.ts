@@ -18,6 +18,8 @@ module scenes {
         private _stage: createjs.Stage;
         private _gameLabel: createjs.Text;
         private _startButton: createjs.Bitmap;
+        private _bgImage: createjs.Bitmap;
+        private _logoImage: createjs.Bitmap;
 
         /**
          * Empty Constructor - calls _initialize and start methods
@@ -68,8 +70,21 @@ module scenes {
          * @return void
          */
         public start(): void {
+            this._bgImage = new createjs.Bitmap(assets.getResult("MenuBackground"));
+            this._bgImage.scaleX = 2;
+            this._bgImage.scaleY = 2;
+            
+            this._stage.addChild(this._bgImage);
+            
+            
+            this._logoImage = new createjs.Bitmap(assets.getResult("CompanyLogo"));
+            this._logoImage.x = config.Screen.WIDTH/2 - (this._logoImage.getBounds().width/2);
+            this._logoImage.y = config.Screen.HEIGHT * 0.07;
+            this._stage.addChild(this._logoImage);           
+            
+            
             this._gameLabel = new createjs.Text(
-                "COIN GAME",
+                "AMAZE SKY GAME",
                 "80px Consolas",
                 "#000000");
             this._gameLabel.regX = this._gameLabel.getMeasuredWidth() * 0.5;
@@ -82,7 +97,7 @@ module scenes {
             this._startButton.regX = this._startButton.getBounds().width * 0.5;
             this._startButton.regY = this._startButton.getBounds().height * 0.5;
             this._startButton.x = config.Screen.WIDTH * 0.5;
-            this._startButton.y = (config.Screen.HEIGHT * 0.5) + 100;
+            this._startButton.y = (config.Screen.HEIGHT * 0.5) + 150;
             this._stage.addChild(this._startButton);
 
             this._startButton.on("mouseover", (event: createjs.MouseEvent) => {
@@ -94,8 +109,8 @@ module scenes {
             });
 
             this._startButton.on("click", (event: createjs.MouseEvent) => {
-                currentScene = config.Scene.PLAY;
-                changeScene();
+                currentScene = config.Scene.OVER;
+                changeScene(); 
             });
         }
 

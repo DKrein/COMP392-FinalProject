@@ -61,7 +61,11 @@ var manifest = [
     { id: "coin", src: "../../Assets/audio/coin.mp3" },
     { id: "jump", src: "../../Assets/audio/Jump.wav" },
     { id: "StartButton", src: "../../Assets/images/StartButton.png"},
-    { id: "RestartButton", src: "../../Assets/images/RestartButton.png"}
+    { id: "RestartButton", src: "../../Assets/images/RestartButton.png"},
+    
+    {id: "MenuBackground", src:"../../Assets/images/menuBg.jpg"},
+    {id: "CompanyLogo", src:"../../Assets/images/comapanyLogo.png"},    
+    
 ];
 
 function preload(): void {
