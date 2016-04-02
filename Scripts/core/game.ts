@@ -31,15 +31,10 @@ import CScreen = config.Screen;
 import Clock = THREE.Clock;
 
 // Setup a Web Worker for Physijs
-
-
-
-
 Physijs.scripts.worker = "/Scripts/lib/Physijs/physijs_worker.js";
 Physijs.scripts.ammo = "/Scripts/lib/Physijs/examples/js/ammo.js";
 var myWorker = new Worker(Physijs.scripts.worker);
 console.log(myWorker);
-
 
 
 // Game Variables
@@ -51,6 +46,7 @@ var camera: PerspectiveCamera;
 var play: scenes.Play;
 var menu: scenes.Menu;
 var over: scenes.Over;
+var help: scenes.Help;
 
 var stats: Stats;
 var canvas: HTMLElement;
@@ -62,6 +58,8 @@ var manifest = [
     { id: "jump", src: "../../Assets/audio/Jump.wav" },
     { id: "StartButton", src: "../../Assets/images/StartButton.png"},
     { id: "RestartButton", src: "../../Assets/images/RestartButton.png"},
+    { id: "HelpButton", src: "../../Assets/images/HelpButton.png"},
+    { id: "BackButton", src: "../../Assets/images/BackButton.png"},
     
     {id: "MenuBackground", src:"../../Assets/images/menuBg.jpg"},
     {id: "CompanyLogo", src:"../../Assets/images/comapanyLogo.png"},    
@@ -178,6 +176,12 @@ function changeScene(): void {
             over = new scenes.Over();
             scene = over;
             console.log("Starting OVER Scene");
+            break;
+        case config.Scene.HELP:
+            // show the game HELP scene
+            help = new scenes.Help();
+            scene = help;
+            console.log("Starting HELP Scene");
             break;
     }
 }

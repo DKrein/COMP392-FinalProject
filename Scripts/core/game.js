@@ -40,6 +40,7 @@ var camera;
 var play;
 var menu;
 var over;
+var help;
 var stats;
 var canvas;
 var assets;
@@ -50,6 +51,8 @@ var manifest = [
     { id: "jump", src: "../../Assets/audio/Jump.wav" },
     { id: "StartButton", src: "../../Assets/images/StartButton.png" },
     { id: "RestartButton", src: "../../Assets/images/RestartButton.png" },
+    { id: "HelpButton", src: "../../Assets/images/HelpButton.png" },
+    { id: "BackButton", src: "../../Assets/images/BackButton.png" },
     { id: "MenuBackground", src: "../../Assets/images/menuBg.jpg" },
     { id: "CompanyLogo", src: "../../Assets/images/comapanyLogo.png" },
 ];
@@ -144,6 +147,12 @@ function changeScene() {
             over = new scenes.Over();
             scene = over;
             console.log("Starting OVER Scene");
+            break;
+        case config.Scene.HELP:
+            // show the game HELP scene
+            help = new scenes.Help();
+            scene = help;
+            console.log("Starting HELP Scene");
             break;
     }
 }

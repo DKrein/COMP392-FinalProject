@@ -9,30 +9,24 @@ var __extends = (this && this.__extends) || function (d, b) {
 var scenes;
 (function (scenes) {
     /**
-     * Menu Scene extends scenes.Scene superclass is used to
-     * create a custom menu for the THREEJS Game
+     * This class instantiates the game Help scene object
      *
-     * @class Menu
-     * @extends scene.Scene
-     * @param blocker {HTMLElement}
-     * @param _stage {createjs.Stage}
-     * @param _gameLabel {createjs.Text}
-     * @param _startButton {createjs.Bitmap}
+     * @class Help
+     * @extends scenes.Scene
      */
-    var Menu = (function (_super) {
-        __extends(Menu, _super);
+    var Help = (function (_super) {
+        __extends(Help, _super);
         /**
-         * Empty Constructor - calls _initialize and start methods
+         * Empty Contructor
          *
          * @constructor
          */
-        function Menu() {
+        function Help() {
             _super.call(this);
             this._initialize();
             this.start();
         }
-        // PRIVATE METHODS ++++++++++++++++++++++++++++++++++++++++++++++
-        Menu.prototype._setupCanvas = function () {
+        Help.prototype._setupCanvas = function () {
             canvas.style.width = "100%";
             canvas.setAttribute("height", config.Screen.HEIGHT.toString());
             canvas.style.backgroundColor = "#ffffff";
@@ -44,7 +38,7 @@ var scenes;
          * @method _initialize
          * @return void
          */
-        Menu.prototype._initialize = function () {
+        Help.prototype._initialize = function () {
             // Create to HTMLElements
             this._blocker = document.getElementById("blocker");
             this._blocker.style.display = "none";
@@ -54,28 +48,23 @@ var scenes;
             this._stage = new createjs.Stage(canvas);
             this._stage.enableMouseOver(20);
         };
-        // PUBLIC METHODS +++++++++++++++++++++++++++++++++++++++++++++++
         /**
          * The start method is the main method for the scene class
          *
          * @method start
          * @return void
          */
-        Menu.prototype.start = function () {
+        Help.prototype.start = function () {
             this._bgImage = new createjs.Bitmap(assets.getResult("MenuBackground"));
             this._bgImage.scaleX = 2;
             this._bgImage.scaleY = 2;
             this._stage.addChild(this._bgImage);
-            this._logoImage = new createjs.Bitmap(assets.getResult("CompanyLogo"));
-            this._logoImage.x = config.Screen.WIDTH / 2 - (this._logoImage.getBounds().width / 2);
-            this._logoImage.y = config.Screen.HEIGHT * 0.07;
-            this._stage.addChild(this._logoImage);
-            this._gameLabel = new createjs.Text("AMAZE SKY GAME", "80px Consolas", "#000000");
-            this._gameLabel.regX = this._gameLabel.getMeasuredWidth() * 0.5;
-            this._gameLabel.regY = this._gameLabel.getMeasuredLineHeight() * 0.5;
-            this._gameLabel.x = config.Screen.WIDTH * 0.5;
-            this._gameLabel.y = config.Screen.HEIGHT * 0.5;
-            this._stage.addChild(this._gameLabel);
+            this._gameHelpLabel = new createjs.Text("GAME Help", "80px Consolas", "#000000");
+            this._gameHelpLabel.regX = this._gameHelpLabel.getMeasuredWidth() * 0.5;
+            this._gameHelpLabel.regY = this._gameHelpLabel.getMeasuredLineHeight() * 0.5;
+            this._gameHelpLabel.x = config.Screen.WIDTH * 0.5;
+            this._gameHelpLabel.y = config.Screen.HEIGHT * 0.5;
+            this._stage.addChild(this._gameHelpLabel);
             this._startButton = new createjs.Bitmap(assets.getResult("StartButton"));
             this._startButton.regX = this._startButton.getBounds().width * 0.5;
             this._startButton.regY = this._startButton.getBounds().height * 0.5;
@@ -89,23 +78,23 @@ var scenes;
                 event.target.alpha = 1.0;
             });
             this._startButton.on("click", function (event) {
-                currentScene = config.Scene.OVER;
+                currentScene = config.Scene.MENU;
                 changeScene();
             });
-            this._helpButton = new createjs.Bitmap(assets.getResult("HelpButton"));
-            this._helpButton.regX = this._helpButton.getBounds().width * 0.5;
-            this._helpButton.regY = this._helpButton.getBounds().height * 0.5;
-            this._helpButton.x = config.Screen.WIDTH * 0.5;
-            this._helpButton.y = (config.Screen.HEIGHT * 0.5) + 250;
-            this._stage.addChild(this._helpButton);
-            this._helpButton.on("mouseover", function (event) {
+            this._backButton = new createjs.Bitmap(assets.getResult("BackButton"));
+            this._backButton.regX = this._backButton.getBounds().width * 0.5;
+            this._backButton.regY = this._backButton.getBounds().height * 0.5;
+            this._backButton.x = config.Screen.WIDTH * 0.5;
+            this._backButton.y = (config.Screen.HEIGHT * 0.5) + 250;
+            this._stage.addChild(this._backButton);
+            this._backButton.on("mouseover", function (event) {
                 event.target.alpha = 0.7;
             });
-            this._helpButton.on("mouseout", function (event) {
+            this._backButton.on("mouseout", function (event) {
                 event.target.alpha = 1.0;
             });
-            this._helpButton.on("click", function (event) {
-                currentScene = config.Scene.HELP;
+            this._backButton.on("click", function (event) {
+                currentScene = config.Scene.MENU;
                 changeScene();
             });
         };
@@ -115,7 +104,7 @@ var scenes;
          * @method update
          * @return void
          */
-        Menu.prototype.update = function () {
+        Help.prototype.update = function () {
             this._stage.update();
         };
         /**
@@ -124,12 +113,12 @@ var scenes;
          * @method resize
          * @return void
          */
-        Menu.prototype.resize = function () {
+        Help.prototype.resize = function () {
             this._setupCanvas();
         };
-        return Menu;
+        return Help;
     }(scenes.Scene));
-    scenes.Menu = Menu;
+    scenes.Help = Help;
 })(scenes || (scenes = {}));
 
-//# sourceMappingURL=menu.js.map
+//# sourceMappingURL=help.js.map
