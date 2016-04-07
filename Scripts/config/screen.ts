@@ -8,9 +8,12 @@ module config {
     // Scene Constants
     export class Scene {
         public static MENU: number = 0;
-        public static PLAY: number = 1;
+        public static HELP: number = 1;
         public static OVER: number = 2;
-        public static HELP: number = 3;
+        public static LEVEL1: number = 3;
+        public static LEVEL2: number = 4;
+        public static LEVEL3: number = 5;
+        
     }
     
 }

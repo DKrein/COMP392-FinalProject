@@ -5,18 +5,24 @@
  */
 module scenes {
     /**
-     * The Play class is where the main action occurs for the game
+     * The Level1 class is where the main action occurs for the game
      * 
-     * @class Play
+     * @class Level1
      * @param havePointerLock {boolean}
      */
-    export class Play extends scenes.Scene {
+    export class Level1 extends scenes.Scene {
         private havePointerLock: boolean;
         private element: any;
 
         private blocker: HTMLElement;
         private instructions: HTMLElement;
         private spotLight: SpotLight;
+        private ambientLight: AmbientLight;
+        
+        private keyboardControls: objects.KeyboardControls;
+        private mouseControls: objects.MouseControls;
+        //private gameObject: objects.GameObject;
+        
         private groundGeometry: CubeGeometry;
         private groundPhysicsMaterial: Physijs.Material;
         private groundMaterial: PhongMaterial;
@@ -26,15 +32,13 @@ module scenes {
         private playerGeometry: CubeGeometry;
         private playerMaterial: Physijs.Material;
         private player: Physijs.Mesh;
-        private keyboardControls: objects.KeyboardControls;
-        private mouseControls: objects.MouseControls;
         private isGrounded: boolean;
         private coinGeometry: Geometry;
         private coinMaterial: Physijs.Material;
         private coins: Physijs.ConcaveMesh[];
         private coinCount: number;
         private deathPlaneGeometry: CubeGeometry;
-        private deathPlaneMaterial: Physijs.Material;
+        private deathPlaneMaterial: LambertMaterial;
         private deathPlane: Physijs.Mesh;
 
         private velocity: Vector3;
@@ -50,6 +54,12 @@ module scenes {
         private wallTexture: Texture;
         private wallPhysicsMaterial: Physijs.Material;
         private wallMaterial: PhongMaterial;
+        
+        private skyBox: Mesh;
+        private bgSound: any;
+        
+        private berryLocation: Array<THREE.Vector3> = new Array<THREE.Vector3>();
+        private basketLocation: Array<THREE.Vector3> = new Array<THREE.Vector3>();
 
         /**
          * @constructor
@@ -73,6 +83,17 @@ module scenes {
             canvas.setAttribute("width", config.Screen.WIDTH.toString());
             canvas.setAttribute("height", (config.Screen.HEIGHT * 0.1).toString());
             canvas.style.backgroundColor = "#000000";
+        }
+        
+         /**
+         * Sets up the background scene for the play scene
+         * 
+         * @method playBackgroundSound 
+         * @return void
+         */
+        private playBackgroundSound(): void{
+            this.bgSound = createjs.Sound.play("Background", {volume: 0.007});
+            this.bgSound.on("complete",this.playBackgroundSound,this);
         }
 
         /**
@@ -138,15 +159,15 @@ module scenes {
         }
 
         /**
-         * Add a spotLight to the scene
+         * Add lights to the scene
          * 
-         * @method addSpotLight
+         * @method addLights
          * @return void
          */
-        private addSpotLight(): void {
+        private addLights(): void {
             // Spot Light
             this.spotLight = new SpotLight(0xffffff);
-            this.spotLight.position.set(20, 40, -15);
+            this.spotLight.position.set(20, 50, -15);
             this.spotLight.castShadow = true;
             this.spotLight.intensity = 2;
             this.spotLight.lookAt(new Vector3(0, 0, 0));
@@ -161,7 +182,11 @@ module scenes {
             this.spotLight.shadowDarkness = 0.5;
             this.spotLight.name = "Spot Light";
             this.add(this.spotLight);
-            console.log("Added spotLight to scene");
+            
+            //AmbientLight
+            this.ambientLight = new AmbientLight(0x404040);
+            this.add(this.ambientLight);
+            console.log("Added Lights to scene");
         }
 
         /**
@@ -225,8 +250,6 @@ module scenes {
                 self.add(self.ground);
                 
             });
-
-
         }
 
         /**
@@ -257,15 +280,29 @@ module scenes {
          */
         private addDeathPlane(): void {
             this.deathPlaneGeometry = new BoxGeometry(100, 1, 100);
-            this.deathPlaneMaterial = Physijs.createMaterial(new MeshBasicMaterial({ color: 0xff0000 }), 0.4, 0.6);
+            this.deathPlaneMaterial = new THREE.MeshLambertMaterial({color: 0xE5E5FF, transparent: true, opacity: 0.1});
 
             this.deathPlane = new Physijs.BoxMesh(this.deathPlaneGeometry, this.deathPlaneMaterial, 0);
-            this.deathPlane.position.set(0, -10, 0);
+            this.deathPlane.position.set(0, -20, 0);
             this.deathPlane.name = "DeathPlane";
             this.add(this.deathPlane);
-            
-            
+            console.log("Added DeathPlane to scene");            
         }
+        
+        /**
+         * Add the Skybox to the scene
+         * 
+         * @method addSkyBox
+         * @return void
+         */
+        private addSkyBox(): void {
+            this.skyBox = new gameObject(new SphereGeometry(60, 60, 60), new LambertMaterial({ map: ImageUtils.loadTexture('../../Assets/Images/skyBG.jpg') }), 2, 2, 2);
+            this.skyBox.material.side = THREE.DoubleSide;
+            this.skyBox.name = "Skybox";   
+            this.add(this.skyBox);
+            console.log("Added skyBox to scene");         
+        }              
+        
 
         /**
          * This method adds a coin to the scene
@@ -371,28 +408,32 @@ module scenes {
 
                 var time: number = performance.now();
                 var delta: number = (time - this.prevTime) / 1000;
+                
+                var speed: number = 600.0;
 
                 if (this.isGrounded) {
                     var direction = new Vector3(0, 0, 0);
                     if (this.keyboardControls.moveForward) {
-                        this.velocity.z -= 400.0 * delta;
+                        this.velocity.z -= speed * delta;
                     }
                     if (this.keyboardControls.moveLeft) {
-                        this.velocity.x -= 400.0 * delta;
+                        this.velocity.x -= speed * delta;
                     }
                     if (this.keyboardControls.moveBackward) {
-                        this.velocity.z += 400.0 * delta;
+                        this.velocity.z += speed * delta;
                     }
                     if (this.keyboardControls.moveRight) {
-                        this.velocity.x += 400.0 * delta;
+                        this.velocity.x += speed * delta;
                     }
-                    if (this.keyboardControls.jump) {
-                        this.velocity.y += 4000.0 * delta;
-                        if (this.player.position.y > 4) {
-                            this.isGrounded = false;
+                    if (this.keyboardControls.jump && this.isGrounded) {
+                        
+                        if (this.player.position.y >= 1 && this.player.position.y <= 3) {
+                            this.velocity.y += 10 * speed * delta;
                             createjs.Sound.play("jump");
+                        } else if (this.player.position.y > 3) {
+                            this.isGrounded = false;
                         }
-
+                        
                     }
 
                     this.player.setDamping(0.7, 0.1);
@@ -423,6 +464,8 @@ module scenes {
             scene.onSimulationResume();
             console.log("resume simulation");
         }
+        
+        
 
         // PUBLIC METHODS +++++++++++++++++++++++++++++++++++++++++++
 
@@ -435,13 +478,26 @@ module scenes {
         public start(): void {
             // Set Up Scoreboard
             this.setupScoreboard();
+            
+            // Set Up background sound
+            this.playBackgroundSound();
 
             //check to see if pointerlock is supported
             this.havePointerLock = 'pointerLockElement' in document ||
                 'mozPointerLockElement' in document ||
                 'webkitPointerLockElement' in document;
 
-
+            //define berry positions        
+            this.berryLocation.push(new THREE.Vector3(-8.5, 1.5, -5.5));
+            this.berryLocation.push(new THREE.Vector3(-2, 1.5, 16));
+            this.berryLocation.push(new THREE.Vector3(17, 1.5, 0));
+            this.berryLocation.push(new THREE.Vector3(-15, 1.5, -2));
+            
+            //define basket positions
+            this.basketLocation.push(new THREE.Vector3(-16, 3, 14));
+            this.basketLocation.push(new THREE.Vector3(15, 3, 16));
+            this.basketLocation.push(new THREE.Vector3(-15, 3, -16));
+            this.basketLocation.push(new THREE.Vector3(17, 3, -15));   
 
             // Check to see if we have pointerLock
             if (this.havePointerLock) {
@@ -478,12 +534,12 @@ module scenes {
             console.log("Start Simulation"); */
 
             // Add Spot Light to the scene
-            this.addSpotLight();
+            this.addLights();
 
             // Ground Object
-            //this.addGround();
+            this.addGround();
             
-            this.addGroundNew();    
+            //this.addGroundNew();    
 
             // Add player controller
             this.addPlayer();
@@ -493,50 +549,133 @@ module scenes {
 
             // Add death plane to the scene
             this.addDeathPlane();
+            
+            // Add Skybox to the scene
+            this.addSkyBox()
 
             // Collision Check
 
 
             this.player.addEventListener('collision', function(eventObject) {
-                if (eventObject.name === "Ground") {
+                if (eventObject.name === "Ground" || eventObject.name === "Wall") {
                     this.isGrounded = true;
                     createjs.Sound.play("land");
                 }
+                
+                if (eventObject.name === "DeathPlane") {
+                    createjs.Sound.play("Falling");
+                    this.addDeath();
+                }
+                
+                /*
+                if (eventObject.name === "Berry") {
+                    createjs.Sound.play("Collect");
+                    collectablePicked(event);
+                    console.log("player ate a berry");                
+                }
+            
+                if (eventObject.name === "Basket") {
+                    createjs.Sound.play("Collect");
+                    collectablePicked(event);
+                    console.log("player ate a basket");                
+                }
+
+                if (eventObject.name === "Plate") {
+                    scene.add(rock);
+                    console.log("Added Rock to scene");
+                }
+                
+                if (eventObject.name === "Plate2") {
+                    scene.add(rock2a);
+                    scene.add(rock2b);
+                    console.log("Added Rock to scene");
+                }
+                
+                if (eventObject.name === "Plate3") {
+                    scene.add(log);
+                    console.log("Added Log to scene");
+                }
+                
+              
+                if(eventObject.name === "Rock" || eventObject.name === "Log" && eventObject.position.y > 2){
+                    createjs.Sound.play("Collision");
+                    addDeath();
+                    console.log("YOU GOT HIT BY A ROCK!");
+                }                
+                
                 if (eventObject.name === "Coin") {
                     createjs.Sound.play("coin");
                     this.remove(eventObject);
                     this.setCoinPosition(eventObject);
                     this.scoreValue += 100;
                     this.scoreLabel.text = "SCORE: " + this.scoreValue;
-                }
+                }*/
 
-                if (eventObject.name === "DeathPlane") {
-                    createjs.Sound.play("hit");
-                    this.livesValue--;
-                    if (this.livesValue <= 0) {
-                        // Exit Pointer Lock
-                        document.exitPointerLock();
-                        this.children = []; // an attempt to clean up
-                        this._isGamePaused = true;
-                        
-                        // Play the Game Over Scene
-                        currentScene = config.Scene.OVER;
-                        changeScene();
-                    } else {
-                        // otherwise reset my player and update Lives
-                        this.livesLabel.text = "LIVES: " + this.livesValue;
-                        this.remove(this.player);
-                        this.player.position.set(0, 30, 10);
-                        this.add(this.player);
-                    }
-                }
+                
             }.bind(this));
+            
+            //Rock eventHandler
+            //TODO ADD ROCKS AND HERE ARE THE EVENTS... WE CAN CREATE A FOR IN A ARRAY OF ROCKS AND LOGS
+            /*this.rock.addEventListener('collision', function(eventObject) {
+
+                if (eventObject.name === "Ground" || eventObject.name === "Wall") {
+                    resetRock();
+                }
+            });      
+            
+            this.rock1.addEventListener('collision', function(eventObject) {
+
+                if (eventObject.name === "Ground" || eventObject.name === "Wall") {
+                    resetRock();
+                }
+            });  
+            
+            this.rock2.addEventListener('collision', function(eventObject) {
+
+                if (eventObject.name === "Ground" || eventObject.name === "Wall") {
+                    resetRock();
+                }
+            });  
+            
+            this.rock3.addEventListener('collision', function(eventObject) {
+
+                if (eventObject.name === "Ground" || eventObject.name === "Wall") {
+                    resetRock();
+                }
+            });  
+            */
 
             // create parent-child relationship with camera and player
             this.player.add(camera);
             camera.position.set(0, 1, 0);
 
             this.simulate();
+        }
+        
+        /**
+         * add death function
+         * 
+         * @method addDeath
+         * @return void
+         */
+        private addDeath(): void {
+            this.livesValue--;
+            if (this.livesValue <= 0) {
+                // Exit Pointer Lock
+                document.exitPointerLock();
+                this.children = []; // an attempt to clean up
+                //this._isGamePaused = true;
+                
+                // Play the Game Over Scene
+                currentScene = config.Scene.OVER;
+                changeScene();
+            } else {
+                // otherwise reset my player and update Lives
+                this.livesLabel.text = "LIVES: " + this.livesValue;
+                this.remove(this.player);
+                this.player.position.set(0, 30, 0);
+                this.add(this.player);
+            }
         }
 
         /**

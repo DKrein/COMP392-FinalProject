@@ -110,7 +110,7 @@ module scenes {
             });
 
             this._startButton.on("click", (event: createjs.MouseEvent) => {
-                currentScene = config.Scene.PLAY;
+                currentScene = config.Scene.LEVEL1;
                 changeScene(); 
             });
             

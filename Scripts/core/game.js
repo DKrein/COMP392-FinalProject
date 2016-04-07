@@ -27,6 +27,9 @@ var Vector3 = THREE.Vector3;
 var Face3 = THREE.Face3;
 var CScreen = config.Screen;
 var Clock = THREE.Clock;
+var ImageUtils = THREE.ImageUtils;
+//Custom Game Objects
+var gameObject = objects.GameObject;
 // Setup a Web Worker for Physijs
 Physijs.scripts.worker = "/Scripts/lib/Physijs/physijs_worker.js";
 Physijs.scripts.ammo = "/Scripts/lib/Physijs/examples/js/ammo.js";
@@ -37,7 +40,9 @@ var scene;
 var currentScene;
 var renderer;
 var camera;
-var play;
+var level1;
+var level2;
+var level3;
 var menu;
 var over;
 var help;
@@ -49,6 +54,10 @@ var manifest = [
     { id: "hit", src: "../../Assets/audio/hit.wav" },
     { id: "coin", src: "../../Assets/audio/coin.mp3" },
     { id: "jump", src: "../../Assets/audio/Jump.wav" },
+    { id: "Collision", src: "../../Assets/sounds/collision.mp3" },
+    { id: "Collect", src: "../../Assets/sounds/collecting.mp3" },
+    { id: "Falling", src: "../../Assets/sounds/falling.mp3" },
+    { id: "Background", src: "../../Assets/sounds/background.mp3" },
     { id: "StartButton", src: "../../Assets/images/StartButton.png" },
     { id: "RestartButton", src: "../../Assets/images/RestartButton.png" },
     { id: "HelpButton", src: "../../Assets/images/HelpButton.png" },
@@ -136,11 +145,23 @@ function changeScene() {
             scene = menu;
             console.log("Starting MENU Scene");
             break;
-        case config.Scene.PLAY:
-            // show the PLAY scene
-            play = new scenes.Play();
-            scene = play;
-            console.log("Starting PLAY Scene");
+        case config.Scene.LEVEL1:
+            // show the LEVEL1 scene
+            level1 = new scenes.Level1();
+            scene = level1;
+            console.log("Starting LEVEL1 Scene");
+            break;
+        case config.Scene.LEVEL2:
+            // show the LEVEL2 scene
+            level2 = new scenes.Level2();
+            scene = level2;
+            console.log("Starting LEVEL2 Scene");
+            break;
+        case config.Scene.LEVEL3:
+            // show the LEVEL3 scene
+            level3 = new scenes.Level3();
+            scene = level3;
+            console.log("Starting LEVEL3 Scene");
             break;
         case config.Scene.OVER:
             // show the game OVER scene
