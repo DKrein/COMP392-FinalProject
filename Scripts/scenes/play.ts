@@ -46,6 +46,10 @@ module scenes {
         private livesLabel: createjs.Text;
         private scoreValue: number;
         private livesValue: number;
+        
+        private wallTexture: Texture;
+        private wallPhysicsMaterial: Physijs.Material;
+        private wallMaterial: PhongMaterial;
 
         /**
          * @constructor
@@ -190,6 +194,40 @@ module scenes {
             this.add(this.ground);
             console.log("Added Burnt Ground to scene");
         }
+        
+         /**
+         * This method adds a plane to the scene
+         * 
+         * @method addGroundNew
+         * @return void
+         */
+        private addGroundNew(): void {
+            var self = this;
+           
+            self.wallTexture = new THREE.TextureLoader().load('../../Assets/images/wall.jpg');
+            self.wallTexture.wrapS = THREE.RepeatWrapping;
+            self.wallTexture.wrapT = THREE.RepeatWrapping;
+            self.wallTexture.repeat.set(8, 8);
+            self.wallMaterial = new PhongMaterial();
+            self.wallMaterial.map = self.wallTexture;
+            self.wallPhysicsMaterial = Physijs.createMaterial(self.wallMaterial, 0, 0);
+
+            var groundLoader = new THREE.JSONLoader().load("../../Assets/imported/level1c.json", function(geometry: THREE.Geometry) {
+
+                var groundMaterial = Physijs.createMaterial((self.wallPhysicsMaterial),  0.4, 0.6);
+
+                self.ground = new Physijs.ConvexMesh(geometry, groundMaterial,0);
+                self.ground.receiveShadow = true;
+                self.ground.castShadow = true;
+                self.ground.name = "Ground";
+                self.ground.position.set(0, 0, 0);
+                console.log("Added PLANE Mesh to Scene, at position: " + self.ground.position);
+                self.add(self.ground);
+                
+            });
+
+
+        }
 
         /**
          * Adds the player controller to the scene
@@ -203,7 +241,7 @@ module scenes {
             this.playerMaterial = Physijs.createMaterial(new LambertMaterial({ color: 0x00ff00 }), 0.4, 0);
 
             this.player = new Physijs.BoxMesh(this.playerGeometry, this.playerMaterial, 1);
-            this.player.position.set(0, 30, 10);
+            this.player.position.set(10, 4, 10);
             this.player.receiveShadow = true;
             this.player.castShadow = true;
             this.player.name = "Player";
@@ -225,6 +263,8 @@ module scenes {
             this.deathPlane.position.set(0, -10, 0);
             this.deathPlane.name = "DeathPlane";
             this.add(this.deathPlane);
+            
+            
         }
 
         /**
@@ -267,6 +307,8 @@ module scenes {
             var randomPointX: number = Math.floor(Math.random() * 20) - 10;
             var randomPointZ: number = Math.floor(Math.random() * 20) - 10;
             coin.position.set(randomPointX, 10, randomPointZ);
+            console.log(randomPointX);
+            console.log(randomPointZ);
             this.add(coin);
         }
 
@@ -439,13 +481,15 @@ module scenes {
             this.addSpotLight();
 
             // Ground Object
-            this.addGround();
+            //this.addGround();
+            
+            this.addGroundNew();    
 
             // Add player controller
             this.addPlayer();
 
             // Add custom coin imported from Blender
-            this.addCoinMesh();
+            //this.addCoinMesh();
 
             // Add death plane to the scene
             this.addDeathPlane();
@@ -517,10 +561,12 @@ module scenes {
          */
         public update(): void {
 
+            /*
             this.coins.forEach(coin => {
                 coin.setAngularFactor(new Vector3(0, 0, 0));
                 coin.setAngularVelocity(new Vector3(0, 1, 0));
             });
+            */
 
             this.checkControls();
             this.stage.update();

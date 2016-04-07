@@ -89,7 +89,7 @@ var scenes;
                 event.target.alpha = 1.0;
             });
             this._startButton.on("click", function (event) {
-                currentScene = config.Scene.OVER;
+                currentScene = config.Scene.PLAY;
                 changeScene();
             });
             this._helpButton = new createjs.Bitmap(assets.getResult("HelpButton"));
