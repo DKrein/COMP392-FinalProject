@@ -238,6 +238,99 @@ var scenes;
             this.add(this.wall6);
         };
         /**
+        * Add rocks to the scene - actually it just prepare the rock, who really add it to the scene is the pressure plate
+        *
+        * @method addRocks
+        * @return void
+        */
+        Level1.prototype.addRocks = function () {
+            this.rockTexture = new THREE.TextureLoader().load('../../Assets/images/rock.jpg');
+            this.rockTexture.wrapS = THREE.RepeatWrapping;
+            this.rockTexture.wrapT = THREE.RepeatWrapping;
+            this.rockMaterial = new PhongMaterial();
+            this.rockMaterial.map = this.rockTexture;
+            this.rockGeometry = new SphereGeometry(1, 5, 5);
+            this.rockPhysicsMaterial = Physijs.createMaterial(this.rockMaterial, 0, 0);
+            this.rock1 = new Physijs.ConvexMesh(this.rockGeometry, this.rockPhysicsMaterial, 1);
+            this.rock1.position.set(-4, 10, -5.5);
+            this.rock1.receiveShadow = true;
+            this.rock1.name = "Rock";
+            this.rock2 = new Physijs.ConvexMesh(this.rockGeometry, this.rockPhysicsMaterial, 1);
+            this.rock2.position.set(-17, 10, -8);
+            this.rock2.receiveShadow = true;
+            this.rock2.name = "Rock";
+            this.rock3 = new Physijs.ConvexMesh(this.rockGeometry, this.rockPhysicsMaterial, 1);
+            this.rock3.position.set(-18, 10, 2);
+            this.rock3.receiveShadow = true;
+            this.rock3.name = "Rock";
+        };
+        /**
+         * Add Logs to the scene - actually it just prepare the rock, who really add it to the scene is the pressure plate
+         *
+         * @method addLogs
+         * @return void
+         */
+        Level1.prototype.addLogs = function () {
+            this.logTexture = new THREE.TextureLoader().load('../../Assets/images/fallingbranch.jpg');
+            this.logTexture.wrapS = THREE.RepeatWrapping;
+            this.logTexture.wrapT = THREE.RepeatWrapping;
+            this.logMaterial = new PhongMaterial();
+            this.logMaterial.map = this.logTexture;
+            this.logGeometry = new CylinderGeometry(1, 1, 10);
+            this.logPhysicsMaterial = Physijs.createMaterial(this.logMaterial, 0, 0);
+            this.log = new Physijs.ConvexMesh(this.logGeometry, this.logPhysicsMaterial, 1);
+            this.log.position.set(4, 15, 10);
+            this.log.rotation.x = 1.5708;
+            this.log.receiveShadow = true;
+            this.log.name = "Log";
+        };
+        /**
+         * Add Pressure Plates to the scene
+         *
+         * @method addPlates
+         * @return void
+         */
+        Level1.prototype.addPlates = function () {
+            this.plateTexture = new THREE.TextureLoader().load('../../Assets/images/PressurePlate.jpg');
+            this.plateTexture.wrapS = THREE.RepeatWrapping;
+            this.plateTexture.wrapT = THREE.RepeatWrapping;
+            this.plateMaterial = new PhongMaterial();
+            this.plateMaterial.map = this.plateTexture;
+            this.plateGeometry = new CubeGeometry(1, 0.001, 1);
+            this.platePhysicsMaterial = Physijs.createMaterial(this.plateMaterial, 0, 0);
+            this.plate1 = new Physijs.ConvexMesh(this.plateGeometry, this.platePhysicsMaterial, 0);
+            this.plate1.position.set(1, .5, -5.5);
+            this.plate1.receiveShadow = true;
+            this.plate1.name = "Plate1";
+            this.add(this.plate1);
+            this.plate2 = new Physijs.ConvexMesh(this.plateGeometry, this.platePhysicsMaterial, 0);
+            this.plate2.position.set(-18.7, .5, -3);
+            this.plate2.receiveShadow = true;
+            this.plate2.name = "Plate2";
+            this.add(this.plate2);
+            this.plate3 = new Physijs.ConvexMesh(this.plateGeometry, this.platePhysicsMaterial, 0);
+            this.plate3.position.set(4, .5, 9);
+            this.plate3.receiveShadow = true;
+            this.plate3.name = "Plate3";
+            this.add(this.plate3);
+        };
+        /**
+         * Reset all hazards function
+         *
+         * @method resetHazards
+         * @return void
+         */
+        Level1.prototype.resetHazards = function () {
+            this.remove(this.rock1);
+            this.remove(this.rock2);
+            this.remove(this.rock3);
+            this.remove(this.log);
+            this.rock1.position.set(-4, 10, -5.5);
+            this.rock2.position.set(-17, 10, -8);
+            this.rock3.position.set(-18, 10, 2);
+            this.log.position.set(4, 15, 10);
+        };
+        /**
          * Adds the player controller to the scene
          *
          * @method addPlayer
@@ -528,6 +621,14 @@ var scenes;
             this.addIslands();
             //Add Walls in the scenario
             this.addWalls();
+            //Add Rocks in the scenario
+            this.addRocks();
+            //Add Logs in the scenario
+            this.addLogs();
+            //Add the pressure plates in the scenario
+            this.addPlates();
+            //Reset the first time
+            this.resetHazards();
             // Add player controller
             this.addPlayer();
             // Add custom coin imported from Blender
@@ -558,30 +659,21 @@ var scenes;
                     this.collectablePicked(eventObject);
                     console.log("player ate a basket");
                 }
-                /*
-                if (eventObject.name === "Plate") {
-                    scene.add(rock);
-                    console.log("Added Rock to scene");
+                if (eventObject.name === "Plate1") {
+                    this.add(this.rock1);
                 }
-                
                 if (eventObject.name === "Plate2") {
-                    scene.add(rock2a);
-                    scene.add(rock2b);
-                    console.log("Added Rock to scene");
+                    this.add(this.rock2);
+                    this.add(this.rock3);
                 }
-                
                 if (eventObject.name === "Plate3") {
-                    scene.add(log);
-                    console.log("Added Log to scene");
+                    this.add(this.log);
                 }
-                
-              
-                if(eventObject.name === "Rock" || eventObject.name === "Log" && eventObject.position.y > 2){
+                if (eventObject.name === "Rock" || eventObject.name === "Log" && eventObject.position.y > 2) {
                     createjs.Sound.play("Collision");
-                    addDeath();
-                    console.log("YOU GOT HIT BY A ROCK!");
+                    this.addDeath();
                 }
-                
+                /*
                 if (eventObject.name === "Coin") {
                     createjs.Sound.play("coin");
                     this.remove(eventObject);
@@ -590,36 +682,27 @@ var scenes;
                     this.scoreLabel.text = "SCORE: " + this.scoreValue;
                 }*/
             }.bind(this));
-            //Rock eventHandler
-            //TODO ADD ROCKS AND HERE ARE THE EVENTS... WE CAN CREATE A FOR IN A ARRAY OF ROCKS AND LOGS
-            /*this.rock.addEventListener('collision', function(eventObject) {
-
+            //Rock eventHandler            
+            this.rock1.addEventListener('collision', function (eventObject) {
                 if (eventObject.name === "Ground" || eventObject.name === "Wall") {
-                    resetRock();
+                    this.resetHazards();
                 }
-            });
-            
-            this.rock1.addEventListener('collision', function(eventObject) {
-
+            }.bind(this));
+            this.rock2.addEventListener('collision', function (eventObject) {
                 if (eventObject.name === "Ground" || eventObject.name === "Wall") {
-                    resetRock();
+                    this.resetHazards();
                 }
-            });
-            
-            this.rock2.addEventListener('collision', function(eventObject) {
-
+            }.bind(this));
+            this.rock3.addEventListener('collision', function (eventObject) {
                 if (eventObject.name === "Ground" || eventObject.name === "Wall") {
-                    resetRock();
+                    this.resetHazards();
                 }
-            });
-            
-            this.rock3.addEventListener('collision', function(eventObject) {
-
+            }.bind(this));
+            this.log.addEventListener('collision', function (eventObject) {
                 if (eventObject.name === "Ground" || eventObject.name === "Wall") {
-                    resetRock();
+                    this.resetHazards();
                 }
-            });
-            */
+            }.bind(this));
             // create parent-child relationship with camera and player
             this.player.add(camera);
             camera.position.set(0, 1, 0);
