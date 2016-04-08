@@ -62,6 +62,7 @@ var manifest = [
     { id: "RestartButton", src: "../../Assets/images/RestartButton.png" },
     { id: "HelpButton", src: "../../Assets/images/HelpButton.png" },
     { id: "BackButton", src: "../../Assets/images/BackButton.png" },
+    { id: "ExitButton", src: "../../Assets/images/ExitButton.png" },
     { id: "MenuBackground", src: "../../Assets/images/menuBg.jpg" },
     { id: "CompanyLogo", src: "../../Assets/images/comapanyLogo.png" },
 ];

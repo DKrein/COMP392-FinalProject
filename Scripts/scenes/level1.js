@@ -24,7 +24,9 @@ var scenes;
         function Level1() {
             _super.call(this);
             this.berryLocation = new Array();
+            this.berryNum = 0;
             this.basketLocation = new Array();
+            this.basketNum = 0;
             this._initialize();
             this.start();
         }
@@ -47,7 +49,7 @@ var scenes;
         * @return void
         */
         Level1.prototype.playBackgroundSound = function () {
-            this.bgSound = createjs.Sound.play("Background", { volume: 0.007 });
+            this.bgSound = createjs.Sound.play("Background", { volume: 0.02 });
             this.bgSound.on("complete", this.playBackgroundSound, this);
         };
         /**
@@ -132,7 +134,7 @@ var scenes;
          * @return void
          */
         Level1.prototype.addGround = function () {
-            this.groundTexture = new THREE.TextureLoader().load('../../Assets/images/GravelCobble.jpg');
+            this.groundTexture = new THREE.TextureLoader().load('../../Assets/images/grass.jpg');
             this.groundTexture.wrapS = THREE.RepeatWrapping;
             this.groundTexture.wrapT = THREE.RepeatWrapping;
             this.groundTexture.repeat.set(8, 8);
@@ -144,7 +146,7 @@ var scenes;
             this.groundMaterial.map = this.groundTexture;
             this.groundMaterial.bumpMap = this.groundTextureNormal;
             this.groundMaterial.bumpScale = 0.2;
-            this.groundGeometry = new BoxGeometry(32, 1, 32);
+            this.groundGeometry = new BoxGeometry(20, 1, 20);
             this.groundPhysicsMaterial = Physijs.createMaterial(this.groundMaterial, 0, 0);
             this.ground = new Physijs.ConvexMesh(this.groundGeometry, this.groundPhysicsMaterial, 0);
             this.ground.receiveShadow = true;
@@ -153,30 +155,87 @@ var scenes;
             console.log("Added Burnt Ground to scene");
         };
         /**
-        * This method adds a plane to the scene
-        *
-        * @method addGroundNew
-        * @return void
-        */
-        Level1.prototype.addGroundNew = function () {
-            var self = this;
-            self.wallTexture = new THREE.TextureLoader().load('../../Assets/images/wall.jpg');
-            self.wallTexture.wrapS = THREE.RepeatWrapping;
-            self.wallTexture.wrapT = THREE.RepeatWrapping;
-            self.wallTexture.repeat.set(8, 8);
-            self.wallMaterial = new PhongMaterial();
-            self.wallMaterial.map = self.wallTexture;
-            self.wallPhysicsMaterial = Physijs.createMaterial(self.wallMaterial, 0, 0);
-            var groundLoader = new THREE.JSONLoader().load("../../Assets/imported/level1c.json", function (geometry) {
-                var groundMaterial = Physijs.createMaterial((self.wallPhysicsMaterial), 0.4, 0.6);
-                self.ground = new Physijs.ConvexMesh(geometry, groundMaterial, 0);
-                self.ground.receiveShadow = true;
-                self.ground.castShadow = true;
-                self.ground.name = "Ground";
-                self.ground.position.set(0, 0, 0);
-                console.log("Added PLANE Mesh to Scene, at position: " + self.ground.position);
-                self.add(self.ground);
-            });
+         * Add the islands to the scene
+         *
+         * @method addIslands
+         * @return void
+         */
+        Level1.prototype.addIslands = function () {
+            this.islandGeometry = new BoxGeometry(6, 1, 25);
+            this.islandPhysicsMaterial = Physijs.createMaterial(this.groundMaterial, 0, 0);
+            this.island1 = new Physijs.ConvexMesh(this.islandGeometry, this.islandPhysicsMaterial, 0);
+            this.island1.position.set(-17, 0, 0);
+            this.island1.receiveShadow = true;
+            this.island1.name = "Ground";
+            this.add(this.island1);
+            this.island2 = new Physijs.ConvexMesh(this.islandGeometry, this.islandPhysicsMaterial, 0);
+            this.island2.position.set(17, 0, 0);
+            this.island2.receiveShadow = true;
+            this.island2.name = "Ground";
+            this.add(this.island2);
+            this.island3 = new Physijs.ConvexMesh(this.islandGeometry, this.islandPhysicsMaterial, 0);
+            this.island3.position.set(0, 0, -17);
+            this.island3.receiveShadow = true;
+            this.island3.rotateY(1.5708);
+            this.island3.name = "Ground";
+            this.add(this.island3);
+            this.island4 = new Physijs.ConvexMesh(this.islandGeometry, this.islandPhysicsMaterial, 0);
+            this.island4.position.set(0, 0, 17);
+            this.island4.receiveShadow = true;
+            this.island4.rotateY(1.5708);
+            this.island4.name = "Ground";
+            this.add(this.island4);
+        };
+        /**
+         * Add walls to the scene
+         *
+         * @method addWalls
+         * @return void
+         */
+        Level1.prototype.addWalls = function () {
+            this.wallTexture = new THREE.TextureLoader().load('../../Assets/images/wall.jpg');
+            this.wallTexture.wrapS = THREE.RepeatWrapping;
+            this.wallTexture.wrapT = THREE.RepeatWrapping;
+            this.wallTexture.repeat.set(8, 8);
+            this.wallMaterial = new PhongMaterial();
+            this.wallMaterial.map = this.wallTexture;
+            this.wallGeometry = new BoxGeometry(20, 4, .5);
+            this.wallPhysicsMaterial = Physijs.createMaterial(this.wallMaterial, 0, 0);
+            this.wall1 = new Physijs.ConvexMesh(this.wallGeometry, this.wallPhysicsMaterial, 0);
+            this.wall1.position.set(14.2, 2.5, -4.1);
+            this.wall1.rotateY(1.5708);
+            this.wall1.receiveShadow = true;
+            this.wall1.name = "Wall";
+            this.add(this.wall1);
+            this.wall2 = new Physijs.ConvexMesh(this.wallGeometry, this.wallPhysicsMaterial, 0);
+            this.wall2.position.set(6, 2.5, 6.4);
+            this.wall2.rotateY(1.5708);
+            this.wall2.receiveShadow = true;
+            this.wall2.name = "Wall";
+            this.add(this.wall2);
+            this.wall3 = new Physijs.ConvexMesh(this.wallGeometry, this.wallPhysicsMaterial, 0);
+            this.wall3.position.set(-10, 2.5, -6.1);
+            this.wall3.rotateY(1.5708);
+            this.wall3.receiveShadow = true;
+            this.wall3.name = "Wall";
+            this.add(this.wall3);
+            this.wall4 = new Physijs.ConvexMesh(this.wallGeometry, this.wallPhysicsMaterial, 0);
+            this.wall4.position.set(-7.7, 2.5, 9.7);
+            this.wall4.receiveShadow = true;
+            this.wall4.name = "Wall";
+            this.add(this.wall4);
+            this.wall5 = new Physijs.ConvexMesh(this.wallGeometry, this.wallPhysicsMaterial, 0);
+            this.wall5.position.set(-7.6, 2.5, -3.85);
+            this.wall5.receiveShadow = true;
+            this.wall5.name = "Wall";
+            this.add(this.wall5);
+            this.wallGeometry = new BoxGeometry(10, 4, .5);
+            this.wall6 = new Physijs.ConvexMesh(this.wallGeometry, this.wallPhysicsMaterial, 0);
+            this.wall6.position.set(-1.9, 2.5, -13);
+            this.wall6.rotateY(1.5708);
+            this.wall6.receiveShadow = true;
+            this.wall6.name = "Wall";
+            this.add(this.wall6);
         };
         /**
          * Adds the player controller to the scene
@@ -189,12 +248,13 @@ var scenes;
             this.playerGeometry = new BoxGeometry(2, 4, 2);
             this.playerMaterial = Physijs.createMaterial(new LambertMaterial({ color: 0x00ff00 }), 0.4, 0);
             this.player = new Physijs.BoxMesh(this.playerGeometry, this.playerMaterial, 1);
-            this.player.position.set(10, 4, 10);
+            this.player.position.set(0, 20, 0);
             this.player.receiveShadow = true;
             this.player.castShadow = true;
             this.player.name = "Player";
             this.add(this.player);
             console.log("Added Player to Scene");
+            this.player.setAngularFactor(new THREE.Vector3(0, 0, 0));
         };
         /**
          * Add the death plane to the scene
@@ -223,6 +283,48 @@ var scenes;
             this.skyBox.name = "Skybox";
             this.add(this.skyBox);
             console.log("Added skyBox to scene");
+        };
+        /**
+         * Add Berry to the scene
+         *
+         * @method addBerry
+         * @return void
+         */
+        Level1.prototype.addBerry = function () {
+            this.berryTexture = new THREE.TextureLoader().load('../../Assets/images/berry.jpg');
+            this.berryTexture.wrapS = THREE.RepeatWrapping;
+            this.berryTexture.wrapT = THREE.RepeatWrapping;
+            this.berryMaterial = new PhongMaterial();
+            this.berryMaterial.map = this.berryTexture;
+            this.berryGeometry = new BoxGeometry(.5, .5, .5);
+            this.berryPhysicsMaterial = Physijs.createMaterial(this.berryMaterial, 0, 0);
+            this.berry = new Physijs.ConvexMesh(this.berryGeometry, this.berryPhysicsMaterial, 0);
+            this.berry.position.set(-8.5, 1.5, -5.5);
+            this.berry.receiveShadow = true;
+            this.berry.name = "Berry";
+            this.add(this.berry);
+            console.log("Added Berry to scene");
+        };
+        /**
+         * Add Basket to the scene
+         *
+         * @method addBasket
+         * @return void
+         */
+        Level1.prototype.addBasket = function () {
+            this.basketTexture = new THREE.TextureLoader().load('../../Assets/images/bask.jpg');
+            this.basketTexture.wrapS = THREE.RepeatWrapping;
+            this.basketTexture.wrapT = THREE.RepeatWrapping;
+            this.basketMaterial = new PhongMaterial();
+            this.basketMaterial.map = this.basketTexture;
+            this.basketGeometry = new BoxGeometry(.5, .5, .5);
+            this.basketPhysicsMaterial = Physijs.createMaterial(this.basketMaterial, 0, 0);
+            this.basket = new Physijs.ConvexMesh(this.basketGeometry, this.basketPhysicsMaterial, 0);
+            this.basket.position.set(-16, 3, 14);
+            this.basket.receiveShadow = true;
+            this.basket.name = "Basket";
+            this.add(this.basket);
+            console.log("Added basket to scene");
         };
         /**
          * This method adds a coin to the scene
@@ -319,39 +421,39 @@ var scenes;
                 var time = performance.now();
                 var delta = (time - this.prevTime) / 1000;
                 var speed = 600.0;
-                if (this.isGrounded) {
-                    var direction = new Vector3(0, 0, 0);
-                    if (this.keyboardControls.moveForward) {
-                        this.velocity.z -= speed * delta;
+                //if (this.isGrounded) {
+                var direction = new Vector3(0, 0, 0);
+                if (this.keyboardControls.moveForward) {
+                    this.velocity.z -= speed * delta;
+                }
+                if (this.keyboardControls.moveLeft) {
+                    this.velocity.x -= speed * delta;
+                }
+                if (this.keyboardControls.moveBackward) {
+                    this.velocity.z += speed * delta;
+                }
+                if (this.keyboardControls.moveRight) {
+                    this.velocity.x += speed * delta;
+                }
+                if (this.keyboardControls.jump && this.isGrounded) {
+                    if (this.player.position.y >= 1 && this.player.position.y <= 3) {
+                        this.velocity.y += 10 * speed * delta;
                     }
-                    if (this.keyboardControls.moveLeft) {
-                        this.velocity.x -= speed * delta;
+                    else if (this.player.position.y > 3) {
+                        this.isGrounded = false;
+                        createjs.Sound.play("jump");
                     }
-                    if (this.keyboardControls.moveBackward) {
-                        this.velocity.z += speed * delta;
-                    }
-                    if (this.keyboardControls.moveRight) {
-                        this.velocity.x += speed * delta;
-                    }
-                    if (this.keyboardControls.jump && this.isGrounded) {
-                        if (this.player.position.y >= 1 && this.player.position.y <= 3) {
-                            this.velocity.y += 10 * speed * delta;
-                            createjs.Sound.play("jump");
-                        }
-                        else if (this.player.position.y > 3) {
-                            this.isGrounded = false;
-                        }
-                    }
-                    this.player.setDamping(0.7, 0.1);
-                    // Changing player's rotation
-                    this.player.setAngularVelocity(new Vector3(0, this.mouseControls.yaw, 0));
-                    direction.addVectors(direction, this.velocity);
-                    direction.applyQuaternion(this.player.quaternion);
-                    if (Math.abs(this.player.getLinearVelocity().x) < 20 && Math.abs(this.player.getLinearVelocity().y) < 10) {
-                        this.player.applyCentralForce(direction);
-                    }
-                    this.cameraLook();
-                } // isGrounded ends
+                }
+                this.player.setDamping(0.7, 0.1);
+                // Changing player's rotation
+                this.player.setAngularVelocity(new Vector3(0, this.mouseControls.yaw, 0));
+                direction.addVectors(direction, this.velocity);
+                direction.applyQuaternion(this.player.quaternion);
+                if (Math.abs(this.player.getLinearVelocity().x) < 20 && Math.abs(this.player.getLinearVelocity().y) < 10) {
+                    this.player.applyCentralForce(direction);
+                }
+                this.cameraLook();
+                //} // isGrounded ends
                 //reset Pitch and Yaw
                 this.mouseControls.pitch = 0;
                 this.mouseControls.yaw = 0;
@@ -422,7 +524,10 @@ var scenes;
             this.addLights();
             // Ground Object
             this.addGround();
-            //this.addGroundNew();    
+            //Add all the island arround the main ground
+            this.addIslands();
+            //Add Walls in the scenario
+            this.addWalls();
             // Add player controller
             this.addPlayer();
             // Add custom coin imported from Blender
@@ -431,6 +536,8 @@ var scenes;
             this.addDeathPlane();
             // Add Skybox to the scene
             this.addSkyBox();
+            this.addBasket();
+            this.addBerry();
             // Collision Check
             this.player.addEventListener('collision', function (eventObject) {
                 if (eventObject.name === "Ground" || eventObject.name === "Wall") {
@@ -441,19 +548,17 @@ var scenes;
                     createjs.Sound.play("Falling");
                     this.addDeath();
                 }
-                /*
                 if (eventObject.name === "Berry") {
                     createjs.Sound.play("Collect");
-                    collectablePicked(event);
+                    this.collectablePicked(eventObject);
                     console.log("player ate a berry");
                 }
-            
                 if (eventObject.name === "Basket") {
                     createjs.Sound.play("Collect");
-                    collectablePicked(event);
+                    this.collectablePicked(eventObject);
                     console.log("player ate a basket");
                 }
-
+                /*
                 if (eventObject.name === "Plate") {
                     scene.add(rock);
                     console.log("Added Rock to scene");
@@ -521,6 +626,31 @@ var scenes;
             this.simulate();
         };
         /**
+         * Pick any collectable function
+         *
+         * @method collectablePicked
+         * @return void
+         */
+        Level1.prototype.collectablePicked = function (collectable) {
+            this.remove(collectable);
+            if (collectable.name === "Berry") {
+                this.berryNum = this.berryNum === (this.berryLocation.length - 1) ? 0 : (this.berryNum + 1);
+                collectable.position.x = this.berryLocation[this.berryNum].x;
+                collectable.position.y = this.berryLocation[this.berryNum].y;
+                collectable.position.z = this.berryLocation[this.berryNum].z;
+                this.scoreValue += 2;
+            }
+            if (collectable.name === "Basket") {
+                this.basketNum = this.basketNum === (this.basketLocation.length - 1) ? 0 : (this.basketNum + 1);
+                collectable.position.x = this.basketLocation[this.basketNum].x;
+                collectable.position.y = this.basketLocation[this.basketNum].y;
+                collectable.position.z = this.basketLocation[this.basketNum].z;
+                this.scoreValue += 5;
+            }
+            this.scoreLabel.text = "SCORE: " + this.scoreValue;
+            this.add(collectable);
+        };
+        /**
          * add death function
          *
          * @method addDeath
@@ -541,7 +671,7 @@ var scenes;
                 // otherwise reset my player and update Lives
                 this.livesLabel.text = "LIVES: " + this.livesValue;
                 this.remove(this.player);
-                this.player.position.set(0, 30, 0);
+                this.player.position.set(0, 20, 0);
                 this.add(this.player);
             }
         };

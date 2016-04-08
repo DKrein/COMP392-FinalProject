@@ -195,6 +195,7 @@ var scenes;
             this.player.name = "Player";
             this.add(this.player);
             console.log("Added Player to Scene");
+            this.player.setAngularFactor(new THREE.Vector3(0, 0, 0));
         };
         /**
          * Add the death plane to the scene
