@@ -765,9 +765,9 @@ var scenes;
             }
         };
         /**
-         * add death function
+         * add level change function
          *
-         * @method addDeath
+         * @method addLevelChange
          * @return void
          */
         Level1.prototype.addLevelChange = function () {

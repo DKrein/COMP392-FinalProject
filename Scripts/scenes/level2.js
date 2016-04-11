@@ -765,6 +765,21 @@ var scenes;
             }
         };
         /**
+         * add level change function
+         *
+         * @method addLevelChange
+         * @return void
+         */
+        Level2.prototype.addLevelChange = function () {
+            if (this.scoreValue > 1) {
+                this.children = []; // an attempt to clean up
+                //this._isGamePaused = true;
+                // Play the Level3 Scene
+                currentScene = config.Scene.LEVEL3;
+                changeScene();
+            }
+        };
+        /**
          * Camera Look function
          *
          * @method cameraLook

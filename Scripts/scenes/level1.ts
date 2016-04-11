@@ -1014,9 +1014,9 @@ module scenes {
         }
          
         /**
-         * add death function
+         * add level change function
          * 
-         * @method addDeath
+         * @method addLevelChange
          * @return void
          */
         private addLevelChange(): void {

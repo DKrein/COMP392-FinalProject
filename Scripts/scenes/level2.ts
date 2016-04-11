@@ -1012,6 +1012,23 @@ module scenes {
                 this.add(this.player);
             }
         }
+        
+        /**
+         * add level change function
+         * 
+         * @method addLevelChange
+         * @return void
+         */
+        private addLevelChange(): void {
+            if (this.scoreValue > 1) { //Set as one for testing purposes
+                this.children = []; // an attempt to clean up
+                //this._isGamePaused = true;
+                
+                // Play the Level3 Scene
+                currentScene = config.Scene.LEVEL3;
+                changeScene();
+            }
+        }
 
         /**
          * Camera Look function
