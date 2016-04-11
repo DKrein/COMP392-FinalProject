@@ -48,6 +48,7 @@ module scenes {
         private stage: createjs.Stage;
         private scoreLabel: createjs.Text;
         private livesLabel: createjs.Text;
+        private levelLabel: createjs.Text;
         private scoreValue: number;
         private livesValue: number;
         private bgSound: any;
@@ -205,6 +206,17 @@ module scenes {
             this.livesLabel.x = config.Screen.WIDTH * 0.1;
             this.livesLabel.y = (config.Screen.HEIGHT * 0.15) * 0.20;
             this.stage.addChild(this.livesLabel);
+            console.log("Added Lives Label to stage");
+            
+            // Add Level Label
+            this.levelLabel = new createjs.Text(
+                "LEVEL 1",
+                "40px Consolas",
+                "#ffffff"
+            );
+            this.levelLabel.x = config.Screen.WIDTH * 0.45;
+            this.levelLabel.y = (config.Screen.HEIGHT * 0.15) * 0.20;
+            this.stage.addChild(this.levelLabel);
             console.log("Added Lives Label to stage");
 
             // Add Score Label
@@ -1000,6 +1012,23 @@ module scenes {
                 this.add(this.player);
             }
         }
+         
+        /**
+         * add level change function
+         * 
+         * @method addLevelChange
+         * @return void
+         */
+        private addLevelChange(): void {
+            if (this.scoreValue > 1) { //Set as one for testing purposes
+                this.children = []; // an attempt to clean up
+                //this._isGamePaused = true;
+                
+                // Play the Level2 Scene
+                currentScene = config.Scene.LEVEL2;
+                changeScene();
+            }
+        }
 
         /**
          * Camera Look function
@@ -1032,7 +1061,7 @@ module scenes {
 
             this.checkControls();
             this.stage.update();
-            
+            this.addLevelChange();
             if(!this.keyboardControls.paused) {
                 this.simulate();
             }

@@ -91,6 +91,12 @@ var scenes;
             this.livesLabel.y = (config.Screen.HEIGHT * 0.15) * 0.20;
             this.stage.addChild(this.livesLabel);
             console.log("Added Lives Label to stage");
+            // Add Level Label
+            this.levelLabel = new createjs.Text("LEVEL 1", "40px Consolas", "#ffffff");
+            this.levelLabel.x = config.Screen.WIDTH * 0.45;
+            this.levelLabel.y = (config.Screen.HEIGHT * 0.15) * 0.20;
+            this.stage.addChild(this.levelLabel);
+            console.log("Added Lives Label to stage");
             // Add Score Label
             this.scoreLabel = new createjs.Text("SCORE: " + this.scoreValue, "40px Consolas", "#ffffff");
             this.scoreLabel.x = config.Screen.WIDTH * 0.8;
@@ -759,6 +765,21 @@ var scenes;
             }
         };
         /**
+         * add level change function
+         *
+         * @method addLevelChange
+         * @return void
+         */
+        Level1.prototype.addLevelChange = function () {
+            if (this.scoreValue > 1) {
+                this.children = []; // an attempt to clean up
+                //this._isGamePaused = true;
+                // Play the Level2 Scene
+                currentScene = config.Scene.LEVEL2;
+                changeScene();
+            }
+        };
+        /**
          * Camera Look function
          *
          * @method cameraLook
@@ -784,6 +805,7 @@ var scenes;
             */
             this.checkControls();
             this.stage.update();
+            this.addLevelChange();
             if (!this.keyboardControls.paused) {
                 this.simulate();
             }
