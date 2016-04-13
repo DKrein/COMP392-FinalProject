@@ -8,6 +8,9 @@ var sourcemaps = require('gulp-sourcemaps');
 var tscProject = tsc.createProject('tsconfig.json');
 var connect = require('gulp-connect');
 var open = require('gulp-open');
+var concat = require('gulp-concat');
+var rename = require('gulp-rename');
+var uglify = require('gulp-uglify');
 
 // Declare file sources
 var TypeScriptSources = [
@@ -33,6 +36,30 @@ gulp.task('transpile', function () {
         .pipe(gulp.dest('./Scripts/'))
         .on('error', gutil.log)
         .pipe(connect.reload()); 
+});
+
+gulp.task('js-fef', function(){
+    return gulp.src([
+     './Scripts/objects/gameobject.js', 
+     './Scripts/objects/keyboardcontrols.js', 
+     './Scripts/objects/mousecontrols.js', 
+     './Scripts/config/screen.js',
+     './Scripts/scenes/scene.js',   
+     './Scripts/scenes/level1.js',
+     './Scripts/scenes/level2.js', 
+     './Scripts/scenes/level3.js', 
+     './Scripts/scenes/over.js', 
+     './Scripts/scenes/help.js',
+     './Scripts/scenes/menu.js',
+     './Scripts/core/_reference.js',  
+     './Scripts/core/game.js' 
+     ]).pipe(sourcemaps.init())
+        .pipe(concat('concat.js'))
+        .pipe(gulp.dest('dist'))
+        .pipe(rename('uglify.js'))
+        .pipe(uglify())
+        .pipe(sourcemaps.write('./'))
+        .pipe(gulp.dest('dist'));
 });
 
 // This task reloads the browser when any changes occur to html pages
@@ -64,6 +91,8 @@ gulp.task("connect", function () {
     });
 });
 
+
+
 // This task opens Chrome within the local connect server
 gulp.task('open', function () {
     gulp.src('./index.html')
@@ -71,4 +100,4 @@ gulp.task('open', function () {
 });
 
 // This is the default task that runs everything
-gulp.task("default", ["transpile", "html", "css", "connect", "open", "watch"]);
+gulp.task("default", ["transpile", "js-fef", "html", "css", "connect", "open", "watch"]);
