@@ -80,8 +80,6 @@ module scenes {
         private rockPhysicsMaterial: Physijs.Material;
         private rockMaterial: PhongMaterial;
         private rock1: Physijs.Mesh;
-        private rock2: Physijs.Mesh;
-        private rock3: Physijs.Mesh;
         
         //Logs
         private logTexture: Texture;
@@ -365,19 +363,9 @@ module scenes {
             this.rockPhysicsMaterial = Physijs.createMaterial(this.rockMaterial, 0, 0);
 
             this.rock1 = new Physijs.ConvexMesh(this.rockGeometry, this.rockPhysicsMaterial, 1);
-            this.rock1.position.set(-7.8, 0.5, 2.8);
+            this.rock1.position.set(-7.8, 10, 2.8);
             this.rock1.receiveShadow = true;
             this.rock1.name = "Rock";
-
-            this.rock2 = new Physijs.ConvexMesh(this.rockGeometry, this.rockPhysicsMaterial, 1);
-            this.rock2.position.set(-17, 10, -8);
-            this.rock2.receiveShadow = true;
-            this.rock2.name = "Rock";
-
-            this.rock3 = new Physijs.ConvexMesh(this.rockGeometry, this.rockPhysicsMaterial, 1);
-            this.rock3.position.set(-18, 10, 2);
-            this.rock3.receiveShadow = true;
-            this.rock3.name = "Rock";
         }
         
         /**
@@ -396,7 +384,9 @@ module scenes {
             this.logGeometry = new CylinderGeometry(1, 1, 10);
             this.logPhysicsMaterial = Physijs.createMaterial(this.logMaterial, 0, 0);
             this.log = new Physijs.ConvexMesh(this.logGeometry, this.logPhysicsMaterial, 1);
-            this.log.position.set(-27, 0.5, 2.7);
+            this.log.rotation.x = 1.5708;
+            this.log.rotation.z = 1.5708;
+            this.log.position.set(-27, 10, -2.7);
             this.log.receiveShadow = true;
             this.log.name = "Log";
         }
@@ -436,7 +426,7 @@ module scenes {
             this.add(this.plate3);
 
             this.plate4 = new Physijs.ConvexMesh(this.plateGeometry, this.platePhysicsMaterial, 0);
-            this.plate4.position.set(-27, 0.5, 2.7);
+            this.plate4.position.set(-27, 0.5, -2.7);
             this.plate4.receiveShadow = true;
             this.plate4.name = "Plate4";
             this.add(this.plate4);
@@ -456,14 +446,10 @@ module scenes {
          */
         private resetHazards(): void {
             this.remove(this.rock1);
-            this.remove(this.rock2);
-            this.remove(this.rock3);
             this.remove(this.log);
             //this.remove(this.wall2);
-            this.rock1.position.set(-7.8, 0.5, 2.8);
-            this.rock2.position.set(-17, 10, -8);
-            this.rock3.position.set(-18, 10, 2);
-            this.log.position.set(-27, 0.5, -0.05);
+            this.rock1.position.set(-7.8, 10, 2.8);
+            this.log.position.set(-27, 10, -2.7);
             //this.wall2.position.set(-20.5, 2, 0);
         }
         
@@ -535,7 +521,7 @@ module scenes {
             this.berryGeometry = new BoxGeometry(.5, .5, .5);
             this.berryPhysicsMaterial = Physijs.createMaterial(this.berryMaterial, 0, 0);
             this.berry = new Physijs.ConvexMesh(this.berryGeometry, this.berryPhysicsMaterial, 0);
-            this.berry.position.set(-8.5, 1.5, -5.5);
+            this.berry.position.set(-9.5, 1.5, 2.8);
             this.berry.receiveShadow = true;
             this.berry.name = "Berry";
             this.add(this.berry);
@@ -557,7 +543,7 @@ module scenes {
             this.basketGeometry = new BoxGeometry(.5, .5, .5);
             this.basketPhysicsMaterial = Physijs.createMaterial(this.basketMaterial, 0, 0);
             this.basket = new Physijs.ConvexMesh(this.basketGeometry, this.basketPhysicsMaterial, 0);
-            this.basket.position.set(-16, 3, 14);
+            this.basket.position.set(-14, 3, -2.6);
             this.basket.receiveShadow = true;
             this.basket.name = "Basket";
             this.add(this.basket);
@@ -754,16 +740,13 @@ module scenes {
                 'webkitPointerLockElement' in document;
 
             //define berry positions        
-            this.berryLocation.push(new THREE.Vector3(-8.5, 1.5, -5.5));
-            this.berryLocation.push(new THREE.Vector3(-2, 1.5, 16));
-            this.berryLocation.push(new THREE.Vector3(17, 1.5, 0));
-            this.berryLocation.push(new THREE.Vector3(-15, 1.5, -2));
+            this.berryLocation.push(new THREE.Vector3(-9.5, 1.5, 2.8));
+            this.berryLocation.push(new THREE.Vector3(-27, 1.5, 0));
+            this.berryLocation.push(new THREE.Vector3(-34, 1.5, -2.6));
             
             //define basket positions
-            this.basketLocation.push(new THREE.Vector3(-16, 3, 14));
-            this.basketLocation.push(new THREE.Vector3(15, 3, 16));
-            this.basketLocation.push(new THREE.Vector3(-15, 3, -16));
-            this.basketLocation.push(new THREE.Vector3(17, 3, -15));   
+            this.basketLocation.push(new THREE.Vector3(-14, 3, -2.6));
+            this.basketLocation.push(new THREE.Vector3(-40, 3, -1.4));  
 
             // Check to see if we have pointerLock
             if (this.havePointerLock) {
@@ -903,20 +886,6 @@ module scenes {
             
             //Rock eventHandler            
             this.rock1.addEventListener('collision', function(eventObject) {
-
-                if (eventObject.name === "Ground" || eventObject.name === "Wall") {
-                    this.resetHazards();
-                }
-            }.bind(this));
-
-            this.rock2.addEventListener('collision', function(eventObject) {
-
-                if (eventObject.name === "Ground" || eventObject.name === "Wall") {
-                    this.resetHazards();
-                }
-            }.bind(this));
-
-            this.rock3.addEventListener('collision', function(eventObject) {
 
                 if (eventObject.name === "Ground" || eventObject.name === "Wall") {
                     this.resetHazards();
