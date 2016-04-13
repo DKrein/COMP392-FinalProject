@@ -140,18 +140,12 @@ var scenes;
          * @return void
          */
         Level1.prototype.addGround = function () {
-            this.groundTexture = new THREE.TextureLoader().load('../../Assets/images/grass.jpg');
+            this.groundTexture = new THREE.TextureLoader().load('../../Assets/images/grass.png');
             this.groundTexture.wrapS = THREE.RepeatWrapping;
             this.groundTexture.wrapT = THREE.RepeatWrapping;
             this.groundTexture.repeat.set(8, 8);
-            this.groundTextureNormal = new THREE.TextureLoader().load('../../Assets/images/GravelCobbleNormal.png');
-            this.groundTextureNormal.wrapS = THREE.RepeatWrapping;
-            this.groundTextureNormal.wrapT = THREE.RepeatWrapping;
-            this.groundTextureNormal.repeat.set(8, 8);
             this.groundMaterial = new PhongMaterial();
             this.groundMaterial.map = this.groundTexture;
-            this.groundMaterial.bumpMap = this.groundTextureNormal;
-            this.groundMaterial.bumpScale = 0.2;
             this.groundGeometry = new BoxGeometry(20, 1, 20);
             this.groundPhysicsMaterial = Physijs.createMaterial(this.groundMaterial, 0, 0);
             this.ground = new Physijs.ConvexMesh(this.groundGeometry, this.groundPhysicsMaterial, 0);
@@ -199,7 +193,7 @@ var scenes;
          * @return void
          */
         Level1.prototype.addWalls = function () {
-            this.wallTexture = new THREE.TextureLoader().load('../../Assets/images/wall.jpg');
+            this.wallTexture = new THREE.TextureLoader().load('../../Assets/images/wall.png');
             this.wallTexture.wrapS = THREE.RepeatWrapping;
             this.wallTexture.wrapT = THREE.RepeatWrapping;
             this.wallTexture.repeat.set(8, 8);
@@ -250,7 +244,7 @@ var scenes;
         * @return void
         */
         Level1.prototype.addRocks = function () {
-            this.rockTexture = new THREE.TextureLoader().load('../../Assets/images/rock.jpg');
+            this.rockTexture = new THREE.TextureLoader().load('../../Assets/images/rock.png');
             this.rockTexture.wrapS = THREE.RepeatWrapping;
             this.rockTexture.wrapT = THREE.RepeatWrapping;
             this.rockMaterial = new PhongMaterial();
@@ -277,7 +271,7 @@ var scenes;
          * @return void
          */
         Level1.prototype.addLogs = function () {
-            this.logTexture = new THREE.TextureLoader().load('../../Assets/images/fallingbranch.jpg');
+            this.logTexture = new THREE.TextureLoader().load('../../Assets/images/fallingbranch.png');
             this.logTexture.wrapS = THREE.RepeatWrapping;
             this.logTexture.wrapT = THREE.RepeatWrapping;
             this.logMaterial = new PhongMaterial();
@@ -377,7 +371,8 @@ var scenes;
          * @return void
          */
         Level1.prototype.addSkyBox = function () {
-            this.skyBox = new gameObject(new SphereGeometry(60, 60, 60), new LambertMaterial({ map: ImageUtils.loadTexture('../../Assets/Images/skyBG.jpg') }), 2, 2, 2);
+            this.skyBoxTexture = new THREE.TextureLoader().load('../../Assets/images/skyBG.png');
+            this.skyBox = new gameObject(new SphereGeometry(60, 60, 60), new LambertMaterial({ map: this.skyBoxTexture }), 2, 2, 2);
             this.skyBox.material.side = THREE.DoubleSide;
             this.skyBox.name = "Skybox";
             this.add(this.skyBox);
@@ -390,7 +385,7 @@ var scenes;
          * @return void
          */
         Level1.prototype.addBerry = function () {
-            this.berryTexture = new THREE.TextureLoader().load('../../Assets/images/berry.jpg');
+            this.berryTexture = new THREE.TextureLoader().load('../../Assets/images/berry.png');
             this.berryTexture.wrapS = THREE.RepeatWrapping;
             this.berryTexture.wrapT = THREE.RepeatWrapping;
             this.berryMaterial = new PhongMaterial();
@@ -411,7 +406,7 @@ var scenes;
          * @return void
          */
         Level1.prototype.addBasket = function () {
-            this.basketTexture = new THREE.TextureLoader().load('../../Assets/images/bask.jpg');
+            this.basketTexture = new THREE.TextureLoader().load('../../Assets/images/bask.png');
             this.basketTexture.wrapS = THREE.RepeatWrapping;
             this.basketTexture.wrapT = THREE.RepeatWrapping;
             this.basketMaterial = new PhongMaterial();
