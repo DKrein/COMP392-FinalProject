@@ -176,88 +176,36 @@ var scenes;
             console.log("Added Ground 4 to scene");
         };
         /**
-         * Add the islands to the scene
-         *
-         * @method addIslands
-         * @return void
-         */
-        // private addIslands(): void {
-        //     this.islandGeometry = new BoxGeometry(6, 1, 25);
-        //     this.islandPhysicsMaterial = Physijs.createMaterial(this.groundMaterial, 0, 0);
-        //     this.island1 = new Physijs.ConvexMesh(this.islandGeometry, this.islandPhysicsMaterial, 0);
-        //     this.island1.position.set(-17, 0, 0);
-        //     this.island1.receiveShadow = true;
-        //     this.island1.name = "Ground";
-        //     this.add(this.island1);
-        //     this.island2 = new Physijs.ConvexMesh(this.islandGeometry, this.islandPhysicsMaterial, 0);
-        //     this.island2.position.set(17, 0, 0);
-        //     this.island2.receiveShadow = true;
-        //     this.island2.name = "Ground";
-        //     this.add(this.island2);
-        //     this.island3 = new Physijs.ConvexMesh(this.islandGeometry, this.islandPhysicsMaterial, 0);
-        //     this.island3.position.set(0, 0, -17);
-        //     this.island3.receiveShadow = true;
-        //     this.island3.rotateY(1.5708);
-        //     this.island3.name = "Ground";
-        //     this.add(this.island3);
-        //     this.island4 = new Physijs.ConvexMesh(this.islandGeometry, this.islandPhysicsMaterial, 0);
-        //     this.island4.position.set(0, 0, 17);
-        //     this.island4.receiveShadow = true;
-        //     this.island4.rotateY(1.5708);
-        //     this.island4.name = "Ground";
-        //     this.add(this.island4);
-        // }
-        /**
          * Add walls to the scene
          *
          * @method addWalls
          * @return void
          */
-        // private addWalls(): void {
-        //     this.wallTexture = new THREE.TextureLoader().load('../../Assets/images/wall.jpg');
-        //     this.wallTexture.wrapS = THREE.RepeatWrapping;
-        //     this.wallTexture.wrapT = THREE.RepeatWrapping;
-        //     this.wallTexture.repeat.set(8, 8);
-        //     this.wallMaterial = new PhongMaterial();
-        //     this.wallMaterial.map = this.wallTexture;
-        //     this.wallGeometry = new BoxGeometry(20, 4, .5);
-        //     this.wallPhysicsMaterial = Physijs.createMaterial(this.wallMaterial, 0, 0);
-        //     this.wall1 = new Physijs.ConvexMesh(this.wallGeometry, this.wallPhysicsMaterial, 0);
-        //     this.wall1.position.set(14.2, 2.5, -4.1);
-        //     this.wall1.rotateY(1.5708);
-        //     this.wall1.receiveShadow = true;
-        //     this.wall1.name = "Wall";
-        //     this.add(this.wall1);
-        //     this.wall2 = new Physijs.ConvexMesh(this.wallGeometry, this.wallPhysicsMaterial, 0);
-        //     this.wall2.position.set(6, 2.5, 6.4);
-        //     this.wall2.rotateY(1.5708);
-        //     this.wall2.receiveShadow = true;
-        //     this.wall2.name = "Wall";
-        //     this.add(this.wall2);
-        //     this.wall3 = new Physijs.ConvexMesh(this.wallGeometry, this.wallPhysicsMaterial, 0);
-        //     this.wall3.position.set(-10, 2.5, -6.1);
-        //     this.wall3.rotateY(1.5708);
-        //     this.wall3.receiveShadow = true;
-        //     this.wall3.name = "Wall";
-        //     this.add(this.wall3);
-        //     this.wall4 = new Physijs.ConvexMesh(this.wallGeometry, this.wallPhysicsMaterial, 0);
-        //     this.wall4.position.set(-7.7, 2.5, 9.7);
-        //     this.wall4.receiveShadow = true;
-        //     this.wall4.name = "Wall";
-        //     this.add(this.wall4);
-        //     this.wall5 = new Physijs.ConvexMesh(this.wallGeometry, this.wallPhysicsMaterial, 0);
-        //     this.wall5.position.set(-7.6, 2.5, -3.85);
-        //     this.wall5.receiveShadow = true;
-        //     this.wall5.name = "Wall";
-        //     this.add(this.wall5);
-        //     this.wallGeometry = new BoxGeometry(10, 4, .5);
-        //     this.wall6 = new Physijs.ConvexMesh(this.wallGeometry, this.wallPhysicsMaterial, 0);
-        //     this.wall6.position.set(-1.9, 2.5, -13);
-        //     this.wall6.rotateY(1.5708);
-        //     this.wall6.receiveShadow = true;
-        //     this.wall6.name = "Wall";
-        //     this.add(this.wall6);
-        // }
+        Level2.prototype.addWalls = function () {
+            this.wallTexture = new THREE.TextureLoader().load('../../Assets/images/wall.jpg');
+            this.wallTexture.wrapS = THREE.RepeatWrapping;
+            this.wallTexture.wrapT = THREE.RepeatWrapping;
+            this.wallTexture.repeat.set(8, 8);
+            this.wallMaterial = new PhongMaterial();
+            this.wallMaterial.map = this.wallTexture;
+            this.wallGeometry = new BoxGeometry(10, 4, .5);
+            this.wallPhysicsMaterial = Physijs.createMaterial(this.wallMaterial, 0, 0);
+            this.wall1 = new Physijs.ConvexMesh(this.wallGeometry, this.wallPhysicsMaterial, 0);
+            this.wall1.position.set(-7.5, 2, 0);
+            this.wall1.receiveShadow = true;
+            this.wall1.name = "Wall";
+            this.add(this.wall1);
+            this.wall2 = new Physijs.ConvexMesh(this.wallGeometry, this.wallPhysicsMaterial, 0);
+            this.wall2.position.set(-20.5, 2, 0);
+            this.wall2.receiveShadow = true;
+            this.wall2.name = "Wall";
+            this.add(this.wall2);
+            this.wall3 = new Physijs.ConvexMesh(this.wallGeometry, this.wallPhysicsMaterial, 0);
+            this.wall3.position.set(-33, 2, 0);
+            this.wall3.receiveShadow = true;
+            this.wall3.name = "Wall";
+            this.add(this.wall3);
+        };
         /**
         * Add rocks to the scene - actually it just prepare the rock, who really add it to the scene is the pressure plate
         *
@@ -273,7 +221,7 @@ var scenes;
             this.rockGeometry = new SphereGeometry(1, 5, 5);
             this.rockPhysicsMaterial = Physijs.createMaterial(this.rockMaterial, 0, 0);
             this.rock1 = new Physijs.ConvexMesh(this.rockGeometry, this.rockPhysicsMaterial, 1);
-            this.rock1.position.set(-4, 10, -5.5);
+            this.rock1.position.set(-7.8, 0.5, 2.8);
             this.rock1.receiveShadow = true;
             this.rock1.name = "Rock";
             this.rock2 = new Physijs.ConvexMesh(this.rockGeometry, this.rockPhysicsMaterial, 1);
@@ -300,8 +248,7 @@ var scenes;
             this.logGeometry = new CylinderGeometry(1, 1, 10);
             this.logPhysicsMaterial = Physijs.createMaterial(this.logMaterial, 0, 0);
             this.log = new Physijs.ConvexMesh(this.logGeometry, this.logPhysicsMaterial, 1);
-            this.log.position.set(4, 15, 10);
-            this.log.rotation.x = 1.5708;
+            this.log.position.set(-27, 0.5, 2.7);
             this.log.receiveShadow = true;
             this.log.name = "Log";
         };
@@ -317,23 +264,33 @@ var scenes;
             this.plateTexture.wrapT = THREE.RepeatWrapping;
             this.plateMaterial = new PhongMaterial();
             this.plateMaterial.map = this.plateTexture;
-            this.plateGeometry = new CubeGeometry(1, 0.001, 1);
+            this.plateGeometry = new CubeGeometry(2, 0.001, 2);
             this.platePhysicsMaterial = Physijs.createMaterial(this.plateMaterial, 0, 0);
             this.plate1 = new Physijs.ConvexMesh(this.plateGeometry, this.platePhysicsMaterial, 0);
-            this.plate1.position.set(1, .5, -5.5);
+            this.plate1.position.set(-5.8, 0.5, 2.8);
             this.plate1.receiveShadow = true;
             this.plate1.name = "Plate1";
             this.add(this.plate1);
             this.plate2 = new Physijs.ConvexMesh(this.plateGeometry, this.platePhysicsMaterial, 0);
-            this.plate2.position.set(-18.7, .5, -3);
+            this.plate2.position.set(-13, 0.5, -2.6);
             this.plate2.receiveShadow = true;
             this.plate2.name = "Plate2";
             this.add(this.plate2);
             this.plate3 = new Physijs.ConvexMesh(this.plateGeometry, this.platePhysicsMaterial, 0);
-            this.plate3.position.set(4, .5, 9);
+            this.plate3.position.set(-21, 0.5, 2.7);
             this.plate3.receiveShadow = true;
             this.plate3.name = "Plate3";
             this.add(this.plate3);
+            this.plate4 = new Physijs.ConvexMesh(this.plateGeometry, this.platePhysicsMaterial, 0);
+            this.plate4.position.set(-27, 0.5, 2.7);
+            this.plate4.receiveShadow = true;
+            this.plate4.name = "Plate4";
+            this.add(this.plate4);
+            this.plate5 = new Physijs.ConvexMesh(this.plateGeometry, this.platePhysicsMaterial, 0);
+            this.plate5.position.set(-32, 0.5, 2.3);
+            this.plate5.receiveShadow = true;
+            this.plate5.name = "Plate5";
+            this.add(this.plate5);
         };
         /**
          * Reset all hazards function
@@ -346,10 +303,12 @@ var scenes;
             this.remove(this.rock2);
             this.remove(this.rock3);
             this.remove(this.log);
-            this.rock1.position.set(-4, 10, -5.5);
+            //this.remove(this.wall2);
+            this.rock1.position.set(-7.8, 0.5, 2.8);
             this.rock2.position.set(-17, 10, -8);
             this.rock3.position.set(-18, 10, 2);
-            this.log.position.set(4, 15, 10);
+            this.log.position.set(-27, 0.5, -0.05);
+            //this.wall2.position.set(-20.5, 2, 0);
         };
         /**
          * Adds the player controller to the scene
@@ -362,7 +321,7 @@ var scenes;
             this.playerGeometry = new BoxGeometry(2, 4, 2);
             this.playerMaterial = Physijs.createMaterial(new LambertMaterial({ color: 0x00ff00 }), 0.4, 0);
             this.player = new Physijs.BoxMesh(this.playerGeometry, this.playerMaterial, 1);
-            this.player.position.set(0, 20, 0);
+            this.player.position.set(0, 5, 0);
             this.player.receiveShadow = true;
             this.player.castShadow = true;
             this.player.name = "Player";
@@ -581,6 +540,13 @@ var scenes;
             scene.onSimulationResume();
             console.log("resume simulation");
         };
+        //Code to move wall - buggy
+        // private render(): void{
+        //     requestAnimationFrame(this.render.bind(this));
+        //     this.wall2.position.z += 1;
+        //     this.player.position.z += 1;
+        //     renderer.render(scene, camera);
+        //}
         // PUBLIC METHODS +++++++++++++++++++++++++++++++++++++++++++
         /**
          * The start method is the main method for the scene class
@@ -638,10 +604,8 @@ var scenes;
             this.addLights();
             // Ground Object
             this.addGround();
-            //Add all the island arround the main ground
-            //this.addIslands();
             //Add Walls in the scenario
-            //this.addWalls();
+            this.addWalls();
             //Add Rocks in the scenario
             this.addRocks();
             //Add Logs in the scenario
@@ -666,6 +630,9 @@ var scenes;
                     this.isGrounded = true;
                     createjs.Sound.play("land");
                 }
+                if (eventObject.name === "Wall") {
+                    console.log("WALL HIT");
+                }
                 if (eventObject.name === "DeathPlane") {
                     createjs.Sound.play("Falling");
                     this.addDeath();
@@ -684,10 +651,14 @@ var scenes;
                     this.add(this.rock1);
                 }
                 if (eventObject.name === "Plate2") {
-                    this.add(this.rock2);
-                    this.add(this.rock3);
+                    this.remove(this.ground2);
+                    this.remove(this.plate2);
                 }
                 if (eventObject.name === "Plate3") {
+                    //this.render();
+                    console.log("Move wall");
+                }
+                if (eventObject.name === "Plate4") {
                     this.add(this.log);
                 }
                 if (eventObject.name === "Rock" || eventObject.name === "Log" && eventObject.position.y > 2) {
