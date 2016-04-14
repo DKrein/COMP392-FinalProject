@@ -250,7 +250,7 @@ var scenes;
             this.logGeometry = new CylinderGeometry(1, 1, 5);
             this.logPhysicsMaterial = Physijs.createMaterial(this.logMaterial, 0, 0);
             this.log = new Physijs.ConvexMesh(this.logGeometry, this.logPhysicsMaterial, 1);
-            this.log.rotation.x = 1.5708;
+            this.log.rotation.y = 1.5708;
             this.log.rotation.z = 1.5708;
             this.log.position.set(-32, 10, -2.7);
             this.log.receiveShadow = true;
@@ -307,7 +307,7 @@ var scenes;
             this.remove(this.log);
             this.rock1.position.set(-7.8, 10, 2.8);
             this.log.position.set(-27, 10, -2.7);
-            this.wall4.position.set(-38.2, 10, 2.3);
+            //this.wall4.position.set(-38.2, 10, 2.3);
         };
         /**
          * Adds the player controller to the scene
