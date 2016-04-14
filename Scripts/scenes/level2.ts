@@ -351,11 +351,12 @@ module scenes {
             console.log("WHERE IS THE WALL3?");
             
             this.wall4 = new Physijs.ConvexMesh(this.smallWallGeometry, this.wallPhysicsMaterial, 0);
-            this.wall4.position.set(-38.2, 2, -2.3);
+            this.wall4.position.set(-38.2, 2, 2.3);
             this.wall4.rotation.x = 1.5708;
+            this.wall4.rotation.y = 1.5708;
             this.wall4.receiveShadow = true;
             this.wall4.name = "Wall";
-            this.add(this.wall4);
+            //this.add(this.wall4);
             console.log("WHERE IS THE WALL?");
         }
         
@@ -391,7 +392,7 @@ module scenes {
             this.logTexture = new THREE.TextureLoader().load('../../Assets/images/fallingbranch.png');
             this.logTexture.wrapS = THREE.RepeatWrapping;
             this.logTexture.wrapT = THREE.RepeatWrapping;
-            this.logMaterial = new PhongMaterial();
+            this.logMaterial = new PhongMaterial(); 
             this.logMaterial.map = this.logTexture;
 
             this.logGeometry = new CylinderGeometry(1, 1, 5);
@@ -454,13 +455,14 @@ module scenes {
          * Reset all hazards function
          * 
          * @method resetHazards
-         * @return void
+         * @return void 
          */
         private resetHazards(): void {
             this.remove(this.rock1);
             this.remove(this.log);
             this.rock1.position.set(-7.8, 10, 2.8);
             this.log.position.set(-27, 10, -2.7);
+            this.wall4.position.set(-38.2, 10, 2.3);
         }
         
         /**
@@ -881,7 +883,7 @@ module scenes {
                 
                 if (eventObject.name === "Plate5") {
                     console.log("Add wall to block path");
-                    this.wall4.position.set(-38.2, 2, -2.3)
+                    this.add(this.wall4);
                 } 
 
                 if (eventObject.name === "Rock" || eventObject.name === "Log" && eventObject.position.y > 2) {
