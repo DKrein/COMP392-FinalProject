@@ -41,7 +41,7 @@ gulp.task('transpile', function () {
         .pipe(connect.reload()); 
 });
 
-gulp.task('js-fef', function(){
+gulp.task('js-fef',['transpile'] ,function(){
     return gulp.src([
      './Scripts/objects/gameobject.js', 
      './Scripts/objects/keyboardcontrols.js', 
@@ -82,9 +82,10 @@ gulp.task('css', function(){
 // This task watches .ts .js and .html files for any changes
 gulp.task("watch", function () {
     gulp.watch(TypeScriptSources, ['transpile']);
+    //gulp.watch(TypeScriptSources, ['js-fef']);
     gulp.watch(HTMLSources, ['html']);
     gulp.watch(CSSSources, ['css']);
-    gulp.watch(JavaScriptSources, ['js-fef']);
+    //gulp.watch(JavaScriptSources, ['js-fef']);
 });
 
 // This task creates a local server and turns on livereload functionality
@@ -104,4 +105,4 @@ gulp.task('open', function () {
 });
 
 // This is the default task that runs everything
-gulp.task("default", ["transpile", "js-fef", "html", "css", "connect", "open", "watch"]);
+gulp.task("default", ["transpile", "html", "css", "connect", "open", "watch"]);
