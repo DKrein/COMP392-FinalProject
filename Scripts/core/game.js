@@ -64,10 +64,6 @@ var manifest = [
     { id: "HelpButton", src: "../../Assets/images/HelpButton.png" },
     { id: "BackButton", src: "../../Assets/images/BackButton.png" },
     { id: "ExitButton", src: "../../Assets/images/ExitButton.png" },
-    { id: "GrassTexture", src: "../../Assets/images/grass.png" },
-    { id: "BranchTexture", src: "../../Assets/images/fallingbranch.png" },
-    { id: "WallTexture", src: "../../Assets/images/wall.png" },
-    { id: "SkyBG", src: "../../Assets/images/skyBG.jpg" },
     { id: "MenuBackground", src: "../../Assets/images/menuBg.jpg" },
     { id: "CompanyLogo", src: "../../Assets/images/comapanyLogo.png" },
 ];

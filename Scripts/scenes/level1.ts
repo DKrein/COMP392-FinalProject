@@ -32,10 +32,6 @@ module scenes {
         private playerMaterial: Physijs.Material;
         private player: Physijs.Mesh;
         private isGrounded: boolean;
-        private coinGeometry: Geometry;
-        private coinMaterial: Physijs.Material;
-        private coins: Physijs.ConcaveMesh[];
-        private coinCount: number;
         private deathPlaneGeometry: CubeGeometry;
         private deathPlaneMaterial: LambertMaterial;
         private deathPlane: Physijs.Mesh;
@@ -173,8 +169,6 @@ module scenes {
             // setup canvas for menu scene
             this._setupCanvas();
 
-
-            this.coinCount = 10;
             this.prevTime = 0;
             this.stage = new createjs.Stage(canvas);
             this.velocity = new Vector3(0, 0, 0);
@@ -589,51 +583,6 @@ module scenes {
         }
 
         /**
-         * This method adds a coin to the scene
-         * 
-         * @method addCoinMesh
-         * @return void
-         */
-        private addCoinMesh(): void {
-            var self = this;
-
-            this.coins = new Array<Physijs.ConvexMesh>(); // Instantiate a convex mesh array
-
-            var coinLoader = new THREE.JSONLoader().load("../../Assets/imported/coin.json", function(geometry: THREE.Geometry) {
-                var phongMaterial = new PhongMaterial({ color: 0xE7AB32 });
-                phongMaterial.emissive = new THREE.Color(0xE7AB32);
-
-                var coinMaterial = Physijs.createMaterial((phongMaterial), 0.4, 0.6);
-
-                for (var count: number = 0; count < self.coinCount; count++) {
-                    self.coins[count] = new Physijs.ConvexMesh(geometry, coinMaterial);
-                    self.coins[count].receiveShadow = true;
-                    self.coins[count].castShadow = true;
-                    self.coins[count].name = "Coin";
-                    self.setCoinPosition(self.coins[count]);
-                    console.log("Added Coin Mesh to Scene, at position: " + self.coins[count].position);
-                }
-            });
-
-
-        }
-
-        /**
-         * This method randomly sets the coin object's position
-         * 
-         * @method setCoinPosition
-         * @return void
-         */
-        private setCoinPosition(coin: Physijs.ConvexMesh): void {
-            var randomPointX: number = Math.floor(Math.random() * 20) - 10;
-            var randomPointZ: number = Math.floor(Math.random() * 20) - 10;
-            coin.position.set(randomPointX, 10, randomPointZ);
-            console.log(randomPointX);
-            console.log(randomPointZ);
-            this.add(coin);
-        }
-
-        /**
          * Event Handler method for any pointerLockChange events
          * 
          * @method pointerLockChange
@@ -844,9 +793,6 @@ module scenes {
             // Add player controller
             this.addPlayer();
 
-            // Add custom coin imported from Blender
-            //this.addCoinMesh();
-
             // Add death plane to the scene
             this.addDeathPlane();
             
@@ -902,15 +848,7 @@ module scenes {
                     this.addDeath();
                 }                
                 
-                /*
-                if (eventObject.name === "Coin") {
-                    createjs.Sound.play("coin");
-                    this.remove(eventObject);
-                    this.setCoinPosition(eventObject);
-                    this.scoreValue += 100;
-                    this.scoreLabel.text = "SCORE: " + this.scoreValue;
-                }*/
-                
+               
             }.bind(this));
             
             //Rock eventHandler            
@@ -1044,13 +982,6 @@ module scenes {
          * @returns void
          */
         public update(): void {
-
-            /*
-            this.coins.forEach(coin => {
-                coin.setAngularFactor(new Vector3(0, 0, 0));
-                coin.setAngularVelocity(new Vector3(0, 1, 0));
-            });
-            */
 
             this.checkControls();
             this.stage.update();
