@@ -352,7 +352,6 @@ module scenes {
             
             this.wall4 = new Physijs.ConvexMesh(this.smallWallGeometry, this.wallPhysicsMaterial, 0);
             this.wall4.position.set(-38.2, 2, 2.3);
-            this.wall4.rotation.x = 1.5708;
             this.wall4.rotation.y = 1.5708;
             this.wall4.receiveShadow = true;
             this.wall4.name = "Wall";
@@ -404,7 +403,7 @@ module scenes {
             this.log.receiveShadow = true;
             this.log.name = "Log";
         }
-        
+         
         /**
          * Add Pressure Plates to the scene
          * 

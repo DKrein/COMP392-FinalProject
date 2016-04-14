@@ -209,7 +209,6 @@ var scenes;
             console.log("WHERE IS THE WALL3?");
             this.wall4 = new Physijs.ConvexMesh(this.smallWallGeometry, this.wallPhysicsMaterial, 0);
             this.wall4.position.set(-38.2, 2, 2.3);
-            this.wall4.rotation.x = 1.5708;
             this.wall4.rotation.y = 1.5708;
             this.wall4.receiveShadow = true;
             this.wall4.name = "Wall";
