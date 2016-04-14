@@ -214,6 +214,17 @@ var scenes;
             this.wall4.name = "Wall";
             //this.add(this.wall4);
             console.log("WHERE IS THE WALL?");
+            this.wall5 = new Physijs.ConvexMesh(this.smallWallGeometry, this.wallPhysicsMaterial, 0);
+            this.wall5.position.set(-27.7, 2, -2.5);
+            this.wall5.rotation.y = 1.5708;
+            this.wall5.receiveShadow = true;
+            this.wall5.name = "Wall";
+            this.wall6 = new Physijs.ConvexMesh(this.wallGeometry, this.wallPhysicsMaterial, 0);
+            this.wall6.position.set(-4.5, 2, 0);
+            this.wall6.rotation.y = 1.5708;
+            this.wall6.receiveShadow = true;
+            this.wall6.name = "Wall";
+            this.add(this.wall6);
         };
         /**
         * Add rocks to the scene - actually it just prepare the rock, who really add it to the scene is the pressure plate
@@ -294,6 +305,12 @@ var scenes;
             this.plate5.receiveShadow = true;
             this.plate5.name = "Plate5";
             this.add(this.plate5);
+            this.smallPlateGeometry = new CubeGeometry(1, 0.001, 1);
+            this.plate6 = new Physijs.ConvexMesh(this.smallPlateGeometry, this.platePhysicsMaterial, 0);
+            this.plate6.position.set(-3.5, 0.5, -4.3);
+            this.plate6.receiveShadow = true;
+            this.plate6.name = "Plate6";
+            this.add(this.plate6);
         };
         /**
          * Reset all hazards function
@@ -566,7 +583,7 @@ var scenes;
             //define berry positions        
             this.berryLocation.push(new THREE.Vector3(-9.5, 1.5, 2.8));
             this.berryLocation.push(new THREE.Vector3(-27, 1.5, 0));
-            this.berryLocation.push(new THREE.Vector3(-34, 1.5, -2.6));
+            this.berryLocation.push(new THREE.Vector3(-34, 1.5, 2.6));
             //define basket positions
             this.basketLocation.push(new THREE.Vector3(-14, 3, -2.6));
             this.basketLocation.push(new THREE.Vector3(-40, 3, -1.4));
@@ -651,8 +668,8 @@ var scenes;
                     this.remove(this.plate2);
                 }
                 if (eventObject.name === "Plate3") {
-                    //this.render();
-                    console.log("Move wall");
+                    this.remove(this.wall2);
+                    this.add(this.wall5);
                 }
                 if (eventObject.name === "Plate4") {
                     this.add(this.log);
@@ -660,6 +677,12 @@ var scenes;
                 if (eventObject.name === "Plate5") {
                     console.log("Add wall to block path");
                     this.add(this.wall4);
+                    this.remove(this.wall5);
+                    this.add(this.wall2);
+                }
+                if (eventObject.name === "Plate6") {
+                    console.log("remove START wall");
+                    this.remove(this.wall6);
                 }
                 if (eventObject.name === "Rock" || eventObject.name === "Log" && eventObject.position.y > 2) {
                     createjs.Sound.play("Collision");
