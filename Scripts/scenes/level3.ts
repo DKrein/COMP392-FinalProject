@@ -8,7 +8,7 @@ module scenes {
      * The Level3 class is where the main action occurs for the game
      * 
      * @class Level3
-     * @param havePointerLock {boolean}
+     * @param havePointerLock {boolean} 
      */
     export class Level3 extends scenes.Scene {
         private havePointerLock: boolean;
@@ -21,6 +21,7 @@ module scenes {
         
         private keyboardControls: objects.KeyboardControls;
         private mouseControls: objects.MouseControls;
+        private jumpLower: number = 0;
         //private gameObject: objects.GameObject;
         
         private groundGeometry: CubeGeometry;
@@ -28,7 +29,6 @@ module scenes {
         private groundMaterial: PhongMaterial;
         private ground: Physijs.Mesh;
         private groundTexture: Texture;
-        private groundTextureNormal: Texture;
         private playerGeometry: CubeGeometry;
         private playerMaterial: Physijs.Material;
         private player: Physijs.Mesh;
@@ -48,6 +48,7 @@ module scenes {
         private stage: createjs.Stage;
         private scoreLabel: createjs.Text;
         private livesLabel: createjs.Text;
+        private levelLabel: createjs.Text;
         private scoreValue: number;
         private livesValue: number;
         private bgSound: any;
@@ -55,8 +56,9 @@ module scenes {
         //SCENARIO
         //Skybox
         private skyBox: Mesh;
+        private skyBoxTexture: Texture;
         
-        //Islands
+        //Islands - yes its lazy... but no time
         private islandGeometry: CubeGeometry;
         private islandPhysicsMaterial: Physijs.Material;
         private islandMaterial: PhongMaterial;
@@ -64,6 +66,22 @@ module scenes {
         private island2: Physijs.Mesh;
         private island3: Physijs.Mesh;
         private island4: Physijs.Mesh;
+        private island5: Physijs.Mesh;
+        private island6: Physijs.Mesh;
+        private island7: Physijs.Mesh;
+        private island8: Physijs.Mesh;
+        private island9: Physijs.Mesh;
+        private island10: Physijs.Mesh;
+        
+        private island11: Physijs.Mesh;
+        private island12: Physijs.Mesh;
+        private island13: Physijs.Mesh;
+        private island14: Physijs.Mesh;
+        private island15: Physijs.Mesh;
+        private island16: Physijs.Mesh;
+        private island17: Physijs.Mesh;
+        private island18: Physijs.Mesh;
+        private island19: Physijs.Mesh;        
         
         //Walls
         private wallTexture: Texture;
@@ -206,6 +224,17 @@ module scenes {
             this.livesLabel.y = (config.Screen.HEIGHT * 0.15) * 0.20;
             this.stage.addChild(this.livesLabel);
             console.log("Added Lives Label to stage");
+            
+            // Add Level Label
+            this.levelLabel = new createjs.Text(
+                "LEVEL 3",
+                "40px Consolas",
+                "#ffffff"
+            );
+            this.levelLabel.x = config.Screen.WIDTH * 0.45;
+            this.levelLabel.y = (config.Screen.HEIGHT * 0.15) * 0.20;
+            this.stage.addChild(this.levelLabel);
+            console.log("Added Lives Label to stage");
 
             // Add Score Label
             this.scoreLabel = new createjs.Text(
@@ -258,24 +287,17 @@ module scenes {
          */
         private addGround(): void {
             
-            this.groundTexture = new THREE.TextureLoader().load('../../Assets/images/grass.jpg');
+            this.groundTexture = new THREE.TextureLoader().load('../../Assets/images/grass.png');
             this.groundTexture.wrapS = THREE.RepeatWrapping;
             this.groundTexture.wrapT = THREE.RepeatWrapping;
             this.groundTexture.repeat.set(8, 8);
-
-            this.groundTextureNormal = new THREE.TextureLoader().load('../../Assets/images/GravelCobbleNormal.png');
-            this.groundTextureNormal.wrapS = THREE.RepeatWrapping;
-            this.groundTextureNormal.wrapT = THREE.RepeatWrapping;
-            this.groundTextureNormal.repeat.set(8, 8);
-
             this.groundMaterial = new PhongMaterial();
             this.groundMaterial.map = this.groundTexture;
-            this.groundMaterial.bumpMap = this.groundTextureNormal;
-            this.groundMaterial.bumpScale = 0.2; 
-
-            this.groundGeometry = new BoxGeometry(20, 1, 20);
+ 
+            this.groundGeometry = new BoxGeometry(5, 1, 10);
             this.groundPhysicsMaterial = Physijs.createMaterial(this.groundMaterial, 0, 0);
             this.ground = new Physijs.ConvexMesh(this.groundGeometry, this.groundPhysicsMaterial, 0);
+            this.ground.position.set(0, 0, -4);
             this.ground.receiveShadow = true;
             this.ground.name = "Ground";
             this.add(this.ground);
@@ -291,34 +313,138 @@ module scenes {
          */
         private addIslands(): void {
          
-            this.islandGeometry = new BoxGeometry(6, 1, 25);
+            this.islandGeometry = new BoxGeometry(3, .2, 3);
             this.islandPhysicsMaterial = Physijs.createMaterial(this.groundMaterial, 0, 0);
-            
+            // left right, height, front
             this.island1 = new Physijs.ConvexMesh(this.islandGeometry, this.islandPhysicsMaterial, 0);
-            this.island1.position.set(-17, 0, 0);
+            this.island1.position.set(0, 3, -19);
             this.island1.receiveShadow = true;
             this.island1.name = "Ground";
             this.add(this.island1);
-
+            
+            
             this.island2 = new Physijs.ConvexMesh(this.islandGeometry, this.islandPhysicsMaterial, 0);
-            this.island2.position.set(17, 0, 0);
+            this.island2.position.set(0, 6, -34);
             this.island2.receiveShadow = true;
             this.island2.name = "Ground";
             this.add(this.island2);
             
+            
             this.island3 = new Physijs.ConvexMesh(this.islandGeometry, this.islandPhysicsMaterial, 0);
-            this.island3.position.set(0, 0, -17);
+            this.island3.position.set(-17, 6, -34);
             this.island3.receiveShadow = true;
-            this.island3.rotateY(1.5708);
             this.island3.name = "Ground";
             this.add(this.island3);
             
+            
             this.island4 = new Physijs.ConvexMesh(this.islandGeometry, this.islandPhysicsMaterial, 0);
-            this.island4.position.set(0, 0, 17);
+            this.island4.position.set(17, 6, -34);
             this.island4.receiveShadow = true;
-            this.island4.rotateY(1.5708);
             this.island4.name = "Ground";
-            this.add(this.island4);
+            this.add(this.island4);            
+            
+            this.island5 = new Physijs.ConvexMesh(this.islandGeometry, this.islandPhysicsMaterial, 0);
+            this.island5.position.set(17, 9, -19);
+            this.island5.receiveShadow = true;
+            this.island5.name = "Ground";
+            this.add(this.island5);
+            
+            this.island6 = new Physijs.ConvexMesh(this.islandGeometry, this.islandPhysicsMaterial, 0);
+            this.island6.position.set(-17, 9, -19);
+            this.island6.receiveShadow = true;
+            this.island6.name = "Ground";
+            this.add(this.island6);          
+            
+            this.islandGeometry = new BoxGeometry(.5, .2, 3);
+            this.island7 = new Physijs.ConvexMesh(this.islandGeometry, this.islandPhysicsMaterial, 0);
+            this.island7.position.set(21, 6, 2);
+            this.island7.receiveShadow = true;
+            this.island7.name = "Ground";
+            this.add(this.island7);    
+            
+            this.islandGeometry = new BoxGeometry(.2, .2, 3);
+            this.island8 = new Physijs.ConvexMesh(this.islandGeometry, this.islandPhysicsMaterial, 0);
+            this.island8.position.set(-21, 6, 2);
+            this.island8.receiveShadow = true;
+            this.island8.name = "Ground";
+            this.add(this.island8);   
+            
+            this.islandGeometry = new BoxGeometry(3, .2, .2);
+            this.island9 = new Physijs.ConvexMesh(this.islandGeometry, this.islandPhysicsMaterial, 0);
+            this.island9.position.set(21, 8, 16);
+            this.island9.receiveShadow = true;
+            this.island9.name = "Ground";
+            this.add(this.island9);    
+            
+            this.islandGeometry = new BoxGeometry(3, .2, .5);
+            this.island10 = new Physijs.ConvexMesh(this.islandGeometry, this.islandPhysicsMaterial, 0);
+            this.island10.position.set(-21, 8, 16);
+            this.island10.receiveShadow = true;
+            this.island10.name = "Ground";
+            this.add(this.island10);    
+            
+            this.islandGeometry = new BoxGeometry(1, .2, 1);
+            this.island11 = new Physijs.ConvexMesh(this.islandGeometry, this.islandPhysicsMaterial, 0);
+            this.island11.position.set(10, 10, 21);
+            this.island11.receiveShadow = true;
+            this.island11.name = "Ground";
+            this.add(this.island11);    
+            
+            this.island12 = new Physijs.ConvexMesh(this.islandGeometry, this.islandPhysicsMaterial, 0);
+            this.island12.position.set(-10, 10, 21);
+            this.island12.receiveShadow = true;
+            this.island12.name = "Ground";
+            this.add(this.island12);
+            
+            this.islandGeometry = new BoxGeometry(2, .2, 2);
+            this.island13 = new Physijs.ConvexMesh(this.islandGeometry, this.islandPhysicsMaterial, 0);
+            this.island13.position.set(0, 12, 26);
+            this.island13.receiveShadow = true;
+            this.island13.name = "Ground";
+            this.add(this.island13);  
+            
+            this.islandGeometry = new BoxGeometry(3, .2, 3);
+            this.island14 = new Physijs.ConvexMesh(this.islandGeometry, this.islandPhysicsMaterial, 0);
+            this.island14.position.set(0, 13, 15);
+            this.island14.receiveShadow = true;
+            this.island14.name = "Ground";
+            this.add(this.island14); 
+            
+            this.islandGeometry = new BoxGeometry(3, .2, 3);
+            this.island15 = new Physijs.ConvexMesh(this.islandGeometry, this.islandPhysicsMaterial, 0);
+            this.island15.position.set(-8, 16, 10);
+            this.island15.receiveShadow = true;
+            this.island15.name = "Ground";
+            this.add(this.island15);   
+            
+            this.islandGeometry = new BoxGeometry(3, .2, 3);
+            this.island16 = new Physijs.ConvexMesh(this.islandGeometry, this.islandPhysicsMaterial, 0);
+            this.island16.position.set(-4, 22, 5);
+            this.island16.receiveShadow = true;
+            this.island16.name = "Ground";
+            this.add(this.island16);
+            
+            this.islandGeometry = new BoxGeometry(3, .2, 3);
+            this.island17 = new Physijs.ConvexMesh(this.islandGeometry, this.islandPhysicsMaterial, 0);
+            this.island17.position.set(0, 29, 10);
+            this.island17.receiveShadow = true;
+            this.island17.name = "Ground";
+            this.add(this.island17);      
+            
+            this.islandGeometry = new BoxGeometry(3, .2, 3);
+            this.island18 = new Physijs.ConvexMesh(this.islandGeometry, this.islandPhysicsMaterial, 0);
+            this.island18.position.set(0, 29, -8);
+            this.island18.receiveShadow = true;
+            this.island18.name = "Ground";
+            this.add(this.island18);   
+            
+            this.islandGeometry = new BoxGeometry(3, .2, 3);
+            this.island19 = new Physijs.ConvexMesh(this.islandGeometry, this.islandPhysicsMaterial, 0);
+            this.island19.position.set(0, 24, -25);
+            this.island19.receiveShadow = true;
+            this.island19.name = "Ground";
+            this.add(this.island19);        
+
         }
         
         /**
@@ -329,7 +455,7 @@ module scenes {
          */
         private addWalls(): void {
             
-            this.wallTexture = new THREE.TextureLoader().load('../../Assets/images/wall.jpg');
+            this.wallTexture = new THREE.TextureLoader().load('../../Assets/images/wall.png');
             this.wallTexture.wrapS = THREE.RepeatWrapping;
             this.wallTexture.wrapT = THREE.RepeatWrapping;
             this.wallTexture.repeat.set(8, 8);
@@ -387,7 +513,7 @@ module scenes {
          * @return void
          */
         private addRocks(): void {
-            this.rockTexture = new THREE.TextureLoader().load('../../Assets/images/rock.jpg');
+            this.rockTexture = new THREE.TextureLoader().load('../../Assets/images/rock.png');
             this.rockTexture.wrapS = THREE.RepeatWrapping;
             this.rockTexture.wrapT = THREE.RepeatWrapping;
             this.rockMaterial = new PhongMaterial();
@@ -397,12 +523,12 @@ module scenes {
             this.rockPhysicsMaterial = Physijs.createMaterial(this.rockMaterial, 0, 0);
             
             this.rock1 = new Physijs.ConvexMesh(this.rockGeometry, this.rockPhysicsMaterial, 1);
-            this.rock1.position.set(-4, 10, -5.5);
+            this.rock1.position.set(-4, 15, -9);
             this.rock1.receiveShadow = true;
             this.rock1.name = "Rock";
             
             this.rock2 = new Physijs.ConvexMesh(this.rockGeometry, this.rockPhysicsMaterial, 1);
-            this.rock2.position.set(-17, 10, -8);
+            this.rock2.position.set(-17, 10, -9);
             this.rock2.receiveShadow = true;
             this.rock2.name = "Rock";
             
@@ -419,7 +545,7 @@ module scenes {
          * @return void
          */
         private addLogs(): void {
-            this.logTexture = new THREE.TextureLoader().load('../../Assets/images/fallingbranch.jpg');
+            this.logTexture = new THREE.TextureLoader().load('../../Assets/images/fallingbranch.png');
             this.logTexture.wrapS = THREE.RepeatWrapping;
             this.logTexture.wrapT = THREE.RepeatWrapping;
             this.logMaterial = new PhongMaterial();
@@ -451,13 +577,13 @@ module scenes {
             
             
             this.plate1 = new Physijs.ConvexMesh(this.plateGeometry, this.platePhysicsMaterial, 0);
-            this.plate1.position.set(1, .5, -5.5);
+            this.plate1.position.set(0, .5, -8);
             this.plate1.receiveShadow = true;
             this.plate1.name = "Plate1";
             this.add(this.plate1);
             
             this.plate2 = new Physijs.ConvexMesh(this.plateGeometry, this.platePhysicsMaterial, 0);
-            this.plate2.position.set(-18.7, .5, -3);
+            this.plate2.position.set(.6, 6.1, -33);
             this.plate2.receiveShadow = true;
             this.plate2.name = "Plate2";
             this.add(this.plate2);
@@ -480,7 +606,7 @@ module scenes {
             this.remove(this.rock2);
             this.remove(this.rock3);
             this.remove(this.log);
-            this.rock1.position.set(-4, 10, -5.5);
+            this.rock1.position.set(0, 13, -15);
             this.rock2.position.set(-17, 10, -8);
             this.rock3.position.set(-18, 10, 2);
             this.log.position.set(4, 15, 10);
@@ -498,7 +624,8 @@ module scenes {
             this.playerMaterial = Physijs.createMaterial(new LambertMaterial({ color: 0x00ff00 }), 0.4, 0);
 
             this.player = new Physijs.BoxMesh(this.playerGeometry, this.playerMaterial, 1);
-            this.player.position.set(0, 20, 0);
+            this.player.position.set(0, 10, 0);
+            //this.player.position.set(0, 13, 26);
             this.player.receiveShadow = true;
             this.player.castShadow = true;
             this.player.name = "Player";
@@ -514,7 +641,7 @@ module scenes {
          * @return void
          */
         private addDeathPlane(): void {
-            this.deathPlaneGeometry = new BoxGeometry(100, 1, 100);
+            this.deathPlaneGeometry = new BoxGeometry(500, 1, 500);
             this.deathPlaneMaterial = new THREE.MeshLambertMaterial({color: 0xE5E5FF, transparent: true, opacity: 0.1});
 
             this.deathPlane = new Physijs.BoxMesh(this.deathPlaneGeometry, this.deathPlaneMaterial, 0);
@@ -531,7 +658,8 @@ module scenes {
          * @return void
          */
         private addSkyBox(): void {
-            this.skyBox = new gameObject(new SphereGeometry(60, 60, 60), new LambertMaterial({ map: ImageUtils.loadTexture('../../Assets/Images/skyBG.jpg') }), 2, 2, 2);
+            this.skyBoxTexture = new THREE.TextureLoader().load('../../Assets/images/skyBG.png');
+            this.skyBox = new gameObject(new SphereGeometry(60, 60, 60), new LambertMaterial({ map: this.skyBoxTexture }), 2, 2, 2);
             this.skyBox.material.side = THREE.DoubleSide;
             this.skyBox.name = "Skybox";   
             this.add(this.skyBox);
@@ -546,7 +674,7 @@ module scenes {
          * @return void
          */
         private addBerry(): void {           
-            this.berryTexture = new THREE.TextureLoader().load('../../Assets/images/berry.jpg');
+            this.berryTexture = new THREE.TextureLoader().load('../../Assets/images/berry.png');
             this.berryTexture.wrapS = THREE.RepeatWrapping;
             this.berryTexture.wrapT = THREE.RepeatWrapping;
             this.berryMaterial = new PhongMaterial();
@@ -568,7 +696,7 @@ module scenes {
          * @return void
          */
         private addBasket(): void {           
-            this.basketTexture = new THREE.TextureLoader().load('../../Assets/images/bask.jpg');
+            this.basketTexture = new THREE.TextureLoader().load('../../Assets/images/bask.png');
             this.basketTexture.wrapS = THREE.RepeatWrapping;
             this.basketTexture.wrapT = THREE.RepeatWrapping;
             this.basketMaterial = new PhongMaterial();
@@ -699,6 +827,7 @@ module scenes {
                         this.velocity.x -= speed * delta;
                     }
                     if (this.keyboardControls.moveBackward) {
+                        console.log(this.player.position);
                         this.velocity.z += speed * delta;
                     }
                     if (this.keyboardControls.moveRight) {
@@ -706,11 +835,12 @@ module scenes {
                     }
                     if (this.keyboardControls.jump && this.isGrounded) {
                         
-                        if (this.player.position.y >= 1 && this.player.position.y <= 3) {
+                        if (this.player.position.y >= (this.jumpLower-.3) && this.player.position.y <= (this.jumpLower+3)) {
                             this.velocity.y += 10 * speed * delta;
-                        } else if (this.player.position.y > 3) {
+                        } else if (this.player.position.y > (this.jumpLower+3)) {
                             this.isGrounded = false;
                             createjs.Sound.play("jump");
+                            
                         }
                         
                     }
@@ -822,7 +952,7 @@ module scenes {
             this.addIslands();
             
             //Add Walls in the scenario
-            this.addWalls();
+            //this.addWalls();
             
             //Add Rocks in the scenario
             this.addRocks();
@@ -848,14 +978,15 @@ module scenes {
             // Add Skybox to the scene
             this.addSkyBox();
             
-            this.addBasket();
-            this.addBerry();
+            //this.addBasket();
+            //this.addBerry();
 
             // Collision Check
 
 
             this.player.addEventListener('collision', function(eventObject) {
                 if (eventObject.name === "Ground" || eventObject.name === "Wall") {
+                    this.jumpLower = this.player.position.y;
                     this.isGrounded = true;
                     createjs.Sound.play("land");
                 }
@@ -884,8 +1015,10 @@ module scenes {
                 }
                 
                 if (eventObject.name === "Plate2") {
-                    this.add(this.rock2);
-                    this.add(this.rock3);
+                    //this.add(this.rock2);
+                    //this.add(this.rock3);
+                    this.remove(this.island2);
+                    this.remove(this.plate2);
                 }
                 
                 if (eventObject.name === "Plate3") {
@@ -911,28 +1044,28 @@ module scenes {
             //Rock eventHandler            
             this.rock1.addEventListener('collision', function(eventObject) {
 
-                if (eventObject.name === "Ground" || eventObject.name === "Wall") {
+                if (eventObject.name === "Ground" || eventObject.name === "DeathPlane") {
                     this.resetHazards();
                 }
             }.bind(this));      
             
             this.rock2.addEventListener('collision', function(eventObject) {
 
-                if (eventObject.name === "Ground" || eventObject.name === "Wall") {
+                if (eventObject.name === "Ground" || eventObject.name === "DeathPlane") {
                     this.resetHazards();
                 }
             }.bind(this));  
             
             this.rock3.addEventListener('collision', function(eventObject) {
 
-                if (eventObject.name === "Ground" || eventObject.name === "Wall") {
+                if (eventObject.name === "Ground" || eventObject.name === "DeathPlane") {
                     this.resetHazards();
                 }
             }.bind(this));  
             
             this.log.addEventListener('collision', function(eventObject) {
 
-                if (eventObject.name === "Ground" || eventObject.name === "Wall") {
+                if (eventObject.name === "Ground" || eventObject.name === "DeathPlane") {
                     this.resetHazards();
                 }
             }.bind(this));  
@@ -1000,6 +1133,23 @@ module scenes {
                 this.add(this.player);
             }
         }
+         
+        /**
+         * add level change function
+         * 
+         * @method addLevelChange
+         * @return void
+         */
+        private addLevelChange(): void {
+            if (this.scoreValue > 1) { //Set as one for testing purposes
+                this.children = []; // an attempt to clean up
+                //this._isGamePaused = true;
+                
+                // Play the Level2 Scene
+                currentScene = config.Scene.OVER;
+                changeScene();
+            }
+        }
 
         /**
          * Camera Look function
@@ -1032,7 +1182,7 @@ module scenes {
 
             this.checkControls();
             this.stage.update();
-            
+            this.addLevelChange();
             if(!this.keyboardControls.paused) {
                 this.simulate();
             }

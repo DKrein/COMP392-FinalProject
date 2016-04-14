@@ -16,6 +16,9 @@ var uglify = require('gulp-uglify');
 var TypeScriptSources = [
     './Scripts/**/*.ts',
     './typings/**/*.ts'];
+    
+var JavaScriptSources = [
+    './Scripts/**/*.js'];    
 
 var HTMLSources = ['./**/*.html'];
 
@@ -81,6 +84,7 @@ gulp.task("watch", function () {
     gulp.watch(TypeScriptSources, ['transpile']);
     gulp.watch(HTMLSources, ['html']);
     gulp.watch(CSSSources, ['css']);
+    gulp.watch(JavaScriptSources, ['js-fef']);
 });
 
 // This task creates a local server and turns on livereload functionality
