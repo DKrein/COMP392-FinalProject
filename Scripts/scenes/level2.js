@@ -189,6 +189,7 @@ var scenes;
             this.wallMaterial = new PhongMaterial();
             this.wallMaterial.map = this.wallTexture;
             this.wallGeometry = new BoxGeometry(10, 4, .5);
+            this.smallWallGeometry = new BoxGeometry(5.5, 4, 0.5);
             this.wallPhysicsMaterial = Physijs.createMaterial(this.wallMaterial, 0, 0);
             this.wall1 = new Physijs.ConvexMesh(this.wallGeometry, this.wallPhysicsMaterial, 0);
             this.wall1.position.set(-7.5, 2, 0);
@@ -205,6 +206,14 @@ var scenes;
             this.wall3.receiveShadow = true;
             this.wall3.name = "Wall";
             this.add(this.wall3);
+            console.log("WHERE IS THE WALL3?");
+            this.wall4 = new Physijs.ConvexMesh(this.smallWallGeometry, this.wallPhysicsMaterial, 0);
+            this.wall4.position.set(-38.2, 2, -2.3);
+            this.wall4.rotation.x = 1.5708;
+            this.wall4.receiveShadow = true;
+            this.wall4.name = "Wall";
+            this.add(this.wall4);
+            console.log("WHERE IS THE WALL?");
         };
         /**
         * Add rocks to the scene - actually it just prepare the rock, who really add it to the scene is the pressure plate
@@ -237,12 +246,12 @@ var scenes;
             this.logTexture.wrapT = THREE.RepeatWrapping;
             this.logMaterial = new PhongMaterial();
             this.logMaterial.map = this.logTexture;
-            this.logGeometry = new CylinderGeometry(1, 1, 10);
+            this.logGeometry = new CylinderGeometry(1, 1, 5);
             this.logPhysicsMaterial = Physijs.createMaterial(this.logMaterial, 0, 0);
             this.log = new Physijs.ConvexMesh(this.logGeometry, this.logPhysicsMaterial, 1);
             this.log.rotation.x = 1.5708;
             this.log.rotation.z = 1.5708;
-            this.log.position.set(-27, 10, -2.7);
+            this.log.position.set(-32, 10, -2.7);
             this.log.receiveShadow = true;
             this.log.name = "Log";
         };
@@ -295,10 +304,8 @@ var scenes;
         Level2.prototype.resetHazards = function () {
             this.remove(this.rock1);
             this.remove(this.log);
-            //this.remove(this.wall2);
             this.rock1.position.set(-7.8, 10, 2.8);
             this.log.position.set(-27, 10, -2.7);
-            //this.wall2.position.set(-20.5, 2, 0);
         };
         /**
          * Adds the player controller to the scene
@@ -649,6 +656,10 @@ var scenes;
                 if (eventObject.name === "Plate4") {
                     this.add(this.log);
                 }
+                if (eventObject.name === "Plate5") {
+                    console.log("Add wall to block path");
+                    this.wall4.position.set(-38.2, 2, -2.3);
+                }
                 if (eventObject.name === "Rock" || eventObject.name === "Log" && eventObject.position.y > 2) {
                     createjs.Sound.play("Collision");
                     this.addDeath();
@@ -725,6 +736,7 @@ var scenes;
                 this.livesLabel.text = "LIVES: " + this.livesValue;
                 this.remove(this.player);
                 this.player.position.set(0, 20, 0);
+                //this.wall4.position.set(-38.2, -2, -2.3);
                 this.add(this.player);
             }
         };
