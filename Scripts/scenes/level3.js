@@ -637,6 +637,32 @@ var scenes;
             this.instructions.style.display = '';
             console.log("PointerLock Error Detected!!");
         };
+        /**
+         * This method is used to jump between levels
+         *
+         * @method checkShortcut
+         * @return void
+         */
+        Level3.prototype.checkShortcut = function () {
+            if (this.keyboardControls.loadLevel1) {
+                document.exitPointerLock();
+                this.children = []; // an attempt to clean up
+                currentScene = config.Scene.LEVEL1;
+                changeScene();
+            }
+            if (this.keyboardControls.loadLevel2) {
+                document.exitPointerLock();
+                this.children = []; // an attempt to clean up
+                currentScene = config.Scene.LEVEL2;
+                changeScene();
+            }
+            if (this.keyboardControls.loadLevel3) {
+                document.exitPointerLock();
+                this.children = []; // an attempt to clean up
+                currentScene = config.Scene.LEVEL3;
+                changeScene();
+            }
+        };
         // Check Controls Function
         /**
          * This method updates the player's position based on user input
@@ -945,6 +971,7 @@ var scenes;
          * @returns void
          */
         Level3.prototype.update = function () {
+            this.checkShortcut();
             this.checkControls();
             this.stage.update();
             if (!this.keyboardControls.paused) {

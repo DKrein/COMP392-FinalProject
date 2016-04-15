@@ -670,7 +670,35 @@ module scenes {
             this.instructions.style.display = '';
             console.log("PointerLock Error Detected!!");
         }
-
+        
+        
+        /**
+         * This method is used to jump between levels
+         * 
+         * @method checkShortcut
+         * @return void
+         */
+        private checkShortcut(): void {
+            if (this.keyboardControls.loadLevel1) {
+                document.exitPointerLock();
+                this.children = []; // an attempt to clean up
+                currentScene = config.Scene.LEVEL1;
+                changeScene();
+            }
+            if (this.keyboardControls.loadLevel2) {
+                document.exitPointerLock();
+                this.children = []; // an attempt to clean up
+                currentScene = config.Scene.LEVEL2;
+                changeScene();
+            }
+            if (this.keyboardControls.loadLevel3) {
+                document.exitPointerLock();
+                this.children = []; // an attempt to clean up
+                currentScene = config.Scene.LEVEL3;
+                changeScene();
+            }
+        }
+        
         // Check Controls Function
 
         /**
@@ -1005,23 +1033,6 @@ module scenes {
                 this.add(this.player);
             }
         }
-         
-        /**
-         * add level change function
-         * 
-         * @method addLevelChange
-         * @return void
-         */
-        private addLevelChange(): void {
-            if (this.scoreValue > 50) { //Set as one for testing purposes
-                this.children = []; // an attempt to clean up
-                //this._isGamePaused = true;
-                
-                // Play the Level2 Scene
-                currentScene = config.Scene.LEVEL2;
-                changeScene();
-            }
-        }
 
         /**
          * Camera Look function
@@ -1045,9 +1056,9 @@ module scenes {
          */
         public update(): void {
 
+            this.checkShortcut();
             this.checkControls();
             this.stage.update();
-            this.addLevelChange();
             if(!this.keyboardControls.paused) {
                 this.simulate();
             }
