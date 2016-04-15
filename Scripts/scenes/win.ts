@@ -11,7 +11,7 @@ module scenes {
     export class Win extends scenes.Scene {
         private _blocker: HTMLElement;
         private _stage: createjs.Stage;
-        private _gameOverLabel: createjs.Text;
+        private _finalScoreLabel: createjs.Text;
         private _restartButton: createjs.Bitmap;
         private _bgImage: createjs.Bitmap;
         private _auxImage: createjs.Bitmap;
@@ -71,15 +71,15 @@ module scenes {
             this._auxImage.y = (config.Screen.HEIGHT * 0.5) - 250;
             this._stage.addChild(this._auxImage);
             
-            this._gameOverLabel = new createjs.Text(
-                "You win",
+            this._finalScoreLabel = new createjs.Text(
+                ""+gameController.score,
                 "80px Consolas",
                 "#000000");
-            this._gameOverLabel.regX = this._gameOverLabel.getMeasuredWidth() * 0.5;
-            this._gameOverLabel.regY = this._gameOverLabel.getMeasuredLineHeight() * 0.5;
-            this._gameOverLabel.x = config.Screen.WIDTH * 0.5;
-            this._gameOverLabel.y = config.Screen.HEIGHT * 0.5;
-            //this._stage.addChild(this._gameOverLabel);
+            this._finalScoreLabel.regX = this._finalScoreLabel.getMeasuredWidth() * 0.5;
+            this._finalScoreLabel.regY = this._finalScoreLabel.getMeasuredLineHeight() * 0.5;
+            this._finalScoreLabel.x = config.Screen.WIDTH * 0.5;
+            this._finalScoreLabel.y = (config.Screen.HEIGHT * 0.5) - 25;
+            this._stage.addChild(this._finalScoreLabel);
 
             this._restartButton = new createjs.Bitmap(assets.getResult("RestartButton"));
             this._restartButton.regX = this._restartButton.getBounds().width * 0.5;

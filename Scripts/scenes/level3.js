@@ -565,7 +565,7 @@ var scenes;
                 this.blocker.style.display = 'none';
             }
             else {
-                if (gameController.lives <= 0) {
+                if (gameController.lives <= 0 || this.gameWin == true) {
                     this.blocker.style.display = 'none';
                     document.removeEventListener('pointerlockchange', this.pointerLockChange.bind(this), false);
                     document.removeEventListener('mozpointerlockchange', this.pointerLockChange.bind(this), false);
@@ -764,6 +764,7 @@ var scenes;
             // Collision Check
             this.player.addEventListener('collision', function (eventObject) {
                 if (eventObject.name === "WallGoal") {
+                    this.gameWin = true;
                     this.GameWin();
                 }
                 if (eventObject.name === "Ground") {

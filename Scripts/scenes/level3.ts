@@ -46,6 +46,7 @@ module scenes {
         private livesLabel: createjs.Text;
         private levelLabel: createjs.Text;
         private bgSound: any;
+        private gameWin: boolean;
         
         //SCENARIO
         //Skybox
@@ -771,7 +772,7 @@ module scenes {
                 this.mouseControls.enabled = true;
                 this.blocker.style.display = 'none';
             } else {
-                if (gameController.lives <= 0) {
+                if (gameController.lives <= 0 || this.gameWin == true) {
                     this.blocker.style.display = 'none';
                     document.removeEventListener('pointerlockchange', this.pointerLockChange.bind(this), false);
                     document.removeEventListener('mozpointerlockchange', this.pointerLockChange.bind(this), false);
@@ -1015,6 +1016,7 @@ module scenes {
             this.player.addEventListener('collision', function(eventObject) {
                 
                 if (eventObject.name === "WallGoal") {
+                    this.gameWin = true;
                     this.GameWin();
                 }
                 
