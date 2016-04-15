@@ -78,7 +78,9 @@ var manifest = [
     { id: "ExitButton", src: "../../Assets/images/ExitButton.png"},
     
     {id: "MenuBackground", src:"../../Assets/images/menuBg.jpg"},
-    {id: "CompanyLogo", src:"../../Assets/images/comapanyLogo.png"},    
+    {id: "CompanyLogo", src:"../../Assets/images/comapanyLogo.png"},
+    {id: "GameOver", src:"../../Assets/images/GameOver.png"},
+    {id: "GameWin", src:"../../Assets/images/GameWin.png"},    
     
 ];
 

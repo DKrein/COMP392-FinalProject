@@ -14,6 +14,7 @@ module scenes {
         private _gameOverLabel: createjs.Text;
         private _restartButton: createjs.Bitmap;
         private _bgImage: createjs.Bitmap;
+        private _auxImage: createjs.Bitmap;
 
         /**
          * Empty Contructor
@@ -65,6 +66,11 @@ module scenes {
             this._bgImage.scaleY = 2;
             this._stage.addChild(this._bgImage);
             
+            this._auxImage = new createjs.Bitmap(assets.getResult("GameOver"));
+            this._auxImage.x = (config.Screen.WIDTH * 0.5) - (this._auxImage.getBounds().width * 0.5);
+            this._auxImage.y = (config.Screen.HEIGHT * 0.5) - 250;
+            this._stage.addChild(this._auxImage);
+            
             this._gameOverLabel = new createjs.Text(
                 "GAME OVER - TRY AGAIN",
                 "80px Consolas",
@@ -73,7 +79,7 @@ module scenes {
             this._gameOverLabel.regY = this._gameOverLabel.getMeasuredLineHeight() * 0.5;
             this._gameOverLabel.x = config.Screen.WIDTH * 0.5;
             this._gameOverLabel.y = config.Screen.HEIGHT * 0.5;
-            this._stage.addChild(this._gameOverLabel);
+            //this._stage.addChild(this._gameOverLabel);
 
             this._restartButton = new createjs.Bitmap(assets.getResult("RestartButton"));
             this._restartButton.regX = this._restartButton.getBounds().width * 0.5;
