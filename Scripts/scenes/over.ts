@@ -66,7 +66,7 @@ module scenes {
             this._stage.addChild(this._bgImage);
             
             this._gameOverLabel = new createjs.Text(
-                "GAME OVER",
+                "GAME OVER - TRY AGAIN",
                 "80px Consolas",
                 "#000000");
             this._gameOverLabel.regX = this._gameOverLabel.getMeasuredWidth() * 0.5;

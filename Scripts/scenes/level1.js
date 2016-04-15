@@ -184,6 +184,25 @@ var scenes;
             this.island4.rotateY(1.5708);
             this.island4.name = "Ground";
             this.add(this.island4);
+            this.islandGeometry = new BoxGeometry(1, .5, 1);
+            this.island5 = new Physijs.ConvexMesh(this.islandGeometry, this.islandPhysicsMaterial, 0);
+            this.island5.position.set(12, 0, 30);
+            this.island5.receiveShadow = true;
+            this.island5.rotateY(1.5708);
+            this.island5.name = "Ground";
+            this.islandGeometry = new BoxGeometry(3, .5, 3);
+            this.island6 = new Physijs.ConvexMesh(this.islandGeometry, this.islandPhysicsMaterial, 0);
+            this.island6.position.set(0, 0, 34);
+            this.island6.receiveShadow = true;
+            this.island6.rotateY(1.5708);
+            this.island6.name = "Ground";
+            this.islandGeometry = new BoxGeometry(3, .5, 3);
+            this.island7 = new Physijs.ConvexMesh(this.islandGeometry, this.islandPhysicsMaterial, 0);
+            this.island7.position.set(0, 0, 45);
+            this.island7.receiveShadow = true;
+            this.island7.rotateY(1.5708);
+            this.island7.name = "Ground";
+            this.add(this.island7);
         };
         /**
          * Add walls to the scene
@@ -235,6 +254,19 @@ var scenes;
             this.wall6.receiveShadow = true;
             this.wall6.name = "Wall";
             this.add(this.wall6);
+            this.wallTexture = new THREE.TextureLoader().load('../../Assets/images/wallGoal.png');
+            this.wallTexture.wrapS = THREE.RepeatWrapping;
+            this.wallTexture.wrapT = THREE.RepeatWrapping;
+            this.wallTexture.repeat.set(1, 1);
+            this.wallMaterial = new PhongMaterial();
+            this.wallMaterial.map = this.wallTexture;
+            this.wallPhysicsMaterial = Physijs.createMaterial(this.wallMaterial, 0, 0);
+            this.wallGeometry = new BoxGeometry(3, 3, .2);
+            this.wallGoal = new Physijs.ConvexMesh(this.wallGeometry, this.wallPhysicsMaterial, 0);
+            this.wallGoal.position.set(0, 4, 51);
+            this.wallGoal.receiveShadow = true;
+            this.wallGoal.name = "WallGoal";
+            this.add(this.wallGoal);
         };
         /**
         * Add rocks to the scene - actually it just prepare the rock, who really add it to the scene is the pressure plate
@@ -486,6 +518,7 @@ var scenes;
                     this.velocity.x -= speed * delta;
                 }
                 if (this.keyboardControls.moveBackward) {
+                    console.log(this.player.position);
                     this.velocity.z += speed * delta;
                 }
                 if (this.keyboardControls.moveRight) {
@@ -602,12 +635,18 @@ var scenes;
             this.addBerry();
             // Collision Check
             this.player.addEventListener('collision', function (eventObject) {
+                if (eventObject.name === "WallGoal") {
+                    document.exitPointerLock();
+                    this.children = []; // an attempt to clean up
+                    currentScene = config.Scene.LEVEL2;
+                    changeScene();
+                }
                 if (eventObject.name === "Ground" || eventObject.name === "Wall") {
                     this.isGrounded = true;
                     createjs.Sound.play("land");
                 }
                 if (eventObject.name === "DeathPlane") {
-                    createjs.Sound.play("Falling");
+                    createjs.Sound.play("Dead", { volume: 0.02 });
                     this.addDeath();
                 }
                 if (eventObject.name === "Berry") {
@@ -685,6 +724,12 @@ var scenes;
             }
             this.scoreLabel.text = "SCORE: " + this.scoreValue;
             this.add(collectable);
+            if (this.scoreValue >= 10) {
+                this.add(this.island6);
+            }
+            if (this.scoreValue >= 20) {
+                this.add(this.island5);
+            }
         };
         /**
          * add death function
@@ -718,7 +763,7 @@ var scenes;
          * @return void
          */
         Level1.prototype.addLevelChange = function () {
-            if (this.scoreValue > 1) {
+            if (this.scoreValue > 50) {
                 this.children = []; // an attempt to clean up
                 //this._isGamePaused = true;
                 // Play the Level2 Scene

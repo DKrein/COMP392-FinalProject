@@ -59,7 +59,7 @@ var scenes;
             this._bgImage.scaleX = 2;
             this._bgImage.scaleY = 2;
             this._stage.addChild(this._bgImage);
-            this._gameOverLabel = new createjs.Text("GAME OVER", "80px Consolas", "#000000");
+            this._gameOverLabel = new createjs.Text("GAME OVER - TRY AGAIN", "80px Consolas", "#000000");
             this._gameOverLabel.regX = this._gameOverLabel.getMeasuredWidth() * 0.5;
             this._gameOverLabel.regY = this._gameOverLabel.getMeasuredLineHeight() * 0.5;
             this._gameOverLabel.x = config.Screen.WIDTH * 0.5;
