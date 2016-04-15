@@ -80,7 +80,8 @@ var manifest = [
     {id: "MenuBackground", src:"../../Assets/images/menuBg.jpg"},
     {id: "CompanyLogo", src:"../../Assets/images/comapanyLogo.png"},
     {id: "GameOver", src:"../../Assets/images/GameOver.png"},
-    {id: "GameWin", src:"../../Assets/images/GameWin.png"},    
+    {id: "GameWin", src:"../../Assets/images/GameWin.png"},
+    {id: "HelpScreen", src:"../../Assets/images/HelpScreen.png"},    
     
 ];
 

@@ -70,6 +70,7 @@ var manifest = [
     { id: "CompanyLogo", src: "../../Assets/images/comapanyLogo.png" },
     { id: "GameOver", src: "../../Assets/images/GameOver.png" },
     { id: "GameWin", src: "../../Assets/images/GameWin.png" },
+    { id: "HelpScreen", src: "../../Assets/images/HelpScreen.png" },
 ];
 function preload() {
     assets = new createjs.LoadQueue();

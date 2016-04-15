@@ -15,6 +15,7 @@ module scenes {
         private _startButton: createjs.Bitmap;
         private _backButton: createjs.Bitmap;
         private _bgImage: createjs.Bitmap;
+         private _auxImage: createjs.Bitmap;
 
         /**
          * Empty Contructor
@@ -66,6 +67,11 @@ module scenes {
             this._bgImage.scaleY = 2;
             this._stage.addChild(this._bgImage);
             
+            this._auxImage = new createjs.Bitmap(assets.getResult("HelpScreen"));
+            this._auxImage.x = (config.Screen.WIDTH * 0.5) - (this._auxImage.getBounds().width * 0.5);
+            this._auxImage.y = (config.Screen.HEIGHT * 0.5) - 420;
+            this._stage.addChild(this._auxImage);
+            
             this._gameHelpLabel = new createjs.Text(
                 "GAME Help",
                 "80px Consolas",
@@ -74,13 +80,13 @@ module scenes {
             this._gameHelpLabel.regY = this._gameHelpLabel.getMeasuredLineHeight() * 0.5;
             this._gameHelpLabel.x = config.Screen.WIDTH * 0.5;
             this._gameHelpLabel.y = config.Screen.HEIGHT * 0.5;
-            this._stage.addChild(this._gameHelpLabel);
+            //this._stage.addChild(this._gameHelpLabel);
 
             this._startButton = new createjs.Bitmap(assets.getResult("StartButton"));
             this._startButton.regX = this._startButton.getBounds().width * 0.5;
             this._startButton.regY = this._startButton.getBounds().height * 0.5;
             this._startButton.x = config.Screen.WIDTH * 0.5;
-            this._startButton.y = (config.Screen.HEIGHT * 0.5) + 150;
+            this._startButton.y = (config.Screen.HEIGHT * 0.5) + 350;
             this._stage.addChild(this._startButton);
 
             this._startButton.on("mouseover", (event: createjs.MouseEvent) => {
