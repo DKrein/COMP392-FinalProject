@@ -54,6 +54,7 @@ var level3: scenes.Level3;
 var menu: scenes.Menu;
 var over: scenes.Over;
 var help: scenes.Help;
+var win: scenes.Win;
 
 var stats: Stats;
 var canvas: HTMLElement;
@@ -209,6 +210,12 @@ function changeScene(): void {
             help = new scenes.Help();
             scene = help;
             console.log("Starting HELP Scene");
+            break;
+         case config.Scene.WIN:
+            // show the game WIN scene
+            win = new scenes.Win();
+            scene = win;
+            console.log("Starting WIN Scene");
             break;
     }
 }

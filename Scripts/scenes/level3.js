@@ -294,6 +294,19 @@ var scenes;
             //this.wall1.rotateY(1.5708);
             this.wall1.receiveShadow = true;
             this.wall1.name = "Wall";
+            this.wallTexture = new THREE.TextureLoader().load('../../Assets/images/wallEnd.png');
+            this.wallTexture.wrapS = THREE.RepeatWrapping;
+            this.wallTexture.wrapT = THREE.RepeatWrapping;
+            this.wallTexture.repeat.set(1, 1);
+            this.wallMaterial = new PhongMaterial();
+            this.wallMaterial.map = this.wallTexture;
+            this.wallGeometry = new BoxGeometry(3, 3, .1);
+            this.wallPhysicsMaterial = Physijs.createMaterial(this.wallMaterial, 0, 0);
+            this.wallGoal = new Physijs.ConvexMesh(this.wallGeometry, this.wallPhysicsMaterial, 0);
+            this.wallGoal.position.set(0, 26, -29);
+            this.wallGoal.receiveShadow = true;
+            this.wallGoal.name = "WallGoal";
+            this.add(this.wallGoal);
             /*
             this.wall2 = new Physijs.ConvexMesh(this.wallGeometry, this.wallPhysicsMaterial, 0);
             this.wall2.position.set(6, 2.5, 6.4);
@@ -456,9 +469,10 @@ var scenes;
             this.playerGeometry = new BoxGeometry(2, 4, 2);
             this.playerMaterial = Physijs.createMaterial(new LambertMaterial({ color: 0x00ff00 }), 0.4, 0);
             this.player = new Physijs.BoxMesh(this.playerGeometry, this.playerMaterial, 1);
-            this.player.position.set(0, 10, 0);
+            //this.player.position.set(0, 10, 0);
             //this.player.position.set(-21, 11, 15);
             //this.player.position.set(17, 13.5, -34);
+            this.player.position.set(0, 26, -25);
             this.player.receiveShadow = true;
             this.player.castShadow = true;
             this.player.name = "Player";
@@ -766,6 +780,9 @@ var scenes;
             this.addBerry();
             // Collision Check
             this.player.addEventListener('collision', function (eventObject) {
+                if (eventObject.name === "WallGoal") {
+                    this.GameWin();
+                }
                 if (eventObject.name === "Ground") {
                     this.jumpLower = this.player.position.y;
                     this.isGrounded = true;
@@ -874,13 +891,7 @@ var scenes;
         Level3.prototype.addDeath = function () {
             this.livesValue--;
             if (this.livesValue <= 0) {
-                // Exit Pointer Lock
-                document.exitPointerLock();
-                this.children = []; // an attempt to clean up
-                //this._isGamePaused = true;
-                // Play the Game Over Scene
-                currentScene = config.Scene.OVER;
-                changeScene();
+                this.GameOver();
             }
             else {
                 // otherwise reset my player and update Lives
@@ -893,10 +904,25 @@ var scenes;
         /**
          * add level change function
          *
-         * @method addLevelChange
+         * @method GameWin
          * @return void
          */
-        Level3.prototype.addLevelChange = function () {
+        Level3.prototype.GameWin = function () {
+            // Exit Pointer Lock
+            document.exitPointerLock();
+            this.children = []; // an attempt to clean up
+            currentScene = config.Scene.WIN;
+            changeScene();
+        };
+        /**
+         * add level change function
+         *
+         * @method GameWin
+         * @return void
+         */
+        Level3.prototype.GameOver = function () {
+            // Exit Pointer Lock
+            document.exitPointerLock();
             this.children = []; // an attempt to clean up
             currentScene = config.Scene.OVER;
             changeScene();

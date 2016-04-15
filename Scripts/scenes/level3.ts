@@ -88,6 +88,7 @@ module scenes {
         private wallGeometry: CubeGeometry;
         private wallPhysicsMaterial: Physijs.Material;
         private wallMaterial: PhongMaterial;
+        private wallGoal: Physijs.Mesh;
         private wall1: Physijs.Mesh;
         private wall2: Physijs.Mesh;
         private wall3: Physijs.Mesh;
@@ -472,6 +473,22 @@ module scenes {
             this.wall1.receiveShadow = true;
             this.wall1.name = "Wall";
             
+            
+            this.wallTexture = new THREE.TextureLoader().load('../../Assets/images/wallEnd.png');
+            this.wallTexture.wrapS = THREE.RepeatWrapping;
+            this.wallTexture.wrapT = THREE.RepeatWrapping;
+            this.wallTexture.repeat.set(1, 1);
+            this.wallMaterial = new PhongMaterial();
+            this.wallMaterial.map = this.wallTexture;
+            this.wallGeometry = new BoxGeometry(3, 3, .1);
+            this.wallPhysicsMaterial = Physijs.createMaterial(this.wallMaterial, 0, 0);
+            
+            this.wallGoal = new Physijs.ConvexMesh(this.wallGeometry, this.wallPhysicsMaterial, 0);
+            this.wallGoal.position.set(0, 26, -29);
+            this.wallGoal.receiveShadow = true;
+            this.wallGoal.name = "WallGoal";
+            this.add(this.wallGoal);
+            
             /*
             this.wall2 = new Physijs.ConvexMesh(this.wallGeometry, this.wallPhysicsMaterial, 0);
             this.wall2.position.set(6, 2.5, 6.4);
@@ -653,9 +670,11 @@ module scenes {
             this.playerMaterial = Physijs.createMaterial(new LambertMaterial({ color: 0x00ff00 }), 0.4, 0);
 
             this.player = new Physijs.BoxMesh(this.playerGeometry, this.playerMaterial, 1);
-            this.player.position.set(0, 10, 0);
+            //this.player.position.set(0, 10, 0);
             //this.player.position.set(-21, 11, 15);
             //this.player.position.set(17, 13.5, -34);
+            this.player.position.set(0, 26, -25);
+            
             
             this.player.receiveShadow = true;
             this.player.castShadow = true;
@@ -1026,6 +1045,11 @@ module scenes {
 
 
             this.player.addEventListener('collision', function(eventObject) {
+                
+                if (eventObject.name === "WallGoal") {
+                    this.GameWin();
+                }
+                
                 if (eventObject.name === "Ground") {
                     this.jumpLower = this.player.position.y;
                     this.isGrounded = true;
@@ -1163,14 +1187,8 @@ module scenes {
         private addDeath(): void {
             this.livesValue--;
             if (this.livesValue <= 0) {
-                // Exit Pointer Lock
-                document.exitPointerLock();
-                this.children = []; // an attempt to clean up
-                //this._isGamePaused = true;
+                this.GameOver();
                 
-                // Play the Game Over Scene
-                currentScene = config.Scene.OVER;
-                changeScene();
             } else {
                 // otherwise reset my player and update Lives
                 this.livesLabel.text = "LIVES: " + this.livesValue;
@@ -1183,10 +1201,27 @@ module scenes {
         /**
          * add level change function
          * 
-         * @method addLevelChange
+         * @method GameWin
          * @return void
          */
-        private addLevelChange(): void {
+        private GameWin(): void {
+            // Exit Pointer Lock
+            document.exitPointerLock();
+            this.children = []; // an attempt to clean up
+
+            currentScene = config.Scene.WIN;
+            changeScene();
+        }
+        
+        /**
+         * add level change function
+         * 
+         * @method GameWin
+         * @return void
+         */
+        private GameOver(): void {
+            // Exit Pointer Lock
+            document.exitPointerLock();
             this.children = []; // an attempt to clean up
 
             currentScene = config.Scene.OVER;

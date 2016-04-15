@@ -19,6 +19,7 @@ var config;
         Scene.LEVEL1 = 3;
         Scene.LEVEL2 = 4;
         Scene.LEVEL3 = 5;
+        Scene.WIN = 6;
         return Scene;
     }());
     config.Scene = Scene;

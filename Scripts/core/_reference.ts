@@ -10,3 +10,4 @@
 /// <reference path="../scenes/over.ts" />
 /// <reference path="../scenes/menu.ts" />
 /// <reference path="../scenes/help.ts" />
+/// <reference path="../scenes/win.ts" />
