@@ -48,6 +48,7 @@ var menu;
 var over;
 var help;
 var win;
+var gameController;
 var stats;
 var canvas;
 var assets;
@@ -91,6 +92,7 @@ function init() {
     setupRenderer();
     // setup the camera
     setupCamera();
+    gameController = new objects.GameController();
     // set initial scene
     currentScene = config.Scene.MENU;
     changeScene();

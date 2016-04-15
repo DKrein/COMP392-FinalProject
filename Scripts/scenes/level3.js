@@ -66,7 +66,6 @@ var scenes;
             this.blocker.style.display = "block";
             // setup canvas for menu scene
             this._setupCanvas();
-            this.coinCount = 10;
             this.prevTime = 0;
             this.stage = new createjs.Stage(canvas);
             this.velocity = new Vector3(0, 0, 0);
@@ -83,11 +82,8 @@ var scenes;
          * @returns void
          */
         Level3.prototype.setupScoreboard = function () {
-            // initialize  score and lives values
-            this.scoreValue = 0;
-            this.livesValue = 1;
             // Add Lives Label
-            this.livesLabel = new createjs.Text("LIVES: " + this.livesValue, "40px Consolas", "#ffffff");
+            this.livesLabel = new createjs.Text("LIVES: " + gameController.lives, "40px Consolas", "#ffffff");
             this.livesLabel.x = config.Screen.WIDTH * 0.1;
             this.livesLabel.y = (config.Screen.HEIGHT * 0.15) * 0.20;
             this.stage.addChild(this.livesLabel);
@@ -99,7 +95,7 @@ var scenes;
             this.stage.addChild(this.levelLabel);
             console.log("Added Lives Label to stage");
             // Add Score Label
-            this.scoreLabel = new createjs.Text("SCORE: " + this.scoreValue, "40px Consolas", "#ffffff");
+            this.scoreLabel = new createjs.Text("SCORE: " + gameController.score, "40px Consolas", "#ffffff");
             this.scoreLabel.x = config.Screen.WIDTH * 0.8;
             this.scoreLabel.y = (config.Screen.HEIGHT * 0.15) * 0.20;
             this.stage.addChild(this.scoreLabel);
@@ -556,43 +552,6 @@ var scenes;
             console.log("Added basket to scene");
         };
         /**
-         * This method adds a coin to the scene
-         *
-         * @method addCoinMesh
-         * @return void
-         */
-        Level3.prototype.addCoinMesh = function () {
-            var self = this;
-            this.coins = new Array(); // Instantiate a convex mesh array
-            var coinLoader = new THREE.JSONLoader().load("../../Assets/imported/coin.json", function (geometry) {
-                var phongMaterial = new PhongMaterial({ color: 0xE7AB32 });
-                phongMaterial.emissive = new THREE.Color(0xE7AB32);
-                var coinMaterial = Physijs.createMaterial((phongMaterial), 0.4, 0.6);
-                for (var count = 0; count < self.coinCount; count++) {
-                    self.coins[count] = new Physijs.ConvexMesh(geometry, coinMaterial);
-                    self.coins[count].receiveShadow = true;
-                    self.coins[count].castShadow = true;
-                    self.coins[count].name = "Coin";
-                    self.setCoinPosition(self.coins[count]);
-                    console.log("Added Coin Mesh to Scene, at position: " + self.coins[count].position);
-                }
-            });
-        };
-        /**
-         * This method randomly sets the coin object's position
-         *
-         * @method setCoinPosition
-         * @return void
-         */
-        Level3.prototype.setCoinPosition = function (coin) {
-            var randomPointX = Math.floor(Math.random() * 20) - 10;
-            var randomPointZ = Math.floor(Math.random() * 20) - 10;
-            coin.position.set(randomPointX, 10, randomPointZ);
-            console.log(randomPointX);
-            console.log(randomPointZ);
-            this.add(coin);
-        };
-        /**
          * Event Handler method for any pointerLockChange events
          *
          * @method pointerLockChange
@@ -606,7 +565,7 @@ var scenes;
                 this.blocker.style.display = 'none';
             }
             else {
-                if (this.livesValue <= 0) {
+                if (gameController.lives <= 0) {
                     this.blocker.style.display = 'none';
                     document.removeEventListener('pointerlockchange', this.pointerLockChange.bind(this), false);
                     document.removeEventListener('mozpointerlockchange', this.pointerLockChange.bind(this), false);
@@ -796,8 +755,6 @@ var scenes;
             this.resetHazards();
             // Add player controller
             this.addPlayer();
-            // Add custom coin imported from Blender
-            //this.addCoinMesh();
             // Add death plane to the scene
             this.addDeathPlane();
             // Add Skybox to the scene
@@ -848,14 +805,6 @@ var scenes;
                     createjs.Sound.play("Collision");
                     this.addDeath();
                 }
-                /*
-                if (eventObject.name === "Coin") {
-                    createjs.Sound.play("coin");
-                    this.remove(eventObject);
-                    this.setCoinPosition(eventObject);
-                    this.scoreValue += 100;
-                    this.scoreLabel.text = "SCORE: " + this.scoreValue;
-                }*/
             }.bind(this));
             //Rock eventHandler            
             this.rock1.addEventListener('collision', function (eventObject) {
@@ -896,16 +845,16 @@ var scenes;
                 collectable.position.x = this.berryLocation[this.berryNum].x;
                 collectable.position.y = this.berryLocation[this.berryNum].y;
                 collectable.position.z = this.berryLocation[this.berryNum].z;
-                this.scoreValue += 2;
+                gameController.score += 2;
             }
             if (collectable.name === "Basket") {
                 this.basketNum = this.basketNum === (this.basketLocation.length - 1) ? 0 : (this.basketNum + 1);
                 collectable.position.x = this.basketLocation[this.basketNum].x;
                 collectable.position.y = this.basketLocation[this.basketNum].y;
                 collectable.position.z = this.basketLocation[this.basketNum].z;
-                this.scoreValue += 5;
+                gameController.score += 5;
             }
-            this.scoreLabel.text = "SCORE: " + this.scoreValue;
+            this.scoreLabel.text = "SCORE: " + gameController.score;
             this.add(collectable);
         };
         /**
@@ -915,13 +864,13 @@ var scenes;
          * @return void
          */
         Level3.prototype.addDeath = function () {
-            this.livesValue--;
-            if (this.livesValue <= 0) {
+            gameController.lives--;
+            if (gameController.lives <= 0) {
                 this.GameOver();
             }
             else {
                 // otherwise reset my player and update Lives
-                this.livesLabel.text = "LIVES: " + this.livesValue;
+                this.livesLabel.text = "LIVES: " + gameController.lives;
                 this.remove(this.player);
                 this.player.position.set(0, 20, 0);
                 this.add(this.player);

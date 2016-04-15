@@ -44,8 +44,6 @@ module scenes {
         private scoreLabel: createjs.Text;
         private livesLabel: createjs.Text;
         private levelLabel: createjs.Text;
-        private scoreValue: number;
-        private livesValue: number;
         private bgSound: any;
         
         //SCENARIO
@@ -193,13 +191,10 @@ module scenes {
          * @returns void
          */
         private setupScoreboard(): void {
-            // initialize  score and lives values
-            this.scoreValue = 0;
-            this.livesValue = 1;
 
             // Add Lives Label
             this.livesLabel = new createjs.Text(
-                "LIVES: " + this.livesValue,
+                "LIVES: " + gameController.lives,
                 "40px Consolas",
                 "#ffffff"
             );
@@ -221,7 +216,7 @@ module scenes {
 
             // Add Score Label
             this.scoreLabel = new createjs.Text(
-                "SCORE: " + this.scoreValue,
+                "SCORE: " + gameController.score,
                 "40px Consolas",
                 "#ffffff"
             );
@@ -639,7 +634,7 @@ module scenes {
                 this.mouseControls.enabled = true;
                 this.blocker.style.display = 'none';
             } else {
-                if (this.livesValue <= 0) {
+                if (gameController.lives <= 0) {
                     this.blocker.style.display = 'none';
                     document.removeEventListener('pointerlockchange', this.pointerLockChange.bind(this), false);
                     document.removeEventListener('mozpointerlockchange', this.pointerLockChange.bind(this), false);
@@ -984,7 +979,7 @@ module scenes {
                 collectable.position.x = this.berryLocation[this.berryNum].x;
                 collectable.position.y = this.berryLocation[this.berryNum].y;
                 collectable.position.z = this.berryLocation[this.berryNum].z;
-                this.scoreValue += 2;
+                gameController.score += 2;
             } 
             
             if (collectable.name === "Basket") { 
@@ -992,17 +987,17 @@ module scenes {
                 collectable.position.x = this.basketLocation[this.basketNum].x;
                 collectable.position.y = this.basketLocation[this.basketNum].y;
                 collectable.position.z = this.basketLocation[this.basketNum].z;
-                this.scoreValue += 5;            
+                gameController.score += 5;            
             }
             
-            this.scoreLabel.text = "SCORE: " + this.scoreValue;
+            this.scoreLabel.text = "SCORE: " + gameController.score;
             this.add(collectable);
             
-            if (this.scoreValue >= 10) {
+            if (gameController.score >= 10) {
                 this.add(this.island6);
             }
             
-            if (this.scoreValue >= 20) {
+            if (gameController.score >= 20) {
                 this.add(this.island5);
             }                        
             
@@ -1015,8 +1010,8 @@ module scenes {
          * @return void
          */
         private addDeath(): void {
-            this.livesValue--;
-            if (this.livesValue <= 0) {
+            gameController.lives--;
+            if (gameController.lives <= 0) {
                 // Exit Pointer Lock
                 document.exitPointerLock();
                 this.children = []; // an attempt to clean up
@@ -1027,7 +1022,7 @@ module scenes {
                 changeScene();
             } else {
                 // otherwise reset my player and update Lives
-                this.livesLabel.text = "LIVES: " + this.livesValue;
+                this.livesLabel.text = "LIVES: " + gameController.lives;
                 this.remove(this.player);
                 this.player.position.set(0, 20, 0);
                 this.add(this.player);

@@ -56,6 +56,8 @@ var over: scenes.Over;
 var help: scenes.Help;
 var win: scenes.Win;
 
+var gameController: objects.GameController;
+
 var stats: Stats;
 var canvas: HTMLElement;
 var assets: createjs.LoadQueue;
@@ -108,6 +110,8 @@ function init(): void {
 
     // setup the camera
     setupCamera();
+    
+    gameController = new objects.GameController();
 
     // set initial scene
     currentScene = config.Scene.MENU;
