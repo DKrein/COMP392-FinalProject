@@ -111,8 +111,6 @@ function init(): void {
     // setup the camera
     setupCamera();
     
-    gameController = new objects.GameController();
-
     // set initial scene
     currentScene = config.Scene.MENU;
     changeScene();

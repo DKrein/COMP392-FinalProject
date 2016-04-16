@@ -28,6 +28,7 @@ var scenes;
          */
         function Menu() {
             _super.call(this);
+            gameController = new objects.GameController();
             this._initialize();
             this.start();
         }
@@ -89,7 +90,7 @@ var scenes;
                 event.target.alpha = 1.0;
             });
             this._startButton.on("click", function (event) {
-                currentScene = config.Scene.LEVEL2;
+                currentScene = config.Scene.LEVEL1;
                 changeScene();
             });
             this._helpButton = new createjs.Bitmap(assets.getResult("HelpButton"));

@@ -660,11 +660,7 @@ module scenes {
             this.playerMaterial = Physijs.createMaterial(new LambertMaterial({ color: 0x00ff00 }), 0.4, 0);
 
             this.player = new Physijs.BoxMesh(this.playerGeometry, this.playerMaterial, 1);
-            //this.player.position.set(0, 10, 0);
-            //this.player.position.set(-21, 11, 15);
-            //this.player.position.set(17, 13.5, -34);
-            this.player.position.set(0, 26, -25);
-            
+            this.player.position.set(0, 10, 0);
             
             this.player.receiveShadow = true;
             this.player.castShadow = true;

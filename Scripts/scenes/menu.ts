@@ -30,7 +30,8 @@ module scenes {
          */
         constructor() {
             super();
-
+            gameController = new objects.GameController();
+               
             this._initialize();
             this.start();
         }
@@ -77,8 +78,7 @@ module scenes {
             this._bgImage.scaleY = 2;
             
             this._stage.addChild(this._bgImage);
-            
-            
+ 
             this._logoImage = new createjs.Bitmap(assets.getResult("CompanyLogo"));
             this._logoImage.x = config.Screen.WIDTH/2 - (this._logoImage.getBounds().width/2);
             this._logoImage.y = config.Screen.HEIGHT * 0.07;
@@ -111,7 +111,7 @@ module scenes {
             });
 
             this._startButton.on("click", (event: createjs.MouseEvent) => {
-                currentScene = config.Scene.LEVEL2;
+                currentScene = config.Scene.LEVEL1;
                 changeScene(); 
             });
             
@@ -131,7 +131,7 @@ module scenes {
             });
 
             this._helpButton.on("click", (event: createjs.MouseEvent) => {
-                currentScene = config.Scene.HELP;
+                currentScene = config.Scene.HELP; 
                 changeScene(); 
             });
             

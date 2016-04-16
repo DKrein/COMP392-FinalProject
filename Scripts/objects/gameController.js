@@ -5,7 +5,7 @@ var objects;
         //CONSTRUCTOR ++++++++++++++++++++++++++++++++++++++++++++++++++++
         function GameController() {
             this.score = 0;
-            this.lives = 10;
+            this.lives = 5;
         }
         return GameController;
     }());

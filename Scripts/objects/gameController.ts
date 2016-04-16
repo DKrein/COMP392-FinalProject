@@ -8,7 +8,7 @@ module objects {
         //CONSTRUCTOR ++++++++++++++++++++++++++++++++++++++++++++++++++++
         constructor() {
             this.score = 0;
-            this.lives = 10;
+            this.lives = 5;
         }
     }
 }

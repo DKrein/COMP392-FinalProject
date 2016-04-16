@@ -27,7 +27,9 @@ var scenes;
             this.berryNum = 0;
             this.basketLocation = new Array();
             this.basketNum = 0;
+            console.log("BEFORE initialize method lvl 1");
             this._initialize();
+            console.log("BEFORE start method lvl 1");
             this.start();
         }
         // PRIVATE METHODS ++++++++++++++++++++++++++++++++++++++++++
@@ -38,6 +40,7 @@ var scenes;
          * @return void
          */
         Level1.prototype._setupCanvas = function () {
+            console.log("setup canvas method lvl 1");
             canvas.setAttribute("width", config.Screen.WIDTH.toString());
             canvas.setAttribute("height", (config.Screen.HEIGHT * 0.1).toString());
             canvas.style.backgroundColor = "#000000";
@@ -541,7 +544,6 @@ var scenes;
                     this.velocity.x -= speed * delta;
                 }
                 if (this.keyboardControls.moveBackward) {
-                    console.log(this.player.position);
                     this.velocity.z += speed * delta;
                 }
                 if (this.keyboardControls.moveRight) {
@@ -588,6 +590,7 @@ var scenes;
          */
         Level1.prototype.start = function () {
             var _this = this;
+            console.log("start method lvl 1");
             // Set Up Scoreboard
             this.setupScoreboard();
             // Set Up background sound
@@ -766,6 +769,7 @@ var scenes;
                 // Exit Pointer Lock
                 document.exitPointerLock();
                 this.children = []; // an attempt to clean up
+                this.stage.clear();
                 //this._isGamePaused = true;
                 // Play the Game Over Scene
                 currentScene = config.Scene.OVER;
