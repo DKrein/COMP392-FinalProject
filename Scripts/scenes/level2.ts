@@ -31,9 +31,14 @@ module scenes {
 
         private ground23Geometry: CubeGeometry;
         private ground4Geometry: CubeGeometry;
+        private groundGoalGeometry: CubeGeometry;
         private ground2: Physijs.Mesh;
         private ground3: Physijs.Mesh;
         private ground4: Physijs.Mesh;
+
+        private ground5: Physijs.Mesh;
+        private ground6: Physijs.Mesh;
+        private ground7: Physijs.Mesh;
 
 
         private playerGeometry: CubeGeometry;
@@ -77,6 +82,7 @@ module scenes {
         private wall4: Physijs.Mesh;
         private wall5: Physijs.Mesh;
         private wall6: Physijs.Mesh;
+        private wallGoal: Physijs.Mesh;
         
         //Hazards
         //Rocks
@@ -103,8 +109,9 @@ module scenes {
         private plate2: Physijs.Mesh;
         private plate3: Physijs.Mesh;
         private plate4: Physijs.Mesh;
-        private plate5: Physijs.Mesh; 
-        private plate6: Physijs.Mesh;      
+        private plate5: Physijs.Mesh;
+        private plate6: Physijs.Mesh;
+        private plate7: Physijs.Mesh;      
 
         //Collectables
         //Berry
@@ -294,14 +301,14 @@ module scenes {
             this.ground2 = new Physijs.ConvexMesh(this.ground23Geometry, this.groundPhysicsMaterial, 0);
             this.ground2.position.set(-13.5, 0, -2.5);
             this.ground2.receiveShadow = true;
-            this.ground2.name = "Ground23";
+            this.ground2.name = "Ground";
             this.add(this.ground2);
             console.log("Added Ground 2 to scene");
 
             this.ground3 = new Physijs.ConvexMesh(this.ground23Geometry, this.groundPhysicsMaterial, 0);
             this.ground3.position.set(-13.5, 0, 2.5);
             this.ground3.receiveShadow = true;
-            this.ground3.name = "Ground23";
+            this.ground3.name = "Ground";
             this.add(this.ground3);
             console.log("Added Ground 3 to scene");
 
@@ -310,10 +317,63 @@ module scenes {
             this.ground4 = new Physijs.ConvexMesh(this.ground4Geometry, this.groundPhysicsMaterial, 0);
             this.ground4.position.set(-29, 0, 0);
             this.ground4.receiveShadow = true;
-            this.ground4.name = "Ground23";
+            this.ground4.name = "Ground";
             this.add(this.ground4);
             console.log("Added Ground 4 to scene");
 
+        }
+        
+        /**
+         * Add goal to the scene
+         * 
+         * @method addGoal
+         * @return void
+         */
+        private addGoal(): void {
+            this.groundGoalGeometry = new BoxGeometry(5, .5, 5);
+
+            this.ground5 = new Physijs.ConvexMesh(this.groundGoalGeometry, this.groundPhysicsMaterial, 0);
+            this.ground5.position.set(-44.5, 2, 2.3);
+            this.ground5.receiveShadow = true;
+            // this.ground5.rotation.z = 1.5708;
+            this.ground5.rotation.y = 1.5708;
+            this.ground5.name = "Ground";
+            this.add(this.ground5);
+            console.log("Added Ground 5 to scene");
+            
+            this.wallTexture = new THREE.TextureLoader().load('../../Assets/images/wallGoal.png');
+            this.wallTexture.wrapS = THREE.RepeatWrapping;
+            this.wallTexture.wrapT = THREE.RepeatWrapping;
+            this.wallTexture.repeat.set(1, 1);
+            this.wallMaterial = new PhongMaterial();
+            this.wallMaterial.map = this.wallTexture;
+            this.wallPhysicsMaterial = Physijs.createMaterial(this.wallMaterial, 0, 0);
+
+            this.wallGeometry = new BoxGeometry(3, 3, .2);
+            this.wallGoal = new Physijs.ConvexMesh(this.wallGeometry, this.wallPhysicsMaterial, 0);
+            this.wallGoal.position.set(-46, 2, 2.3);
+            this.wall5.rotation.y = 1.5708;
+            this.wallGoal.receiveShadow = true;
+            this.wallGoal.name = "WallGoal";
+            this.add(this.wallGoal);
+            
+            // this.ground6 = new Physijs.ConvexMesh(this.groundGoalGeometry, this.groundPhysicsMaterial, 0);
+            // this.ground6.position.set(-47, 4.4, 2.3);
+            // this.ground6.receiveShadow = true;
+            // // this.ground6.rotation.z = 1.5708;
+            // this.ground6.rotation.y = 1.5708;
+            // this.ground6.name = "Ground";
+            // this.add(this.ground6);
+            // console.log("Added Ground 6 to scene");
+            
+            // this.ground7 = new Physijs.ConvexMesh(this.groundGoalGeometry, this.groundPhysicsMaterial, 0);
+            // this.ground7.position.set(-50, 6.2, 2.3);
+            // this.ground7.receiveShadow = true;
+            // // this.ground7.rotation.z = 1.5708;
+            // this.ground7.rotation.y = 1.5708;
+            // this.ground7.name = "Ground";
+            // this.add(this.ground7);
+            // console.log("Added Ground 7 to scene");
         }
         
         /**
@@ -353,7 +413,7 @@ module scenes {
             this.wall3.name = "Wall";
             this.add(this.wall3);
             console.log("WHERE IS THE WALL3?");
-            
+
             this.wall4 = new Physijs.ConvexMesh(this.smallWallGeometry, this.wallPhysicsMaterial, 0);
             this.wall4.position.set(-38.2, 2, 2.3);
             this.wall4.rotation.y = 1.5708;
@@ -361,19 +421,20 @@ module scenes {
             this.wall4.name = "Wall";
             //this.add(this.wall4);
             console.log("WHERE IS THE WALL?");
-            
+
             this.wall5 = new Physijs.ConvexMesh(this.smallWallGeometry, this.wallPhysicsMaterial, 0);
             this.wall5.position.set(-27.7, 2, -2.5);
             this.wall5.rotation.y = 1.5708;
             this.wall5.receiveShadow = true;
             this.wall5.name = "Wall";
-            
+
             this.wall6 = new Physijs.ConvexMesh(this.wallGeometry, this.wallPhysicsMaterial, 0);
             this.wall6.position.set(-4.5, 2, 0);
             this.wall6.rotation.y = 1.5708;
             this.wall6.receiveShadow = true;
             this.wall6.name = "Wall";
             this.add(this.wall6);
+
         }
         
         /**
@@ -408,7 +469,7 @@ module scenes {
             this.logTexture = new THREE.TextureLoader().load('../../Assets/images/fallingbranch.png');
             this.logTexture.wrapS = THREE.RepeatWrapping;
             this.logTexture.wrapT = THREE.RepeatWrapping;
-            this.logMaterial = new PhongMaterial(); 
+            this.logMaterial = new PhongMaterial();
             this.logMaterial.map = this.logTexture;
 
             this.logGeometry = new CylinderGeometry(1, 1, 5);
@@ -464,14 +525,20 @@ module scenes {
             this.plate5.receiveShadow = true;
             this.plate5.name = "Plate5";
             this.add(this.plate5);
-            
+
             this.smallPlateGeometry = new CubeGeometry(1, 0.001, 1);
-            
+
             this.plate6 = new Physijs.ConvexMesh(this.smallPlateGeometry, this.platePhysicsMaterial, 0);
             this.plate6.position.set(-3.5, 0.5, -4.3);
             this.plate6.receiveShadow = true;
             this.plate6.name = "Plate6";
             this.add(this.plate6);
+
+            this.plate7 = new Physijs.ConvexMesh(this.plateGeometry, this.platePhysicsMaterial, 0);
+            this.plate7.position.set(-40, 0.5, -2.3);
+            this.plate7.receiveShadow = true;
+            this.plate7.name = "Plate7";
+            this.add(this.plate7);
         }
         
         /**
@@ -862,7 +929,7 @@ module scenes {
                     this.isGrounded = true;
                     createjs.Sound.play("land");
                 }
-                
+
                 if (eventObject.name === "Wall") {
                     console.log("WALL HIT");
                 }
@@ -896,30 +963,42 @@ module scenes {
                 }
 
                 if (eventObject.name === "Plate3") {
-                     this.remove(this.wall2);
-                     this.add(this.wall5);
+                    this.remove(this.wall2);
+                    this.add(this.wall5);
                 }
 
                 if (eventObject.name === "Plate4") {
                     this.add(this.log);
                 }
-                
+
                 if (eventObject.name === "Plate5") {
                     console.log("Add wall to block path");
                     this.add(this.wall4);
                     this.remove(this.wall5);
                     this.add(this.wall2);
-                } 
-                
+                }
+
                 if (eventObject.name === "Plate6") {
                     console.log("remove START wall");
                     this.remove(this.wall6);
-                } 
+                }
+
+                if (eventObject.name === "Plate7") {
+                    console.log("remove START wall");
+                    this.addGoal();
+                }
 
                 if (eventObject.name === "Rock" || eventObject.name === "Log" && eventObject.position.y > 2) {
                     createjs.Sound.play("Collision");
                     this.addDeath();
-                }                
+                }  
+                
+                if (eventObject.name === "WallGoal") {
+                    document.exitPointerLock();
+                    this.children = []; // an attempt to clean up
+                    currentScene = config.Scene.LEVEL3;
+                    changeScene();
+                }              
                 
                 /*
                 if (eventObject.name === "Coin") {
