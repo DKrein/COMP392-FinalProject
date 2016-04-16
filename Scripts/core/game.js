@@ -54,12 +54,9 @@ var canvas;
 var assets;
 var manifest = [
     { id: "land", src: "../../Assets/audio/Land.wav" },
-    { id: "hit", src: "../../Assets/audio/hit.wav" },
-    { id: "coin", src: "../../Assets/audio/coin.mp3" },
     { id: "jump", src: "../../Assets/audio/Jump.wav" },
     { id: "Collision", src: "../../Assets/audio/collision.mp3" },
     { id: "Collect", src: "../../Assets/audio/collecting.mp3" },
-    { id: "Falling", src: "../../Assets/audio/falling.mp3" },
     { id: "Background", src: "../../Assets/audio/background.mp3" },
     { id: "Dead", src: "../../Assets/audio/dead.mp3" },
     { id: "StartButton", src: "../../Assets/images/StartButton.png" },

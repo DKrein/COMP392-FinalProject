@@ -656,7 +656,7 @@ var scenes;
                     console.log("WALL HIT");
                 }
                 if (eventObject.name === "DeathPlane") {
-                    createjs.Sound.play("Falling");
+                    createjs.Sound.play("Dead", { volume: 0.02 });
                     this.addDeath();
                 }
                 if (eventObject.name === "Berry") {
