@@ -351,8 +351,8 @@ module scenes {
 
             this.wallGeometry = new BoxGeometry(3, 3, .2);
             this.wallGoal = new Physijs.ConvexMesh(this.wallGeometry, this.wallPhysicsMaterial, 0);
-            this.wallGoal.position.set(-46, 2, 2.3);
-            this.wall5.rotation.y = 1.5708;
+            this.wallGoal.position.set(-46, 4, 2.3);
+            this.wallGoal.rotation.y = 1.5708;
             this.wallGoal.receiveShadow = true;
             this.wallGoal.name = "WallGoal";
             this.add(this.wallGoal);
@@ -1000,15 +1000,6 @@ module scenes {
                     changeScene();
                 }              
                 
-                /*
-                if (eventObject.name === "Coin") {
-                    createjs.Sound.play("coin");
-                    this.remove(eventObject);
-                    this.setCoinPosition(eventObject);
-                    this.scoreValue += 100;
-                    this.scoreLabel.text = "SCORE: " + this.scoreValue;
-                }*/
-
             }.bind(this));
             
             //Rock eventHandler            
