@@ -109,11 +109,12 @@ module scenes {
             this._startButton.on("mouseout", (event: createjs.MouseEvent) => {
                 event.target.alpha = 1.0;
             });
-
+            
             this._startButton.on("click", (event: createjs.MouseEvent) => {
-                currentScene = config.Scene.LEVEL1;
+                this._removeAllListeners();
+                currentScene = config.Scene.LEVEL1;                
                 changeScene(); 
-            });
+            }); 
             
             this._helpButton = new createjs.Bitmap(assets.getResult("HelpButton"));
             this._helpButton.regX = this._helpButton.getBounds().width * 0.5;
@@ -129,12 +130,12 @@ module scenes {
             this._helpButton.on("mouseout", (event: createjs.MouseEvent) => {
                 event.target.alpha = 1.0;
             });
-
+            
             this._helpButton.on("click", (event: createjs.MouseEvent) => {
+                this._removeAllListeners();
                 currentScene = config.Scene.HELP; 
                 changeScene(); 
             });
-            
             
             this._exitButton = new createjs.Bitmap(assets.getResult("ExitButton"));
             this._exitButton.regX = this._exitButton.getBounds().width * 0.5;
@@ -152,8 +153,21 @@ module scenes {
             });
 
             this._exitButton.on("click", (event: createjs.MouseEvent) => {
+                this._removeAllListeners();
                 alert("LEAVE THE GAME");
             });
+        }
+        
+        /**
+         * Remove all listener which are lost in somewhere and cause bugs
+         * 
+         * @method _removeAllListeners
+         * @return void
+         */
+        private _removeAllListeners(): void {
+            this._helpButton.removeAllEventListeners();
+            this._startButton.removeAllEventListeners();
+            this._exitButton.removeAllEventListeners();
         }
 
         /**

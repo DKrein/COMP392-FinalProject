@@ -1017,8 +1017,6 @@ module scenes {
                 // Exit Pointer Lock
                 document.exitPointerLock();
                 this.children = []; // an attempt to clean up
-                this.stage.clear();
-                //this._isGamePaused = true;
                 
                 // Play the Game Over Scene
                 currentScene = config.Scene.OVER;

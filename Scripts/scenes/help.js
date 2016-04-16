@@ -55,6 +55,7 @@ var scenes;
          * @return void
          */
         Help.prototype.start = function () {
+            var _this = this;
             this._bgImage = new createjs.Bitmap(assets.getResult("MenuBackground"));
             this._bgImage.scaleX = 2;
             this._bgImage.scaleY = 2;
@@ -82,7 +83,8 @@ var scenes;
                 event.target.alpha = 1.0;
             });
             this._startButton.on("click", function (event) {
-                currentScene = config.Scene.MENU;
+                _this._removeAllListeners();
+                currentScene = config.Scene.LEVEL1;
                 changeScene();
             });
             this._backButton = new createjs.Bitmap(assets.getResult("BackButton"));
@@ -98,9 +100,20 @@ var scenes;
                 event.target.alpha = 1.0;
             });
             this._backButton.on("click", function (event) {
+                _this._removeAllListeners();
                 currentScene = config.Scene.MENU;
                 changeScene();
             });
+        };
+        /**
+         * Remove all listener which are lost in somewhere and cause bugs
+         *
+         * @method _removeAllListeners
+         * @return void
+         */
+        Help.prototype._removeAllListeners = function () {
+            this._startButton.removeAllEventListeners();
+            this._backButton.removeAllEventListeners();
         };
         /**
          * The update method updates the animation loop and other objects

@@ -98,7 +98,8 @@ module scenes {
             });
 
             this._startButton.on("click", (event: createjs.MouseEvent) => {
-                currentScene = config.Scene.MENU;
+                this._removeAllListeners();
+                currentScene = config.Scene.LEVEL1;
                 changeScene();
             });
             
@@ -118,9 +119,21 @@ module scenes {
             });
 
             this._backButton.on("click", (event: createjs.MouseEvent) => {
+                this._removeAllListeners();
                 currentScene = config.Scene.MENU;
                 changeScene();
             });
+        }
+        
+        /**
+         * Remove all listener which are lost in somewhere and cause bugs
+         * 
+         * @method _removeAllListeners
+         * @return void
+         */
+        private _removeAllListeners(): void {
+            this._startButton.removeAllEventListeners();
+            this._backButton.removeAllEventListeners();
         }
 
         /**

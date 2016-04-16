@@ -63,6 +63,7 @@ var scenes;
          * @return void
          */
         Menu.prototype.start = function () {
+            var _this = this;
             this._bgImage = new createjs.Bitmap(assets.getResult("MenuBackground"));
             this._bgImage.scaleX = 2;
             this._bgImage.scaleY = 2;
@@ -90,6 +91,7 @@ var scenes;
                 event.target.alpha = 1.0;
             });
             this._startButton.on("click", function (event) {
+                _this._removeAllListeners();
                 currentScene = config.Scene.LEVEL1;
                 changeScene();
             });
@@ -106,6 +108,7 @@ var scenes;
                 event.target.alpha = 1.0;
             });
             this._helpButton.on("click", function (event) {
+                _this._removeAllListeners();
                 currentScene = config.Scene.HELP;
                 changeScene();
             });
@@ -122,8 +125,20 @@ var scenes;
                 event.target.alpha = 1.0;
             });
             this._exitButton.on("click", function (event) {
+                _this._removeAllListeners();
                 alert("LEAVE THE GAME");
             });
+        };
+        /**
+         * Remove all listener which are lost in somewhere and cause bugs
+         *
+         * @method _removeAllListeners
+         * @return void
+         */
+        Menu.prototype._removeAllListeners = function () {
+            this._helpButton.removeAllEventListeners();
+            this._startButton.removeAllEventListeners();
+            this._exitButton.removeAllEventListeners();
         };
         /**
          * The update method updates the animation loop and other objects
