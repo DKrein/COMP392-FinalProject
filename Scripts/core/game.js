@@ -48,6 +48,9 @@ var menu;
 var over;
 var help;
 var win;
+var preLevel1;
+var preLevel2;
+var preLevel3;
 var gameController;
 var stats;
 var canvas;
@@ -69,6 +72,9 @@ var manifest = [
     { id: "GameOver", src: "../../Assets/images/GameOver.png" },
     { id: "GameWin", src: "../../Assets/images/GameWin.png" },
     { id: "HelpScreen", src: "../../Assets/images/HelpScreen.png" },
+    { id: "PreLevel1", src: "../../Assets/images/PreLevel1.png" },
+    { id: "PreLevel2", src: "../../Assets/images/PreLevel2.png" },
+    { id: "PreLevel3", src: "../../Assets/images/PreLevel3.png" },
 ];
 function preload() {
     assets = new createjs.LoadQueue();
@@ -185,6 +191,24 @@ function changeScene() {
             win = new scenes.Win();
             scene = win;
             console.log("Starting WIN Scene");
+            break;
+        case config.Scene.PRELEVEL1:
+            // show the game PRELEVEL1 scene
+            preLevel1 = new scenes.PreLevel1();
+            scene = preLevel1;
+            console.log("Starting PRELEVEL1 Scene");
+            break;
+        case config.Scene.PRELEVEL2:
+            // show the game PRELEVEL2 scene
+            preLevel2 = new scenes.PreLevel2();
+            scene = preLevel2;
+            console.log("Starting PRELEVEL2 Scene");
+            break;
+        case config.Scene.PRELEVEL3:
+            // show the game PRELEVEL3 scene
+            preLevel3 = new scenes.PreLevel3();
+            scene = preLevel3;
+            console.log("Starting PRELEVEL3 Scene");
             break;
     }
 }

@@ -465,7 +465,7 @@ var scenes;
                 this.blocker.style.display = 'none';
             }
             else {
-                if (gameController.lives <= 0) {
+                if (gameController.lives <= 0 || this.keyboardControls.loadLevel1 || this.keyboardControls.loadLevel2 || this.keyboardControls.loadLevel3) {
                     this.blocker.style.display = 'none';
                     document.removeEventListener('pointerlockchange', this.pointerLockChange.bind(this), false);
                     document.removeEventListener('mozpointerlockchange', this.pointerLockChange.bind(this), false);
@@ -473,6 +473,8 @@ var scenes;
                     document.removeEventListener('pointerlockerror', this.pointerLockError.bind(this), false);
                     document.removeEventListener('mozpointerlockerror', this.pointerLockError.bind(this), false);
                     document.removeEventListener('webkitpointerlockerror', this.pointerLockError.bind(this), false);
+                    this.keyboardControls.enabled = false;
+                    this.mouseControls.enabled = false;
                 }
                 else {
                     this.blocker.style.display = '-webkit-box';
@@ -506,19 +508,19 @@ var scenes;
             if (this.keyboardControls.loadLevel1) {
                 document.exitPointerLock();
                 this.children = []; // an attempt to clean up
-                currentScene = config.Scene.LEVEL1;
+                currentScene = config.Scene.PRELEVEL1;
                 changeScene();
             }
             if (this.keyboardControls.loadLevel2) {
                 document.exitPointerLock();
                 this.children = []; // an attempt to clean up
-                currentScene = config.Scene.LEVEL2;
+                currentScene = config.Scene.PRELEVEL2;
                 changeScene();
             }
             if (this.keyboardControls.loadLevel3) {
                 document.exitPointerLock();
                 this.children = []; // an attempt to clean up
-                currentScene = config.Scene.LEVEL3;
+                currentScene = config.Scene.PRELEVEL3;
                 changeScene();
             }
         };

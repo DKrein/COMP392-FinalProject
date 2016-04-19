@@ -656,7 +656,7 @@ module scenes {
                 this.mouseControls.enabled = true;
                 this.blocker.style.display = 'none';
             } else {
-                if (gameController.lives <= 0) {
+                if (gameController.lives <= 0 || this.keyboardControls.loadLevel1 || this.keyboardControls.loadLevel2 || this.keyboardControls.loadLevel3) {
                     this.blocker.style.display = 'none';
                     document.removeEventListener('pointerlockchange', this.pointerLockChange.bind(this), false);
                     document.removeEventListener('mozpointerlockchange', this.pointerLockChange.bind(this), false);
@@ -1025,6 +1025,33 @@ module scenes {
         }
         
         /**
+         * This method is used to jump between levels
+         * 
+         * @method checkShortcut
+         * @return void
+         */
+        private checkShortcut(): void {
+            if (this.keyboardControls.loadLevel1) {
+                document.exitPointerLock();
+                this.children = []; // an attempt to clean up
+                currentScene = config.Scene.PRELEVEL1;
+                changeScene();
+            }
+            if (this.keyboardControls.loadLevel2) {
+                document.exitPointerLock();
+                this.children = []; // an attempt to clean up
+                currentScene = config.Scene.PRELEVEL2;
+                changeScene();
+            }
+            if (this.keyboardControls.loadLevel3) {
+                document.exitPointerLock();
+                this.children = []; // an attempt to clean up
+                currentScene = config.Scene.PRELEVEL3;
+                changeScene();
+            }
+        }
+        
+        /**
          * Camera Look function
          * 
          * @method cameraLook
@@ -1046,6 +1073,7 @@ module scenes {
          */
         public update(): void {
 
+            this.checkShortcut();
             this.checkControls();
             this.stage.update();
 

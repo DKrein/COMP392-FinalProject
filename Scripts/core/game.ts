@@ -55,6 +55,10 @@ var menu: scenes.Menu;
 var over: scenes.Over;
 var help: scenes.Help;
 var win: scenes.Win;
+var preLevel1: scenes.PreLevel1;
+var preLevel2: scenes.PreLevel2;
+var preLevel3: scenes.PreLevel3;
+
 
 var gameController: objects.GameController;
 
@@ -67,7 +71,7 @@ var manifest = [
     
     { id: "Collision", src: "../../Assets/audio/collision.mp3" },
     { id: "Collect", src: "../../Assets/audio/collecting.mp3" },
-    { id: "Background", src: "../../Assets/audio/background.mp3" },    
+    { id: "Background", src: "../../Assets/audio/background.mp3" },
     { id: "Dead", src: "../../Assets/audio/dead.mp3" },
     
     { id: "StartButton", src: "../../Assets/images/StartButton.png"},
@@ -80,8 +84,11 @@ var manifest = [
     {id: "CompanyLogo", src:"../../Assets/images/comapanyLogo.png"},
     {id: "GameOver", src:"../../Assets/images/GameOver.png"},
     {id: "GameWin", src:"../../Assets/images/GameWin.png"},
-    {id: "HelpScreen", src:"../../Assets/images/HelpScreen.png"},    
+    {id: "HelpScreen", src:"../../Assets/images/HelpScreen.png"},
     
+    {id: "PreLevel1", src:"../../Assets/images/PreLevel1.png"},
+    {id: "PreLevel2", src:"../../Assets/images/PreLevel2.png"},
+    {id: "PreLevel3", src:"../../Assets/images/PreLevel3.png"},
 ];
 
 function preload(): void {
@@ -218,6 +225,24 @@ function changeScene(): void {
             win = new scenes.Win();
             scene = win;
             console.log("Starting WIN Scene");
+            break;
+        case config.Scene.PRELEVEL1:
+            // show the game PRELEVEL1 scene
+            preLevel1 = new scenes.PreLevel1();
+            scene = preLevel1;
+            console.log("Starting PRELEVEL1 Scene");
+            break;
+        case config.Scene.PRELEVEL2:
+            // show the game PRELEVEL2 scene
+            preLevel2 = new scenes.PreLevel2();
+            scene = preLevel2;
+            console.log("Starting PRELEVEL2 Scene");
+            break;
+        case config.Scene.PRELEVEL3:
+            // show the game PRELEVEL3 scene
+            preLevel3 = new scenes.PreLevel3();
+            scene = preLevel3;
+            console.log("Starting PRELEVEL3 Scene");
             break;
     }
 }

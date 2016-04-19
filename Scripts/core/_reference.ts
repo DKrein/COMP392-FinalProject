@@ -12,3 +12,6 @@
 /// <reference path="../scenes/menu.ts" />
 /// <reference path="../scenes/help.ts" />
 /// <reference path="../scenes/win.ts" />
+/// <reference path="../scenes/preLevel1.ts" />
+/// <reference path="../scenes/preLevel2.ts" />
+/// <reference path="../scenes/preLevel3.ts" />

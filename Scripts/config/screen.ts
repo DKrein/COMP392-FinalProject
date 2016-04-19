@@ -15,6 +15,11 @@ module config {
         public static LEVEL3: number = 5;
         public static WIN: number = 6;
         
+        public static PRELEVEL1: number = 7;
+        public static PRELEVEL2: number = 8;
+        public static PRELEVEL3: number = 9;
+        
+        
     }
     
 }

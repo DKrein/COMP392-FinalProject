@@ -280,10 +280,10 @@ module scenes {
          */
         private addGround(): void {
             
-            this.groundTexture = new THREE.TextureLoader().load('../../Assets/images/grass.png');
+            this.groundTexture = new THREE.TextureLoader().load('../../Assets/images/Grass2.png');
             this.groundTexture.wrapS = THREE.RepeatWrapping;
             this.groundTexture.wrapT = THREE.RepeatWrapping;
-            this.groundTexture.repeat.set(8, 8);
+            this.groundTexture.repeat.set(2, 2);
             this.groundMaterial = new PhongMaterial();
             this.groundMaterial.map = this.groundTexture;
  
@@ -754,7 +754,7 @@ module scenes {
             this.add(this.basket);
             console.log("Added basket to scene");
         }
-
+        
         /**
          * Event Handler method for any pointerLockChange events
          * 
@@ -768,7 +768,7 @@ module scenes {
                 this.mouseControls.enabled = true;
                 this.blocker.style.display = 'none';
             } else {
-                if (gameController.lives <= 0 || this.gameWin == true) {
+                if (gameController.lives <= 0 || this.gameWin == true || this.keyboardControls.loadLevel1 || this.keyboardControls.loadLevel2 || this.keyboardControls.loadLevel3) {
                     this.blocker.style.display = 'none';
                     document.removeEventListener('pointerlockchange', this.pointerLockChange.bind(this), false);
                     document.removeEventListener('mozpointerlockchange', this.pointerLockChange.bind(this), false);
@@ -800,6 +800,8 @@ module scenes {
             console.log("PointerLock Error Detected!!");
         }
         
+        
+        
         /**
          * This method is used to jump between levels
          * 
@@ -810,19 +812,19 @@ module scenes {
             if (this.keyboardControls.loadLevel1) {
                 document.exitPointerLock();
                 this.children = []; // an attempt to clean up
-                currentScene = config.Scene.LEVEL1;
+                currentScene = config.Scene.PRELEVEL1;
                 changeScene();
             }
             if (this.keyboardControls.loadLevel2) {
                 document.exitPointerLock();
                 this.children = []; // an attempt to clean up
-                currentScene = config.Scene.LEVEL2;
+                currentScene = config.Scene.PRELEVEL2;
                 changeScene();
             }
             if (this.keyboardControls.loadLevel3) {
                 document.exitPointerLock();
                 this.children = []; // an attempt to clean up
-                currentScene = config.Scene.LEVEL3;
+                currentScene = config.Scene.PRELEVEL3;
                 changeScene();
             }
         }

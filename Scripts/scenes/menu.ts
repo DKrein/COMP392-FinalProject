@@ -22,6 +22,7 @@ module scenes {
         private _exitButton: createjs.Bitmap;
         private _bgImage: createjs.Bitmap;
         private _logoImage: createjs.Bitmap;
+        private keyboardControls: objects.KeyboardControls;
 
         /**
          * Empty Constructor - calls _initialize and start methods
@@ -56,6 +57,8 @@ module scenes {
             // Create to HTMLElements
             this._blocker = document.getElementById("blocker");
             this._blocker.style.display = "none";
+            
+            this.keyboardControls = new objects.KeyboardControls();
 
             // setup canvas for menu scene
             this._setupCanvas();
@@ -112,7 +115,7 @@ module scenes {
             
             this._startButton.on("click", (event: createjs.MouseEvent) => {
                 this._removeAllListeners();
-                currentScene = config.Scene.LEVEL1;                
+                currentScene = config.Scene.PRELEVEL1;                
                 changeScene(); 
             }); 
             
@@ -133,7 +136,7 @@ module scenes {
             
             this._helpButton.on("click", (event: createjs.MouseEvent) => {
                 this._removeAllListeners();
-                currentScene = config.Scene.HELP; 
+                currentScene = config.Scene.HELP;
                 changeScene(); 
             });
             
@@ -157,6 +160,17 @@ module scenes {
                 alert("LEAVE THE GAME");
             });
         }
+
+        /**
+         * The update method updates the animation loop and other objects
+         * 
+         * @method update
+         * @return void
+         */
+        public update(): void {
+            this.checkShortcut();
+            this._stage.update();
+        }
         
         /**
          * Remove all listener which are lost in somewhere and cause bugs
@@ -169,17 +183,38 @@ module scenes {
             this._startButton.removeAllEventListeners();
             this._exitButton.removeAllEventListeners();
         }
-
+        
         /**
-         * The update method updates the animation loop and other objects
+         * This method is used to jump between levels
          * 
-         * @method update
+         * @method checkShortcut
          * @return void
          */
-        public update(): void {
-            this._stage.update();
+        private checkShortcut(): void {
+            
+            if (this.keyboardControls.loadLevel1) {
+                this._removeAllListeners();
+                document.exitPointerLock();
+                this.children = []; // an attempt to clean up
+                currentScene = config.Scene.PRELEVEL1;
+                changeScene();
+            }
+            if (this.keyboardControls.loadLevel2) {
+                this._removeAllListeners();
+                document.exitPointerLock();
+                this.children = []; // an attempt to clean up
+                currentScene = config.Scene.PRELEVEL2;
+                changeScene();
+            }
+            if (this.keyboardControls.loadLevel3) {
+                this._removeAllListeners();
+                document.exitPointerLock();
+                this.children = []; // an attempt to clean up
+                currentScene = config.Scene.PRELEVEL3;
+                changeScene();
+            }
         }
-
+        
         /**
          * The resize method is a procedure that sets variables and objects on screen resize
          * 

@@ -49,6 +49,7 @@ var scenes;
             // Create to HTMLElements
             this._blocker = document.getElementById("blocker");
             this._blocker.style.display = "none";
+            this.keyboardControls = new objects.KeyboardControls();
             // setup canvas for menu scene
             this._setupCanvas();
             // setup a stage on the canvas
@@ -92,7 +93,7 @@ var scenes;
             });
             this._startButton.on("click", function (event) {
                 _this._removeAllListeners();
-                currentScene = config.Scene.LEVEL1;
+                currentScene = config.Scene.PRELEVEL1;
                 changeScene();
             });
             this._helpButton = new createjs.Bitmap(assets.getResult("HelpButton"));
@@ -130,6 +131,16 @@ var scenes;
             });
         };
         /**
+         * The update method updates the animation loop and other objects
+         *
+         * @method update
+         * @return void
+         */
+        Menu.prototype.update = function () {
+            this.checkShortcut();
+            this._stage.update();
+        };
+        /**
          * Remove all listener which are lost in somewhere and cause bugs
          *
          * @method _removeAllListeners
@@ -141,13 +152,33 @@ var scenes;
             this._exitButton.removeAllEventListeners();
         };
         /**
-         * The update method updates the animation loop and other objects
+         * This method is used to jump between levels
          *
-         * @method update
+         * @method checkShortcut
          * @return void
          */
-        Menu.prototype.update = function () {
-            this._stage.update();
+        Menu.prototype.checkShortcut = function () {
+            if (this.keyboardControls.loadLevel1) {
+                this._removeAllListeners();
+                document.exitPointerLock();
+                this.children = []; // an attempt to clean up
+                currentScene = config.Scene.PRELEVEL1;
+                changeScene();
+            }
+            if (this.keyboardControls.loadLevel2) {
+                this._removeAllListeners();
+                document.exitPointerLock();
+                this.children = []; // an attempt to clean up
+                currentScene = config.Scene.PRELEVEL2;
+                changeScene();
+            }
+            if (this.keyboardControls.loadLevel3) {
+                this._removeAllListeners();
+                document.exitPointerLock();
+                this.children = []; // an attempt to clean up
+                currentScene = config.Scene.PRELEVEL3;
+                changeScene();
+            }
         };
         /**
          * The resize method is a procedure that sets variables and objects on screen resize
