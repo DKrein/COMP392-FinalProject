@@ -644,8 +644,6 @@ module scenes {
                     document.removeEventListener('pointerlockerror', this.pointerLockError.bind(this), false);
                     document.removeEventListener('mozpointerlockerror', this.pointerLockError.bind(this), false);
                     document.removeEventListener('webkitpointerlockerror', this.pointerLockError.bind(this), false);
-                    this.keyboardControls.enabled = false;
-                    this.mouseControls.enabled = false;
                 } else {
                     this.blocker.style.display = '-webkit-box';
                     this.blocker.style.display = '-moz-box';
